@@ -24,7 +24,7 @@
         @csrf
         <div class="form-floating">
           <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="name@example.com" autofocus required value="{{old ('email')}}">
-          <label for="email">Email address</label>
+          <label for="email">Email</label>
           @error('email')
           <div class="invalid-feedback">
             {{ $message }}
@@ -33,12 +33,12 @@
         </div>
         <div class="form-floating">
           <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
-          <label for="password">Password</label>
+          <label for="password">Kata sandi</label>
         </div>
 
         <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
       </form>
-      <small class="d-block text-center mt-3">Not registered? <a href="/register">Register Now!</a></small>
+      <small class="d-block text-center mt-3">Belum terdaftar? <a href="/register">Daftar sekarang!</a></small>
     </main>
   </div>
 </div>

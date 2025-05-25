@@ -10,7 +10,7 @@
 
       <div class="form-floating">
           <input type="text" name="name" class="form-control rounded-top @error('name') is-invalid @enderror" id="name" placeholder="Name" required value="{{ old('name') }}">
-          <label for="name">Name</label>
+          <label for="name">Nama Lengkap</label>
           @error('name')
             <div class="invalid-feedback">
               {{ $message }}
@@ -20,7 +20,7 @@
 
       <div class="form-floating">
           <input type="text" name="firstname" class="form-control rounded-top @error('firstname') is-invalid @enderror" id="firstname" placeholder="firstname" required value="{{ old('firstname') }}">
-          <label for="firstname">Firstname</label>
+          <label for="firstname">Nama Depan</label>
           @error('firstname')
             <div class="invalid-feedback">
               {{ $message }}
@@ -31,7 +31,7 @@
 
         <div class="form-floating">
             <input type="text" name="lastname" class="form-control @error('lastname') is-invalid @enderror" id="lastname" placeholder="lastname" required value="{{ old('lastname') }}">
-          <label for="lastname">Lastname</label>
+          <label for="lastname">Nama Belakang</label>
           @error('lastname')
             <div class="invalid-feedback">
               {{ $message }}
@@ -41,7 +41,7 @@
 
         <div class="form-floating">
           <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="name@example.com" required value="{{ old('email') }}">
-          <label for="email">Email address</label>
+          <label for="email">Email</label>
           @error('email')
             <div class="invalid-feedback">
               {{ $message }}
@@ -61,7 +61,7 @@
 
         <button class="btn btn-primary w-100 py-2 mt-3" type="submit">Register</button>
       </form>
-      <small class="d-block text-center mt-3">Already registered? <a href="/login">Login!</a></small>
+      <small class="d-block text-center mt-3">Sudah terdaftar? <a href="/login">Login!</a></small>
     </main>
   </div>
 </div>
