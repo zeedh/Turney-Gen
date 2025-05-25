@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TreeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminCategoryController;
 use Xoco70\LaravelTournaments\Models\Category;
 
@@ -29,6 +31,12 @@ Route::get('/categories', function() {
     ]);
 });
 
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store']);
 
 // Route::get('/', 'App\Http\Controllers\TreeController@index')->name('tree.index');
 // Route::post('/championships/{championship}/trees', 'App\Http\Controllers\TreeController@store')->name('tree.store');
