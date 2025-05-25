@@ -19,7 +19,7 @@
     @endif
 
     <main class="form-signin w-100 m-auto">
-      <h1 class="h3 mb-3 fw-normal">Please Login</h1>
+      <h1 class="h3 mb-3 fw-normal">Silakan Login</h1>
       <form action="/login" method="post">
         @csrf
         <div class="form-floating">

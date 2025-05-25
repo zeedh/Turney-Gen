@@ -38,6 +38,12 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
+Route::get('dashboard',function(){
+    return view('dashboard.index');
+})->middleware('auth');
+
+Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
+
 // Route::get('/', 'App\Http\Controllers\TreeController@index')->name('tree.index');
 // Route::post('/championships/{championship}/trees', 'App\Http\Controllers\TreeController@store')->name('tree.store');
 // Route::put('/championships/{championship}/trees', 'App\Http\Controllers\TreeController@update')->name('tree.update');
