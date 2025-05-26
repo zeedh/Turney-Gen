@@ -26,6 +26,7 @@
             </div>
             @enderror
         </div>
+
         <div class="mb-3">
             <label for="category" class="form-label">category</label>
             <select class="form-select" name="category_id">
@@ -38,7 +39,8 @@
                 @endforeach
             </select>
         </div>
-        <div class="mb-3">
+
+        <!-- <div class="mb-3">
             <label for="image" class="form-label">Post Gambar</label>
             
             <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
@@ -48,7 +50,8 @@
             </div>
             @enderror
             <img class="img-preview img-fluid mb-3 mt-3 col-sm-5" src="" alt="">
-        </div>
+        </div> -->
+
         <div class="mb-3">
             <label for="body" class="form-label">Body</label>
             @error ('body')

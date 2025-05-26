@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+// use App\Models\Category;
 use Illuminate\Http\Request;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardTurneyController extends Controller
 {
@@ -11,8 +16,8 @@ class DashboardTurneyController extends Controller
      */
     public function index()
     {
-        return view('dashboard.posts.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get()
+        return view('dashboard.tours.index', [
+            'posts' => Post::where('user_id', auth()->user()->id)->get() //TODO Jangan lupa ganti ke turnamen!!
         ]);
     }
 
@@ -21,7 +26,7 @@ class DashboardTurneyController extends Controller
      */
     public function create()
     {
-        return view('dashboard.posts.create', [
+        return view('dashboard.tours.create', [
             'categories' => Category::all()
         ]);
     }
@@ -48,7 +53,7 @@ class DashboardTurneyController extends Controller
 
         Post::create($validatedData);
 
-        return redirect('/dashboard/posts')->with('success', 'Post Baru telah dibuat!');
+        return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
     }
 
     /**
@@ -56,7 +61,7 @@ class DashboardTurneyController extends Controller
      */
     public function show(string $id)
     {
-        return view('dashboard.posts.show',[
+        return view('dashboard.tours.show',[
             'post' => $post
         ]);
     }
@@ -66,7 +71,7 @@ class DashboardTurneyController extends Controller
      */
     public function edit(string $id)
     {
-        return view('dashboard.posts.edit', [
+        return view('dashboard.tours.edit', [
             'post' => $post,
             'categories' => Category::all()
         ]);
@@ -104,7 +109,7 @@ class DashboardTurneyController extends Controller
         Post::where('id', $post->id)
         ->update($validatedData);
 
-        return redirect('/dashboard/posts')->with('success', 'Post Baru telah diperbarui!');
+        return redirect('/dashboard/tours')->with('success', 'Turnamen Baru telah diperbarui!');
     }
 
     /**
@@ -118,7 +123,7 @@ class DashboardTurneyController extends Controller
         
         Post::destroy($post->id);
 
-        return redirect('/dashboard/posts')->with('success', 'Post telah dihapus!');
+        return redirect('/dashboard/tours')->with('success', 'Turnamen telah dihapus!');
     }
     
     public function checkSlug(Request $request){
