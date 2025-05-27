@@ -39,9 +39,9 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
     
-    // public function torunament() {
-    //     return $this->belongsTo(Tournament::class, 'tournament_id');
-    // }
+    public function torunament() {
+        return $this->belongsTo(Tournament::class, 'tournament_id');
+    }
 
     public function author(){
         return $this->belongsTo(User::class, 'user_id');

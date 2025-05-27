@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-// use App\Models\Category;
+use App\Models\Tournament;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ class DashboardTurneyController extends Controller
     public function index()
     {
         return view('dashboard.tours.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get() //TODO Jangan lupa ganti ke turnamen!!
+            'tours' => Tournament::where('user_id', auth()->user()->id)->get() //TODO Jangan lupa ganti ke turnamen!!
         ]);
     }
 
@@ -37,11 +38,22 @@ class DashboardTurneyController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'slug' => 'required|unique:posts',
-            'category_id' => 'required',
-            'image' => 'image|file|max:1024',
-            'body' => 'required'
+            
+            'name'              => 'required|max:255',
+            'slug'              => 'required|unique:posts',
+            'dateIni'           => "datetime",
+            'dateFin'           => "datetime",
+            'registerDateLimit' => "datetime",
+            'sport'             => 1,
+            'type'              => 0,
+            'level_id'          => 7,
+            'venue_id'          => 'nullable',
+            
+            // 'title' => 'required|max:255',
+            // 'slug' => 'required|unique:posts',
+            // 'category_id' => 'required',
+            // 'image' => 'image|file|max:1024',
+            // 'body' => 'required'
         ]);
 
         if($request->file('image')){
@@ -62,7 +74,7 @@ class DashboardTurneyController extends Controller
     public function show(string $id)
     {
         return view('dashboard.tours.show',[
-            'post' => $post
+            'tour' => $tour
         ]);
     }
 

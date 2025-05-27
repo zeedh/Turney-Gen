@@ -21,11 +21,11 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($posts as $post)
+            @foreach ($tours as $tour)
             <tr>
               <td>{{ $loop->iteration }}</td>
-              <td>{{ $post->title }}</td>
-              <td>{{ $post->category->name }}</td>
+              <td>{{ $tours->name }}</td>
+              <!-- <td>{{ $post->category->name }}</td> -->
               <td>
                 <a href="/dashboard/tours/{{ $post->slug }}" class="badge bg-info">lihat</a>
                 <a href="/dashboard/tours/{{ $post->slug }}/edit" class="badge bg-warning">edit</a>
