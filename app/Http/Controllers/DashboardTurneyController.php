@@ -66,6 +66,7 @@ class DashboardTurneyController extends Controller
         Post::create($validatedData);
 
         return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
+        // return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
     }
 
     /**

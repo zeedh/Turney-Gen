@@ -41,13 +41,13 @@
             <label for="dateFin" class="form-label">Tanggal Selesai</label>
             <input type="date" class="form-control @error('dateFin') is-invalid @enderror" id="dateFin" name="dateFin" value="{{ old('dateFin') }}">
             @error('dateFin')
-            <div class="invalid-feedback pb-4">
+            <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
         </div>
 
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <label for="category" class="form-label">category</label>
             <select class="form-select" name="category_id">
                 @foreach($categories as $category)
@@ -58,11 +58,11 @@
                     @endif  
                 @endforeach
             </select>
-        </div> -->
+        </div>
 
         <!-- form gambar -->
 
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <label for="body" class="form-label">Body</label>
             @error ('body')
             <p class="text-danger">{{ $message }}</p>
@@ -70,9 +70,9 @@
             @enderror
             <input id="body" type="hidden" name="body" value="{{ old('body') }}">
             <trix-editor input="body"></trix-editor>
-        </div> -->
+        </div>
 
-        <button type="submit" class="btn btn-primary mt-4">Lanjut</button>
+        <button type="submit" class="btn btn-primary">Lanjut</button>
     </form>
 </div>
 
