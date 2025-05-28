@@ -47,6 +47,16 @@
             @enderror
         </div>
 
+        <div class="mb-3">
+            <label for="registerDateLimit" class="form-label">Batas Pendfataran</label>
+            <input type="date" class="form-control @error('registerDateLimit') is-invalid @enderror" id="registerDateLimit" name="registerDateLimit" value="{{ old('registerDateLimit') }}">
+            @error('registerDateLimit')
+            <div class="invalid-feedback pb-4">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+
         <!-- <div class="mb-3">
             <label for="category" class="form-label">category</label>
             <select class="form-select" name="category_id">
@@ -77,7 +87,7 @@
 </div>
 
 <script>
-    const title=document.querySelector('#title');
+    const title=document.querySelector('#name');
     const slug=document.querySelector('#slug');
     
     title.addEventListener('change', function(){

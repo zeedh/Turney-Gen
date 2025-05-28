@@ -40,14 +40,19 @@ class DashboardTurneyController extends Controller
         $validatedData = $request->validate([
             
             'name'              => 'required|max:255',
-            'slug'              => 'required|unique:posts',
-            'dateIni'           => "datetime",
-            'dateFin'           => "datetime",
-            'registerDateLimit' => "datetime",
-            'sport'             => 1,
-            'type'              => 0,
-            'level_id'          => 7,
-            'venue_id'          => 'nullable',
+            'slug'              => 'required|unique:tournaments',
+            'dateIni'           => "required|date",
+            'dateFin'           => "required|date|after_or_equal:dateIni",
+            'registerDateLimit' => "nullable|date|before_or_equal:dateFin",
+            'sport'             => 'nullable|in:1', // atau biarkan di-set langsung, tidak lewat request
+            'type'              => 'nullable|in:0',
+            'level_id'          => 'nullable|exists:levels,id',
+            'venue_id'          => 'nullable|exists:venues,id'
+
+            // 'sport'             => in:1,
+            // 'type'              => 0,
+            // 'level_id'          => 7,
+            // 'venue_id'          => 'nullable',
             
             // 'title' => 'required|max:255',
             // 'slug' => 'required|unique:posts',
@@ -61,9 +66,9 @@ class DashboardTurneyController extends Controller
         }
 
         $validatedData['user_id'] = auth()->user()->id;
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+        // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
-        Post::create($validatedData);
+        Tournament::create($validatedData);
 
         return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
         // return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');

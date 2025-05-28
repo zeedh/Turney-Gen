@@ -24,12 +24,11 @@
             @foreach ($tours as $tour)
             <tr>
               <td>{{ $loop->iteration }}</td>
-              <td>{{ $tours->name }}</td>
-              <!-- <td>{{ $post->category->name }}</td> -->
+              <td>{{ $tour->name }}</td>
               <td>
-                <a href="/dashboard/tours/{{ $post->slug }}" class="badge bg-info">lihat</a>
-                <a href="/dashboard/tours/{{ $post->slug }}/edit" class="badge bg-warning">edit</a>
-                <form action="/dashboard/tours/{{ $post->slug }}" method="post" class="d-inline">
+                <a href="/dashboard/tours/{{ $tour->slug }}" class="badge bg-info">lihat</a>
+                <a href="/dashboard/tours/{{ $tour->slug }}/edit" class="badge bg-warning">edit</a>
+                <form action="/dashboard/tours/{{ $tour->slug }}" method="post" class="d-inline">
                   @method('delete')
                   @csrf
                   <button class="badge bg-danger border-0" onclick="return confirm('Yakin?')">HAPUS</button>
