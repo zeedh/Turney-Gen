@@ -28,6 +28,19 @@
         </div>
 
         <div class="mb-3">
+            <label for="category" class="form-label">category</label>
+            <select class="form-select" name="category_id">
+                @foreach($categories as $category)
+                    @if (old('category_id') == $category->id)
+                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                    @else
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endif  
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="dateIni" class="form-label">Tanggal Mulai</label>
             <input type="date" class="form-control @error('dateIni') is-invalid @enderror" id="dateIni" name="dateIni" value="{{ old('dateIni') }}">
             @error('dateIni')
@@ -56,31 +69,6 @@
             </div>
             @enderror
         </div>
-
-        <!-- <div class="mb-3">
-            <label for="category" class="form-label">category</label>
-            <select class="form-select" name="category_id">
-                @foreach($categories as $category)
-                    @if (old('category_id') == $category->id)
-                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                    @else
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endif  
-                @endforeach
-            </select>
-        </div> -->
-
-        <!-- form gambar -->
-
-        <!-- <div class="mb-3">
-            <label for="body" class="form-label">Body</label>
-            @error ('body')
-            <p class="text-danger">{{ $message }}</p>
-                
-            @enderror
-            <input id="body" type="hidden" name="body" value="{{ old('body') }}">
-            <trix-editor input="body"></trix-editor>
-        </div> -->
 
         <button type="submit" class="btn btn-primary mt-4">Lanjut</button>
     </form>

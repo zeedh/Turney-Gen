@@ -11,8 +11,15 @@ class Tournament extends Model
 {
     protected $guarded = ['id'];
 
+    protected $table = 'tournament';
+
     public function owner(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function post()
+    {
+        return $this->hasMany(Post::class);
     }
 
     //  public function category() {

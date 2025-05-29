@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Tournament;
 use App\Models\Category;
+use App\Models\Championship;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
@@ -41,14 +42,16 @@ class DashboardTurneyController extends Controller
         $validatedData = $request->validate([
 
             'name'              => 'required|max:255',
-            'slug'              => 'required|unique:tournaments',
+            'slug'              => 'required|unique:tournament',
             'dateIni'           => "required|date",
             'dateFin'           => "required|date|after_or_equal:dateIni",
             'registerDateLimit' => "nullable|date|before_or_equal:dateFin",
             'sport'             => 'nullable|in:1', // atau biarkan di-set langsung, tidak lewat request
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
-            'venue_id'          => 'nullable|exists:venues,id'
+            'venue_id'          => 'nullable|exists:venues,id',
+            'category_id'       => 'required|exists:categories,id'
+            // 'category_id.*'     => 'exists:categories,id',
 
             // 'sport'             => in:1,
             // 'type'              => 0,
@@ -57,6 +60,8 @@ class DashboardTurneyController extends Controller
             
         ]);
 
+        // dd($validatedData);
+
         // if($request->file('image')){
         //     $validatedData['image']=$request->file('image')->store('post-image');
         // }
@@ -64,9 +69,16 @@ class DashboardTurneyController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
-        Tournament::create($validatedData);
+        $tournament = Tournament::create($validatedData);
 
-        return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
+        // Menyimpan championship
+        Championship::create([
+            'tournament_id' => $tournament->id,
+            'category_id'   => $request->category_id,
+        ]);
+
+
+        return redirect('/dashboard/tours')->with('success', 'Turnamen Baru telah dibuat!');
         // return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
     }
 
@@ -123,7 +135,7 @@ class DashboardTurneyController extends Controller
         Post::where('id', $post->id)
         ->update($validatedData);
 
-        return redirect('/dashboard/tours')->with('success', 'Turnamen Baru telah diperbarui!');
+        return redirect('/dashboard/tours')->with('success', 'Turnamen telah diperbarui!');
     }
 
     /**
