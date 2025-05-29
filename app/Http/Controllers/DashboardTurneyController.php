@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+// use Xoco70\LaravelTournaments\Models\Tournament;
 
 class DashboardTurneyController extends Controller
 {
@@ -38,7 +39,7 @@ class DashboardTurneyController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            
+
             'name'              => 'required|max:255',
             'slug'              => 'required|unique:tournaments',
             'dateIni'           => "required|date",
@@ -54,16 +55,11 @@ class DashboardTurneyController extends Controller
             // 'level_id'          => 7,
             // 'venue_id'          => 'nullable',
             
-            // 'title' => 'required|max:255',
-            // 'slug' => 'required|unique:posts',
-            // 'category_id' => 'required',
-            // 'image' => 'image|file|max:1024',
-            // 'body' => 'required'
         ]);
 
-        if($request->file('image')){
-            $validatedData['image']=$request->file('image')->store('post-image');
-        }
+        // if($request->file('image')){
+        //     $validatedData['image']=$request->file('image')->store('post-image');
+        // }
 
         $validatedData['user_id'] = auth()->user()->id;
         // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
@@ -133,13 +129,13 @@ class DashboardTurneyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tournament $tour)
     {
-        if($post->Image) {
-            Storage::delete($post->Image);
-        }
+        // if($post->Image) {
+        //     Storage::delete($post->Image);
+        // }
         
-        Post::destroy($post->id);
+        Tournament::destroy($tour->id);
 
         return redirect('/dashboard/tours')->with('success', 'Turnamen telah dihapus!');
     }
