@@ -50,7 +50,7 @@ class DashboardTurneyController extends Controller
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
             'venue_id'          => 'nullable|exists:venues,id',
-            'category_id'       => 'required|exists:categories,id'
+            'category_id'       => 'required|exists:category,id'
             // 'category_id.*'     => 'exists:categories,id',
 
             // 'sport'             => in:1,

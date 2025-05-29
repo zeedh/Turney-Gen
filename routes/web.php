@@ -5,6 +5,7 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use Xoco70\LaravelTournaments\Models\Category;
@@ -46,6 +47,9 @@ Route::get('dashboard',function(){
 
 Route::get('dashboard/tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/tours', DashboardTurneyController::class)->middleware('auth');
+
+Route::get('dashboard/champs/checkSlug', [ChampionshipController::class, 'checkSlug'])->middleware('auth');
+Route::resource('/dashboard/champs', ChampionshipController::class)->middleware('auth');
 
 Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');

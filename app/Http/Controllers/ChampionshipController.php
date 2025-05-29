@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Championship;
+// use App\Models\Championship;
+use Xoco70\LaravelTournaments\Models\Championship;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 
 class ChampionshipController extends Controller
@@ -12,7 +14,13 @@ class ChampionshipController extends Controller
      */
     public function index()
     {
-        //
+        // $tour = Tournament::where('user_id', auth()->user()->id)->get();
+        $champs = Championship::with(['tournament', 'category'])->get();
+
+
+        return view('dashboard.champs.index',[
+            'champs' => $champs
+        ]);
     }
 
     /**
