@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 // use App\Models\Championship;
 use Xoco70\LaravelTournaments\Models\Championship;
 use App\Models\Tournament;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ChampionshipController extends Controller
 {
@@ -28,7 +31,10 @@ class ChampionshipController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.champs.create', [
+            'categories' => Category::all(),
+            'tours' => Tournament::all()
+        ]);
     }
 
     /**
@@ -36,7 +42,16 @@ class ChampionshipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'tournament_id'     => 'required|exists:tournament,id',
+            'category_id'       => 'required|exists:category,id'
+        ]);
+
+        // $validatedData['user_id'] = auth()->user()->id;
+
+        Championship::create($validatedData);
+
+        return redirect('/dashboard/champs')->with('success', 'Championship Baru telah dibuat!');
     }
 
     /**
@@ -50,17 +65,30 @@ class ChampionshipController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Championship $championship)
+    public function edit(Request $request, Championship $champs)
     {
-        //
+        return view('dashboard.champs.edit', [
+            'champs' => $champs,
+            'tours' => Tournament::all(),
+            'categories' => Category::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Championship $championship)
+    public function update(Request $request, Championship $champs)
     {
-        //
+        $validatedData = $request->validate([
+            'tournament_id'     => 'required|exists:tournament,id',
+            'category_id'       => 'required|exists:category,id'
+        ]);
+
+        Championship::where('id', $champs->id)->update($validatedData);
+
+        return redirect('/dashboard/champs')->with('success', 'Championship Baru telah dibuat!');
+
+
     }
 
     /**

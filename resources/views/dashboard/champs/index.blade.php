@@ -10,7 +10,7 @@
     </div>
   @endif
   <div class="table-responsive small col-lg-8">
-      <a href="/dashboard/posts/create" class="btn btn-primary mb-3">Buat Championship baru</a>
+      <a href="/dashboard/champs/create" class="btn btn-primary mb-3">Buat Championship baru</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>
