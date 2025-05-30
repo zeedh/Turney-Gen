@@ -95,8 +95,10 @@ class ChampionshipController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Championship $championship)
+    public function destroy(Championship $champ)
     {
-        //
+        $champ->delete();
+
+        return redirect('/dashboard/champs')->with('success', 'Championship telah dihapus!');
     }
 }
