@@ -27,9 +27,9 @@
               <td>{{ $champ->tournament->name }}</td>
               <td>{{ $champ->category->name }}</td>
               <td>
-                <a href="/dashboard/champs/{{ $champ->tournament->slug }}" class="badge bg-info">lihat</a>
-                <a href="/dashboard/champs/{{ $champ->tournament->slug }}/edit" class="badge bg-warning">edit</a>
-                <form action="/dashboard/champs/{{ $champ->slug }}" method="post" class="d-inline">
+                <a href="/dashboard/champs/{{ $champ->id }}" class="badge bg-info">lihat</a>
+                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-warning">edit</a>
+                <form action="/dashboard/champs/{{ $champ->id }}" method="post" class="d-inline">
                   @method('delete')
                   @csrf
                   <button class="badge bg-danger border-0" onclick="return confirm('Yakin?')">HAPUS</button>

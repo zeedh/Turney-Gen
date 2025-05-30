@@ -59,16 +59,16 @@ class TreeController extends Controller
             ->with('isTeam', $isTeam);
     }
 
-    private function deleteEverything()
-    {
-        DB::table('fight')->delete();
-        DB::table('fighters_groups')->delete();
-        DB::table('fighters_group_competitor')->delete();
-        DB::table('fighters_group_team')->delete();
-        DB::table('competitor')->delete();
-        DB::table('team')->delete();
-        DB::table('users')->where('id', '<>', 1)->delete();
-    }
+    // private function deleteEverything()
+    // {
+    //     DB::table('fight')->delete();
+    //     DB::table('fighters_groups')->delete();
+    //     DB::table('fighters_group_competitor')->delete();
+    //     DB::table('fighters_group_team')->delete();
+    //     DB::table('competitor')->delete();
+    //     DB::table('team')->delete();
+    //     DB::table('users')->where('id', '<>', 1)->delete();
+    // }
 
     /**
      * @param Request $request

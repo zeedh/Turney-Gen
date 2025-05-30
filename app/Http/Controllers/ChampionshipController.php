@@ -65,28 +65,29 @@ class ChampionshipController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, Championship $champs)
+    public function edit(Championship $champ)
     {
         return view('dashboard.champs.edit', [
-            'champs' => $champs,
+            'champ' => $champ,
             'tours' => Tournament::all(),
             'categories' => Category::all()
         ]);
     }
 
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Championship $champs)
+    public function update(Request $request, Championship $champ)
     {
         $validatedData = $request->validate([
             'tournament_id'     => 'required|exists:tournament,id',
             'category_id'       => 'required|exists:category,id'
         ]);
 
-        Championship::where('id', $champs->id)->update($validatedData);
+        Championship::where('id', $champ->id)->update($validatedData);
 
-        return redirect('/dashboard/champs')->with('success', 'Championship Baru telah dibuat!');
+        return redirect('/dashboard/champs')->with('success', 'Championship diperbarui!');
 
 
     }
