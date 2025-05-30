@@ -5,23 +5,22 @@
     <h1 class="h2">Edit Post</h1>
   </div>
 <div class="col-lg-8">
-    <form method="post" action="/dashboard/posts/{{ $post->slug }}" enctype="multipart/form-data">
+    <form method="post" action="/dashboard/tours/{{ $tours->slug }}" enctype="multipart/form-data">
         @method('put')
         @csrf
         <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required autofocus value="{{ old('title', $post->title ) }}">
-            @error('title')
+            <label for="title" class="form-label">Judul Turnamen</label>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $tours->name) }}">
+            @error('name')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
         </div>
 
-
         <div class="mb-3">
             <label for="slug" class="form-label">Slug</label>
-            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" required value="{{ old('slug', $post->slug) }}">
+            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" required value="{{ old('slug', $tours->name) }}">
             @error('title')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -32,50 +31,52 @@
         <div class="mb-3">
             <label for="category" class="form-label">category</label>
             <select class="form-select" name="category_id">
-                @foreach($category)
-                    @if (old('category_id', $post->category_id) == $category->id)
-                        <option value="{{ $category->id  }}" selected>{{ $category->name }}</option>
+                @foreach($categories as $category)
+                    @if (old('category_id') == $category->id)
+                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                     @else
-                        <option value="{{  $category->id }}">{{ $category->name }}</option>
-                    @endif
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endif  
                 @endforeach
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Edit Gambar</label>
-            <input type="hidden" name="oldImage" value="{{ $post->image }}">
-            @if($post->image)
-                <img src="{{ asset('storage/'.$post->image) }}" class="img-preview img-fluid mb-3 mt-3 col-sm-5 d-block" >
-            @else
-                <img class="img-preview img-fluid mb-3 mt-3 col-sm-5" >
-
-            @endif
-            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
-            @error('image')
-            <div class="invalid-feedback">
+            <label for="dateIni" class="form-label">Tanggal Mulai</label>
+            <input type="date" class="form-control @error('dateIni') is-invalid @enderror" id="dateIni" name="dateIni" value="{{ old('dateIni', $tours->dateIni) }}">
+            @error('dateIni')
+        <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
-            
         </div>
 
         <div class="mb-3">
-            <label for="body" class="form-label">category</label>
-            @error ('body')
-            <p class="text-danger">{{ $message }}</p>
-                
+            <label for="dateFin" class="form-label">Tanggal Selesai</label>
+            <input type="date" class="form-control @error('dateFin') is-invalid @enderror" id="dateFin" name="dateFin" value="{{ old('dateFin', $tours->dateFin) }}">
+            @error('dateFin')
+            <div class="invalid-feedback pb-4">
+                {{ $message }}
+            </div>
             @enderror
-            <input id="body" type="hidden" name="body" value="{{ old('body', $post->body) }}">
-            <trix-editor input="body"></trix-editor>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Post</button>
+        <div class="mb-3">
+            <label for="registerDateLimit" class="form-label">Batas Pendfataran</label>
+            <input type="date" class="form-control @error('registerDateLimit') is-invalid @enderror" id="registerDateLimit" name="registerDateLimit" value="{{ old('registerDateLimit', $tours->registerDateLimit) }}">
+            @error('registerDateLimit')
+            <div class="invalid-feedback pb-4">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Update</button>
     </form>
 </div>
 
 <script>
-    const title=document.querySelector('#title');
+    const title=document.querySelector('#name');
     const slug=document.querySelector('#slug');
     
     title.addEventListener('change', function(){

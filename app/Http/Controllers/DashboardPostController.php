@@ -147,6 +147,7 @@ class DashboardPostController extends Controller
 
         return redirect('/dashboard/posts')->with('success', 'Post telah dihapus!');
     }
+    
     public function checkSlug(Request $request){
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug'=>$slug]);
