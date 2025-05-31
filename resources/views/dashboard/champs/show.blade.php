@@ -1,11 +1,12 @@
-@extends('dashboard.layouts.main')
+@extends('dashboard.champs.layouts.main')
 
 @section('container')
 <div class="container">
         <div class="row my-3">
             <div class="col-lg-8">
+                <h1>Hai</h1>
                 <h2>{{ $post->title }} </h2>
-                <a href="/dashboard/posts" class="btn btn-success">Back to all My Posts</a>
+                <a href="/dashboard/champs" class="btn btn-success">Back to all My Posts</a>
                 <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-warning">Edit</a>
                 <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
                   @method('delete')

@@ -41,9 +41,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('dashboard',function(){
-    return view('dashboard.index');
-})->middleware('auth');
+Route::get('dashboard',function(){return view('dashboard.index');})->middleware('auth');
 
 Route::get('dashboard/tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/tours', DashboardTurneyController::class)->middleware('auth');

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 // use App\Models\Championship;
 use Xoco70\LaravelTournaments\Models\Championship;
+use Xoco70\LaravelTournaments\Models\Competitor;
 use App\Models\Tournament;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -70,7 +72,9 @@ class ChampionshipController extends Controller
         return view('dashboard.champs.edit', [
             'champ' => $champ,
             'tours' => Tournament::all(),
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'users' => User::all(),
+            'comps' => Competitor::all()
         ]);
     }
 

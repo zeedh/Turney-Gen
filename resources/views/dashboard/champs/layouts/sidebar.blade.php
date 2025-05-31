@@ -7,30 +7,23 @@
       <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
-              <svg class="bi" aria-hidden="true"><use xlink:href="#house-fill"/></svg>
-              Dashboard
-            </a>
-          </li>
-
-          <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/tours*') ? 'active' : '' }}" href="/dashboard/tours">
               <svg class="bi" aria-hidden="true"><use xlink:href="#puzzle"/></svg>
-              Turnamen
+              Competitor
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs*') ? 'active' : '' }}" href="/dashboard/champs">
               <svg class="bi" aria-hidden="true"><use xlink:href="#plus-circle"/></svg>
-              Bagan Pertandingan
+              Kategori
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts*') ? 'active' : '' }}" href="/dashboard/posts">
               <svg class="bi" aria-hidden="true"><use xlink:href="#file-earmark"/></svg>
-              Postingan
+              Setting
             </a>
           </li>
         </ul>
