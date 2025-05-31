@@ -8,7 +8,7 @@
     <form action="/dashboard/champs/{{ $champ->id }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="tournament" class="form-label">Turnamen</label>
             <select class="form-select" name="tournament_id">
                 @foreach($tours as $tour)
@@ -19,6 +19,12 @@
                     @endif  
                 @endforeach
             </select>
+        </div> -->
+
+        <div class="mb-3">
+            <label for="tournament" class="form-label">Turnamen</label>
+            <p class="form-control-plaintext">{{ $tours->firstWhere('id', $champ->tournament_id)->name }}</p>
+            <input type="hidden" name="tournament_id" value="{{ $champ->tournament_id }}">
         </div>
 
         <div class="mb-3">
