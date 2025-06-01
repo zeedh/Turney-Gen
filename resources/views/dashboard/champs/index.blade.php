@@ -27,8 +27,8 @@
               <td>{{ $champ->tournament->name }}</td>
               <td>{{ $champ->category->name }}</td>
               <td>
-                <a href="/dashboard/champs/{{ $champ->id }}" class="badge bg-info">lihat</a>
-                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-warning">edit</a>
+                <!-- <a href="/dashboard/champs/{{ $champ->id }}" class="badge bg-info">lihat</a> -->
+                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-info">Kelola Bagan</a>
                 <form action="/dashboard/champs/{{ $champ->id }}" method="post" class="d-inline">
                   @method('delete')
                   @csrf

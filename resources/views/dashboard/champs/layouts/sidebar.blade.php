@@ -7,21 +7,21 @@
       <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/competitors*') ? 'active' : '' }}" href="/dashboard/champs/edit/competitors">
+            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/competitors*') ? 'active' : '' }}" href="/dashboard/champs/edit/{{ $champ->id }}/competitors">
               <svg class="bi" aria-hidden="true"><use xlink:href="#puzzle"/></svg>
               Competitor
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/category*') ? 'active' : '' }}" href="/dashboard/champs/edit/category">
+            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit*') ? 'active' : '' }}" href="/dashboard/champs/{{ $champ->id }}/edit/">
               <svg class="bi" aria-hidden="true"><use xlink:href="#plus-circle"/></svg>
               Kategori
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}" href="/dashboard/champs/edit/setting">
+            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}" href="/dashboard/champs/{{ $champ->id }}/edit/setting">
               <svg class="bi" aria-hidden="true"><use xlink:href="#file-earmark"/></svg>
               Setting
             </a>
