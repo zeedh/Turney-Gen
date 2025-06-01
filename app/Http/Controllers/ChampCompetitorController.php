@@ -119,8 +119,11 @@ class ChampCompetitorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Championship $champ, Competitor $competitor)
     {
-        //
+        $competitor->delete();
+
+        return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil dihapus.');
+
     }
 }

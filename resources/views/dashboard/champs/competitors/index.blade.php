@@ -33,18 +33,30 @@
         @endif
     @endif
 
-    <h4>Daftar Peserta Turnamen "{{ $champ->tournament->name }}"</h4>
-    @if($competitors->count())
-        <ul class="list-group">
-            @foreach($competitors as $comp)
-                <li class="list-group-item">
+<h4>Daftar Peserta Turnamen "{{ $champ->tournament->name }}"</h4>
+
+@if($competitors->count())
+    <ul class="list-group">
+        @foreach($competitors as $comp)
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
                     "{{ $comp->user->firstname }}" - {{ $comp->user->name }}
-                </li>
-            @endforeach
-        </ul>
-    @else
-        <p>Belum ada peserta.</p>
-    @endif
+                </span>
+
+                <div class="btn-group">
+                    <!-- Tombol Hapus Peserta -->
+                    <form action="{{ route('competitors.destroy', [$champ->id, $comp->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                    </form>
+                </div>
+            </li>
+        @endforeach
+    </ul>
+@else
+    <p>Belum ada peserta.</p>
+@endif
 
 
 @endsection
