@@ -28,7 +28,7 @@ class TreeController extends Controller
             'championships.settings',
             'championships.category')->first();
 
-        return view('laravel-tournaments::tree.index')
+        return view('dashboard.champs.setting.index')
             ->with('tournament', $tournament);
     }
 
@@ -79,22 +79,22 @@ class TreeController extends Controller
      */
     protected function provisionObjects(Request $request, $isTeam, $numFighters)
     {
-        if ($isTeam) {
-            $championship = Championship::find(2);
-            factory(Team::class, (int) $numFighters)->create(['championship_id' => $championship->id]);
-        } else {
-            $championship = Championship::find(1);
-            $users = factory(User::class, (int) $numFighters)->create();
-            foreach ($users as $user) {
-                factory(Competitor::class)->create(
-                    ['championship_id' => $championship->id,
-                        'user_id'      => $user->id,
-                        'confirmed'    => 1,
-                        'short_id'     => $user->id,
-                    ]
-                );
-            }
-        }
+        // if ($isTeam) {
+        //     $championship = Championship::find(2);
+        //     factory(Team::class, (int) $numFighters)->create(['championship_id' => $championship->id]);
+        // } else {
+        //     $championship = Championship::find(1);
+        //     $users = factory(User::class, (int) $numFighters)->create();
+        //     foreach ($users as $user) {
+        //         factory(Competitor::class)->create(
+        //             ['championship_id' => $championship->id,
+        //                 'user_id'      => $user->id,
+        //                 'confirmed'    => 1,
+        //                 'short_id'     => $user->id,
+        //             ]
+        //         );
+        //     }
+        // }
         $championship->settings = ChampionshipSettings::createOrUpdate($request, $championship);
 
         return $championship;

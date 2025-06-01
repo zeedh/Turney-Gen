@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ChampCompetitorController;
+use App\Http\Controllers\ChampSettingController;
 use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use Xoco70\LaravelTournaments\Models\Category;
@@ -49,6 +50,9 @@ Route::resource('/dashboard/tours', DashboardTurneyController::class)->middlewar
 
 Route::resource('/dashboard/champs', ChampionshipController::class)->middleware('auth');
 Route::resource('/dashboard/champs/edit/{champ}/competitors', ChampCompetitorController::class)->middleware('auth');
+
+// Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
+Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
 
 
 Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');

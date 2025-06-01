@@ -21,7 +21,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}" href="/dashboard/champs/{{ $champ->id }}/edit/setting">
+            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}" href="{{ route('setting.index', $champ->id) }}">
               <svg class="bi" aria-hidden="true"><use xlink:href="#file-earmark"/></svg>
               Setting
             </a>
