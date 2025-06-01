@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Xoco70\LaravelTournaments\Models\Competitor;
+use Xoco70\LaravelTournaments\Models\Championship;
+use App\Models\User;
+use Illuminate\Support\Str;
+
+class ChampCompetitorController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Championship $champ)
+    {
+        $competitors = Competitor::where('championship_id', $champ->id)->with('championship')->get();
+        $search = request('search');
+    
+        $users = User::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+
+        return view('dashboard.champs.competitors.index',[
+            'competitors' => $competitors,
+            'champ' => $champ,
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        // $search = request('search');
+    
+        // $users = User::query()
+        //     ->when($search, function ($query, $search) {
+        //         $query->where('name', 'like', '%' . $search . '%')
+        //             ->orWhere('email', 'like', '%' . $search . '%');
+        //     })
+        //     ->get();
+
+        // return view('dashboard.champs.competitors.create', [
+        //     'champ' => $champ,
+        //     'users' => $users
+        // ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request, Championship $champ)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $exists = Competitor::where('championship_id', $champ->id)
+                    ->where('user_id', $validated['user_id'])
+                    ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'User sudah terdaftar sebagai peserta.');
+        }
+
+        Competitor::create([
+            'user_id' => $validated['user_id'],
+            'championship_id' => $champ->id,
+            'confirmed' => false,
+            'short_id' => random_int(1, 200),
+        ]);
+
+        return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil ditambahkan!');
+
+        // $validatedData = $request->validate([
+        //     'championship_id'   => 'required|exists:championship,id',
+        //     'user_id'           => 'required|exists:user,id',
+        //     'confirmed'         => 'required|int:1'           
+        // ]);
+
+        // // $validatedData['user_id'] = auth()->user()->id;
+
+        // Competitor::create($validatedData);
+
+        // return redirect('/dashboard/champs/edit/{{ $champ->id }}/competitors/')->with('success', 'Championship Baru telah dibuat!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
