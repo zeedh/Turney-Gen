@@ -5,12 +5,14 @@
     $isTeam = session('isTeam', 0);
     $championship = $champ;
     $setting = $championship->getSettings();
-    $treeType = $setting->treeType;
-    $hasPreliminary = $setting->hasPreliminary;
-    $fightingAreas = $setting->fightingAreas;
+    $treeType = $setting->treeType ?? 0;
+    $hasPreliminary = $setting->hasPreliminary ?? 0;
+    $fightingAreas = $setting->fightingAreas ?? 1;
     $fights = $championship->fights;
     $numFighters = session('numFighters', 5);
 @endphp
+
+
 
 @include('dashboard.champs.setting.partials.errors')
 
