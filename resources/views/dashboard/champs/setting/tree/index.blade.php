@@ -1,67 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel Tournaments</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="/vendor/laravel-tournaments/css/custom.css">
-    <link rel="stylesheet" href="/vendor/laravel-tournaments/css/brackets.css">
-    <script src="https://unpkg.com/vue@2.4.2/dist/vue.js"></script>
+@extends('dashboard.champs.layouts.main')
 
-</head>
-<body>
-<?php
-$isTeam = session()->has('isTeam') ? session('isTeam') : 0;
-$championship = $tournament->championships[$isTeam];
-$setting = $championship->getSettings();
+@section('container')
+@php
+    $isTeam = session('isTeam', 0);
+    $championship = $champ;
+    $setting = $championship->getSettings();
+    $treeType = $setting->treeType ?? 0;
+    $hasPreliminary = $setting->hasPreliminary ?? 0;
+    $fightingAreas = $setting->fightingAreas ?? 1;
+    $fights = $championship->fights;
+    $numFighters = session('numFighters', $championship->competitors()->count());
+
+@endphp
 
 
-$treeType = $setting->treeType;
-$hasPreliminary = $setting->hasPreliminary;
-$fightingAreas = $setting->fightingAreas;
-$fights = $championship->fights;
-$numFighters = session()->has('numFighters') ? session('numFighters') : 5;
 
-?>
-@include('laravel-tournaments::partials.errors')
+@include('dashboard.champs.setting.partials.errors')
 
-<div class="container" id="app">
-    <div class="content">
-        <br/>
-        @include('laravel-tournaments::partials.settings')
-        @if ($championship->fightersGroups->count()>0)
-            <h1>Tree</h1>
-            <hr/>
-            @if ($championship->hasPreliminary())
-                @include('laravel-tournaments::partials.tree.preliminary')
-            @else
-                @if ($championship->isSingleEliminationType())
-                    @include('laravel-tournaments::partials.tree.singleElimination', ['hasPreliminary' => 0])
-                @elseif ($championship->isPlayOffType())
-                    @include('laravel-tournaments::partials.tree.playOff')
-                @else
-                    Ooooops. Problem
-                @endif
-            @endif
-            <br/>
-            <h1>Fight List</h1>
-            <hr/>
-            <div align="center">
-                @include('laravel-tournaments::partials.fights')
+@include('dashboard.champs.setting.partials.settings')
+
+
+        @if ($championship->fightersGroups->count() > 0)
+            <!-- Tree Section -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Tournament Tree</h5>
+                </div>
+                <div class="card-body">
+                    @if ($championship->hasPreliminary())
+                        @include('dashboard.champs.setting.partials.tree.preliminary')
+                    @else
+                        @if ($championship->isSingleEliminationType())
+                            @include('dashboard.champs.setting.partials.tree.singleElimination', ['hasPreliminary' => 0])
+                        @elseif ($championship->isPlayOffType())
+                            @include('dashboard.champs.setting.partials.tree.playOff')
+                        @else
+                            <div class="alert alert-danger mb-0" role="alert">
+                                <strong>Oops!</strong> There seems to be a problem with the championship type.
+                            </div>
+                        @endif
+                    @endif
+                </div>
             </div>
 
+            <!-- Fight List Section -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Fight List</h5>
+                </div>
+                <div class="card-body text-center">
+                    @include('dashboard.champs.setting.partials.fights')
+                </div>
+            </div>
         @endif
     </div>
 </div>
-</body>
-
-
 <script>
-    var treeValue = {{$setting->treeType}};
-    var preliminaryValue = {{$hasPreliminary}};
-    new Vue({
+    var treeValue = {{ $treeType }};
+    var preliminaryValue = {{ $hasPreliminary }};
 
+    new Vue({
         el: '#app',
         data: {
             isPrelimDisabled: false,
@@ -71,23 +69,13 @@ $numFighters = session()->has('numFighters') ? session('numFighters') : 5;
             tree: 1,
         },
         methods: {
-            prelim: function () {
-                if (this.hasPrelim == 0) {
-                    this.isGroupSizeDisabled = true;
-                } else {
-                    this.isGroupSizeDisabled = false;
-                }
+            prelim() {
+                this.isGroupSizeDisabled = this.hasPrelim == 0;
             },
-            treeType: function () {
-                if (this.tree == 0) {
-                    this.isPrelimDisabled = true;
-                    this.isAreaDisabled = true;
-                } else {
-                    this.isPrelimDisabled = false;
-                    this.isAreaDisabled = false;
-                }
+            treeType() {
+                this.isPrelimDisabled = this.tree == 0;
+                this.isAreasDisabled = this.tree == 0;
             }
-
         },
         created() {
             this.tree = treeValue;
@@ -97,4 +85,4 @@ $numFighters = session()->has('numFighters') ? session('numFighters') : 5;
         }
     })
 </script>
-</html>
+@endsection

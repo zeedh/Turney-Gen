@@ -9,12 +9,12 @@
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/competitors*') ? 'active' : '' }}" href="{{ route('competitors.index', $champ->id) }}">
               <svg class="bi" aria-hidden="true"><use xlink:href="#puzzle"/></svg>
-              Competitor
+              Peserta
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit*') ? 'active' : '' }}" href="/dashboard/champs/{{ $champ->id }}/edit/">
+            <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit*') ? 'active' : '' }}" href="{{ route('champs.edit', $champ->id) }}">
               <svg class="bi" aria-hidden="true"><use xlink:href="#plus-circle"/></svg>
               Kategori
             </a>
@@ -23,7 +23,7 @@
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}" href="{{ route('setting.index', $champ->id) }}">
               <svg class="bi" aria-hidden="true"><use xlink:href="#file-earmark"/></svg>
-              Setting
+              Pengaturan
             </a>
           </li>
         </ul>

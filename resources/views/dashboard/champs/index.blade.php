@@ -10,7 +10,7 @@
     </div>
   @endif
   <div class="table-responsive small col-lg-8">
-      <a href="/dashboard/champs/create" class="btn btn-primary mb-3">Buat Championship baru</a>
+      <a href="/dashboard/champs/create" class="btn btn-primary mb-3">Buat Bagan Baru</a>
         <table class="table table-striped table-sm">
           <thead>
             <tr>
@@ -28,7 +28,7 @@
               <td>{{ $champ->category->name }}</td>
               <td>
                 <!-- <a href="/dashboard/champs/{{ $champ->id }}" class="badge bg-info">lihat</a> -->
-                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-info">Kelola Bagan</a>
+                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-success">Kelola Bagan</a>
                 <form action="/dashboard/champs/{{ $champ->id }}" method="post" class="d-inline">
                   @method('delete')
                   @csrf

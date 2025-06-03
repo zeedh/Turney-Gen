@@ -49,11 +49,10 @@ Route::get('dashboard/tours/checkSlug', [DashboardTurneyController::class, 'chec
 Route::resource('/dashboard/tours', DashboardTurneyController::class)->middleware('auth');
 
 Route::resource('/dashboard/champs', ChampionshipController::class)->middleware('auth');
-Route::resource('/dashboard/champs/edit/{champ}/competitors', ChampCompetitorController::class)->middleware('auth');
+Route::resource('/dashboard/champs/{champ}/competitors', ChampCompetitorController::class)->middleware('auth');
 
 // Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
-Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
-
+Route::resource('/dashboard/champs/{champ}/setting', ChampSettingController::class)->middleware('auth');
 
 Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');

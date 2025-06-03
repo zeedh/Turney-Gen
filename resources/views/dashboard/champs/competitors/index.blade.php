@@ -4,9 +4,9 @@
     <h2>Peserta untuk Turnamen: {{ $champ->name }}</h2>
 
     <form action="{{ route('competitors.index', ['champ' => $champ->id]) }}" method="GET" class="mb-3">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Cari user..." value="{{ request('search') }}">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <div class="input-group col-lg-8">
+            <input type="text" name="search" class="form-control" placeholder="Cari user..." value="{{old('search'), request('search') }}">
+            <button class="btn btn-outline-secondary" type="submit">Cari</button>
         </div>
     </form>
 
