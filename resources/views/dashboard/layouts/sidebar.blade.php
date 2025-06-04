@@ -1,5 +1,5 @@
 <!-- SIDEBAR CONTAINER -->
-<div class="d-md-block col-md-3 col-lg-2 bg-body-tertiary border-end p-0">
+<div class="d-md-block col-md-3 col-lg-2 bg-body-white border-end p-0">
   <!-- MOBILE COLLAPSIBLE SIDEBAR -->
   <div class="offcanvas-md offcanvas-start d-md-flex flex-column p-0 pt-3 overflow-y-auto h-100" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     <div class="offcanvas-header d-md-none">
@@ -10,22 +10,22 @@
     <div class="offcanvas-body p-0">
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard') ? 'active bg-primary text-white' : '' }}" href="/dashboard">
+          <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard') ? 'active bg-danger text-white' : '' }}" href="/dashboard">
             <i class="bi bi-house-fill"></i> Dashboard
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/tours*') ? 'active bg-primary text-white' : '' }}" href="/dashboard/tours">
+          <a class="nav-link text-danger d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/tours*') ? 'active bg-danger text-white' : '' }}" href="/dashboard/tours">
             <i class="bi bi-puzzle"></i> Turnamen
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/champs*') ? 'active bg-primary text-white' : '' }}" href="/dashboard/champs">
+          <a class="nav-link text-danger d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/champs*') ? 'active bg-danger text-white' : '' }}" href="/dashboard/champs">
             <i class="bi bi-diagram-3-fill"></i> Bagan Pertandingan
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/posts*') ? 'active bg-primary text-white' : '' }}" href="/dashboard/posts">
+          <a class="nav-link text-danger d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('dashboard/posts*') ? 'active bg-danger text-white' : '' }}" href="/dashboard/posts">
             <i class="bi bi-file-earmark-text"></i> Postingan
           </a>
         </li>

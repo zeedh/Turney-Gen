@@ -1,4 +1,4 @@
-<header class="py-3 mb-3 border-bottom sticky-top bg-body-tertiary">
+<header class="py-3 border-bottom sticky-top bg-body-tertiary">
   <div class="container-fluid d-flex align-items-center justify-content-between">
     
     <div>
