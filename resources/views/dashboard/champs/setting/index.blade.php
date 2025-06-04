@@ -9,7 +9,8 @@
     $hasPreliminary = $setting->hasPreliminary ?? 0;
     $fightingAreas = $setting->fightingAreas ?? 1;
     $fights = $championship->fights;
-    $numFighters = session('numFighters', $championship->competitors()->count());
+    $numFighters = session('numFighters', $champ->competitors->count());
+    $competitorCount = $championship->competitors->count();
 
 @endphp
 

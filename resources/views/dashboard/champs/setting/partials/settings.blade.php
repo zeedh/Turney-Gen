@@ -29,7 +29,7 @@
                 </div>
 
                 <!-- Max Fighters -->
-                <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                     <label for="numFighters" class="form-label">Maksimal Jumlah Pemain</label>
                     <select class="form-select" id="numFighters" name="numFighters">
                         @for ($i = 2; $i <= 7; $i++)
@@ -37,7 +37,9 @@
                             <option value="{{ $val }}" @if ($numFighters == $val) selected @endif>{{ $val }}</option>
                         @endfor
                     </select>
-                </div>
+                </div> -->
+                <input type="hidden" name="numFighters" value="{{ $champ->competitors->count() }}">
+
 
                 <!-- Team -->
                 <div class="col-lg-4">

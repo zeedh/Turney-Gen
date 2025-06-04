@@ -15,10 +15,15 @@ class ChampSettingController extends Controller
 {
     public function index(Championship $champ)
     {
+        $competitorCount = Competitor::where('championship_id', $champ->id)->count();
+        // dd($competitorCount);
+
         return view('dashboard.champs.setting.index', [
-            'champ' => $champ
+            'champ' => $champ,
+            'competitorCount' => $competitorCount
         ]);
     }
+
 
     public function store(Request $request, Championship $champ)
     {
