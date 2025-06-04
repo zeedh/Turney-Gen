@@ -1,44 +1,78 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Championship {{ auth()->user()->name}}!!</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+  <h2 class="fw-bold">Bagan Kejuaraan {{ auth()->user()->name }}</h2>
+  <a href="/dashboard/champs/create" class="btn btn-primary">
+    <i class="bi bi-plus-circle me-1"></i> Buat Bagan Baru
+  </a>
+</div>
+
+@if(session()->has('success'))
+  <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
+    <i class="bi bi-check-circle-fill me-1"></i>
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-  @if(session()->has('success'))
-    <div class="alert alert-success col-lg-8" role="alert">
-      {{ session('success') }}
+@endif
+
+<div class="card shadow-sm col-lg-10">
+  <div class="card-body">
+    <div class="mb-3">
+      <input type="text" id="searchInput" class="form-control" placeholder="Cari berdasarkan turnamen atau kategori...">
     </div>
-  @endif
-  <div class="table-responsive small col-lg-8">
-      <a href="/dashboard/champs/create" class="btn btn-primary mb-3">Buat Bagan Baru</a>
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Turnamen</th>
-              <th scope="col">Kategori</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($champs as $champ)
-            <tr>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="champTable">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Turnamen</th>
+            <th scope="col">Kategori</th>
+            <th scope="col" class="text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($champs as $champ)
+            <tr data-tournament="{{ strtolower($champ->tournament->name) }}" data-category="{{ strtolower($champ->category->name) }}">
               <td>{{ $loop->iteration }}</td>
-              <td>{{ $champ->tournament->name }}</td>
+              <td class="fw-semibold">{{ $champ->tournament->name }}</td>
               <td>{{ $champ->category->name }}</td>
-              <td>
-                <!-- <a href="/dashboard/champs/{{ $champ->id }}" class="badge bg-info">lihat</a> -->
-                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="badge bg-success">Kelola Bagan</a>
+              <td class="text-center">
+                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="btn btn-sm btn-success me-1">
+                  <i class="bi bi-diagram-3"></i> Kelola
+                </a>
                 <form action="/dashboard/champs/{{ $champ->id }}" method="post" class="d-inline">
                   @method('delete')
                   @csrf
-                  <button class="badge bg-danger border-0" onclick="return confirm('Yakin?')">HAPUS</button>
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus bagan ini?')">
+                    <i class="bi bi-trash"></i>
+                  </button>
                 </form>
               </td>
             </tr>
-            @endforeach
-            <tr>
-          </tbody>
-        </table>
-      </div>
+          @endforeach
+        </tbody>
+      </table>
+      @if ($champs->isEmpty())
+        <p class="text-center text-muted mt-3">Belum ada bagan kejuaraan.</p>
+      @endif
+    </div>
+  </div>
+</div>
+
+{{-- Live Search Script --}}
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const rows = document.querySelectorAll('#champTable tbody tr');
+
+  searchInput.addEventListener('input', function () {
+    const keyword = this.value.toLowerCase();
+    rows.forEach(row => {
+      const tournament = row.dataset.tournament;
+      const category = row.dataset.category;
+      row.style.display = (tournament.includes(keyword) || category.includes(keyword)) ? '' : 'none';
+    });
+  });
+</script>
 @endsection
