@@ -3,14 +3,14 @@
 @section('container')
 @php
     $isTeam = session('isTeam', 0);
-    $championship = $champ;
+    $championship = $tournament->championships[$isTeam];
     $setting = $championship->getSettings();
     $treeType = $setting->treeType ?? 0;
     $hasPreliminary = $setting->hasPreliminary ?? 0;
     $fightingAreas = $setting->fightingAreas ?? 1;
     $fights = $championship->fights;
     $numFighters = session('numFighters', $champ->competitors->count());
-    $competitorCount = $championship->competitors->count();
+    // $competitorCount = $championship->competitors->count();
 
 @endphp
 

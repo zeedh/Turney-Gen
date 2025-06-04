@@ -10,19 +10,34 @@ use Xoco70\LaravelTournaments\Models\Championship;
 use Xoco70\LaravelTournaments\Models\ChampionshipSettings;
 use Xoco70\LaravelTournaments\Models\FightersGroup;
 use Xoco70\LaravelTournaments\Models\Competitor;
+use Xoco70\LaravelTournaments\Models\Tournament;
+// use App\Models\Tournament;
 
 class ChampSettingController extends Controller
 {
     public function index(Championship $champ)
     {
         $competitorCount = Competitor::where('championship_id', $champ->id)->count();
-        // dd($competitorCount);
+
+        // Ambil tournament yang terkait dengan championship ini
+        $tournament = Tournament::whereHas('championships', function ($query) use ($champ) {
+            $query->where('id', $champ->id)
+                ->where('category_id', $champ->category_id);
+        })
+        ->with([
+            'competitors',
+            'championships.settings',
+            'championships.category'
+        ])
+        ->first(); // Ambil satu tournament terkait
 
         return view('dashboard.champs.setting.index', [
             'champ' => $champ,
-            'competitorCount' => $competitorCount
+            'competitorCount' => $competitorCount,
+            'tournament' => $tournament
         ]);
     }
+
 
 
     public function store(Request $request, Championship $champ)
