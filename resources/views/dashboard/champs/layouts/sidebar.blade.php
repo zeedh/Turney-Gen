@@ -1,25 +1,6 @@
-<style>
-  .sidebar .nav-link {
-    transition: all 0.2s ease-in-out;
-    border-left: 4px solid transparent;
-    color: #333;
-  }
 
-  .sidebar .nav-link:hover {
-    background-color: #f8f9fa;
-    color: #0d6efd;
-  }
-
-  .sidebar .nav-link.active {
-    background-color: #e9ecef;
-    color: #0d6efd !important;
-    font-weight: bold;
-    border-left: 4px solid #0d6efd;
-  }
-</style>
-
-<div class="sidebar border-end col-md-3 col-lg-2 p-0 bg-body-tertiary">
-  <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+<div class="d-md-block col-md-3 col-lg-2 bg-body-white border-end p-0">
+  <div class="offcanvas-md offcanvas-end bg-body-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
     
     <div class="offcanvas-header border-bottom px-3 py-2">
       <h5 class="offcanvas-title fw-bold text-primary" id="sidebarMenuLabel">
@@ -28,10 +9,10 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
     </div>
 
-    <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-      <ul class="nav flex-column mb-3">
+    <div class="offcanvas-body p-0">
+      <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-3 py-2 {{ Request::is('dashboard/champs/edit/competitors*') ? 'active' : '' }}"
+          <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/competitor*') ? 'active bg-danger text-white' : '' }}"
              href="{{ route('competitors.index', $champ->id) }}">
             <svg class="bi"><use xlink:href="#puzzle"/></svg>
             <span>Peserta</span>
@@ -39,7 +20,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-3 py-2 {{ Request::is('dashboard/champs/edit') ? 'active' : '' }}"
+          <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/edit') ? 'active bg-danger text-white' : '' }}"
              href="{{ route('champs.edit', $champ->id) }}">
             <svg class="bi"><use xlink:href="#plus-circle"/></svg>
             <span>Kategori</span>
@@ -47,7 +28,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 px-3 py-2 {{ Request::is('dashboard/champs/edit/setting*') ? 'active' : '' }}"
+          <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/setting*') ? 'active bg-danger text-white' : '' }}"
              href="{{ route('setting.index', $champ->id) }}">
             <svg class="bi"><use xlink:href="#file-earmark"/></svg>
             <span>Pengaturan</span>

@@ -1,6 +1,6 @@
-<header class="py-3 border-bottom sticky-top bg-body-tertiary">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-    
+<header class="py-3 border-bottom sticky-top bg-white text-dark">
+  <div class="container-fluid d-flex align-items-center justify-content-between" style="grid-template-columns: 1fr 2fr;">
+
     <div>
       <a href="#" class="align-items-center link-body-emphasis text-decoration-none" aria-expanded="false">
         TurneyGen
