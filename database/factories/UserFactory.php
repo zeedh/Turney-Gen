@@ -1,11 +1,23 @@
 <?php
 
-$factory->define(config('laravel-tournaments.user.model'), function (Faker\Generator $faker) {
-    return [
-        'name'               => $faker->name,
-        'email'              => $faker->unique()->safeEmail,
-        'password'           => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'firstname'          => $faker->firstname,
-        'lastname'           => $faker->lastName,
-    ];
-});
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+class UserFactory extends Factory
+{
+    protected $model = \App\Models\User::class; // atau model dari config('laravel-tournaments.user.model')
+
+    public function definition(): array
+    {
+        return [
+            'name'      => $this->faker->userName,
+            'email'     => $this->faker->unique()->safeEmail,
+            'password'  => bcrypt('password'), // atau langsung: Hash::make('password')
+            'firstname' => $this->faker->firstName,
+            'lastname'  => $this->faker->lastName,
+            'birthDate' => $this->faker->date('Y-m-d', '2020-12-30'),
+        ];
+    }
+}

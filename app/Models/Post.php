@@ -39,7 +39,7 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
     
-    public function torunament() {
+    public function tournament() {
         return $this->belongsTo(Tournament::class, 'tournament_id');
     }
 

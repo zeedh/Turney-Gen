@@ -8,7 +8,7 @@
     <form method="post" action="/dashboard/posts" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
+            <label for="title" class="form-label">Judul Post</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required autofocus value="{{ old('title') }}">
             @error('title')
             <div class="invalid-feedback">
@@ -27,8 +27,9 @@
             </div>
             @enderror
         </div>
+
         <div class="mb-3">
-            <label for="category" class="form-label">category</label>
+            <label for="category" class="form-label">Kategori</label>
             <select class="form-select" name="category_id">
                 @foreach($categories as $category)
                     @if (old('category_id') == $category->id)
@@ -39,6 +40,20 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Tournament</label>
+            <select class="form-select" name="category_id">
+                @foreach($tours as $tour)
+                    @if (old('tournament_id') == $tour->id)
+                        <option value="{{ $tour->id }}" selected>{{ $tour->name }}</option>
+                    @else
+                        <option value="{{ $tour->id }}">{{ $tour->name }}</option>
+                    @endif  
+                @endforeach
+            </select>
+        </div>
+
         <div class="mb-3">
             <label for="image" class="form-label">Post Gambar</label>
             

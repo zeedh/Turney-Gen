@@ -22,22 +22,9 @@ class Tournament extends Model
         return $this->hasMany(Post::class);
     }
 
-    //  public function category() {
-    //     return $this->belongsTo(Category::class);
-    // }
-
-    // public function getRouteKeyName(){
-    //     return 'slug';
-    // }
-
-    // public function sluggable(): array
-    // {
-    //     return [
-    //         'slug' => [
-    //             'source' => 'name'
-    //         ]
-    //     ];
-    // }
+     public function category() {
+        return $this->belongsTo(Category::class);
+    }
     
     /**
      * Return the sluggable configuration array for this model.

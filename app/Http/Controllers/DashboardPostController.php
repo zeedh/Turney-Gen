@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
@@ -19,8 +20,11 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
+        $tour = Tournament::where('user_id', auth()->user()->id)->get();
+
         return view('dashboard.posts.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get()
+            'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'tour'  => $tour
         ]);
     }
 
@@ -31,8 +35,10 @@ class DashboardPostController extends Controller
      */
     public function create()
     {
+        $tours = Tournament::where('user_id', auth()->user()->id)->get();
         return view('dashboard.posts.create', [
-            'categories' => Category::all()
+            'categories'   => Category::all(),
+            'tours'        => $tours
         ]);
     }
 
@@ -46,11 +52,12 @@ class DashboardPostController extends Controller
     {
 
         $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'slug' => 'required|unique:posts',
-            'category_id' => 'required',
-            'image' => 'image|file|max:1024',
-            'body' => 'required'
+            'title'         => 'required|max:255',
+            'slug'          => 'required|unique:posts',
+            'category_id'   => 'required',
+            'tournament_id' => 'required',
+            'image'         => 'image|file|max:1024',
+            'body'          => 'required'
         ]);
 
         if($request->file('image')){

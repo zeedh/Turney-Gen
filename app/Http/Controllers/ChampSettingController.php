@@ -10,8 +10,8 @@ use Xoco70\LaravelTournaments\Models\Championship;
 use Xoco70\LaravelTournaments\Models\ChampionshipSettings;
 use Xoco70\LaravelTournaments\Models\FightersGroup;
 use Xoco70\LaravelTournaments\Models\Competitor;
-use Xoco70\LaravelTournaments\Models\Tournament;
-// use App\Models\Tournament;
+// use Xoco70\LaravelTournaments\Models\Tournament;
+use App\Models\Tournament;
 
 class ChampSettingController extends Controller
 {

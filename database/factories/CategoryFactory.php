@@ -1,27 +1,44 @@
 <?php
 
-use Xoco70\LaravelTournaments\Models\Category as Cat;
+namespace Database\Factories;
 
-$factory->define(Cat::class, function (Faker\Generator $faker) {
-    $name = ['categories.junior',
-        'categories.junior_team',
-        'categories.men_single',
-        'categories.men_team',
-        'categories.ladies_single',
-        'categories.ladies_team',
-        'categories.master',
-    ];
-    $gender = ['M', 'F', 'X'];
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Xoco70\LaravelTournaments\Models\Category;
 
-    return [
-        'name'          => $faker->randomElement($name),
-        'gender'        => $faker->randomElement($gender),
-        'isTeam'        => $faker->numberBetween(0, 1),
-        'ageCategory'   => $faker->numberBetween(0, 5),
-        'ageMin'        => $faker->numberBetween(1, 90),
-        'ageMax'        => $faker->numberBetween(1, 90),
-        'gradeCategory' => $faker->numberBetween(2, 16),
-        'gradeMin'      => $faker->numberBetween(2, 16),
-        'gradeMax'      => $faker->numberBetween(2, 16),
-    ];
-});
+class CategoryFactory extends Factory
+{
+    protected $model = Category::class;
+
+    public function definition(): array
+    {
+        $names = [
+            'Junior',
+            'Junior Team',
+            'Men Single',
+            'Men Team',
+            'Ladies Single',
+            'Ladies Team',
+            'Master',
+        ];
+
+        $gender = ['M', 'F', 'X'];
+
+        $ageMin = $this->faker->numberBetween(5, 50);
+        $ageMax = $this->faker->numberBetween($ageMin + 1, 90);
+
+        $gradeMin = $this->faker->numberBetween(1, 10);
+        $gradeMax = $this->faker->numberBetween($gradeMin, 16);
+
+        return [
+            'name'          => $this->faker->randomElement($names),
+            'gender'        => $this->faker->randomElement($gender),
+            'isTeam'        => $this->faker->boolean(),
+            'ageCategory'   => $this->faker->numberBetween(0, 5),
+            'ageMin'        => $ageMin,
+            'ageMax'        => $ageMax,
+            'gradeCategory' => $this->faker->numberBetween(0, 5),
+            'gradeMin'      => $gradeMin,
+            'gradeMax'      => $gradeMax,
+        ];
+    }
+}
