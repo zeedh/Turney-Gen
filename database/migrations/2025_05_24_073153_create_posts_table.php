@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
@@ -16,6 +17,10 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->foreignId('user_id');
             $table->foreignId('tournament_id');
+                    // ->constrained('tournament')   
+                    // ->onUpdate('cascade')
+                    // ->onDelete('cascade');
+
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('image')->nullable();
