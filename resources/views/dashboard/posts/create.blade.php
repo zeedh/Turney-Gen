@@ -42,8 +42,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="category" class="form-label">Tournament</label>
-            <select class="form-select" name="category_id">
+            <label for="tournament" class="form-label">Tournament</label>
+            <select class="form-select" name="tournament_id">
                 @foreach($tours as $tour)
                     @if (old('tournament_id') == $tour->id)
                         <option value="{{ $tour->id }}" selected>{{ $tour->name }}</option>

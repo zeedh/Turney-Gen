@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tournament;
+use Xoco70\LaravelTournaments\Models\Championship;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
@@ -20,11 +21,11 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
-        $tour = Tournament::where('user_id', auth()->user()->id)->get();
+        $tours = Tournament::where('user_id', auth()->user()->id)->get();
 
         return view('dashboard.posts.index', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
-            'tour'  => $tour
+            'tours'  => $tours
         ]);
     }
 
@@ -80,8 +81,12 @@ class DashboardPostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('dashboard.posts.show',[
-            'post' => $post
+        $champs = Championship::where('tournament_id', $post->tournament_id)->get();
+        // $champs = $post->tournament->championships;
+
+        return view('dashboard.posts.show', [
+            'post'   => $post,
+            'champs' => $champs
         ]);
     }
 

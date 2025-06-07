@@ -25,7 +25,6 @@
             <tr>
               <td>{{ $loop->iteration }}</td>
               <td>{{ $post->title }}</td>
-              <td>{{ $post->tournament->category->name }}</td>
               <td>{{ $post->tournament->name }}</td>
               <td>
                 <a href="/dashboard/posts/{{ $post->slug }}" class="badge bg-info">lihat</a>

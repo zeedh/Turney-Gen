@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Tournament;
 use App\Models\Category;
-use App\Models\Championship;
+use Xoco70\LaravelTournaments\Models\Championship;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
