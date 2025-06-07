@@ -3,7 +3,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h2 class="fw-semibold">Turnamen {{ auth()->user()->name }}</h2>
-  <a href="/dashboard/tours/create" class="btn btn-primary">
+  <a href="/dashboard/tours/create" class="btn btn-success">
     <i class="bi bi-plus-circle me-1"></i> Buat Turnamen Baru
   </a>
 </div>
@@ -39,11 +39,11 @@
                 <td class="fw-semibold">{{ $tour->name }}</td>
                 <td>{{ $tour->created_at->format('d M Y') }}</td>
                 <td>
-                  <a href="/dashboard/tours/{{ $tour->slug }}" class="btn btn-sm btn-info text-white me-1">
-                    <i class="bi bi-eye"></i>
-                  </a>
+                  <!-- <a href="/dashboard/tours/{{ $tour->slug }}" class="btn btn-sm btn-info text-white me-1">
+                    <i class="bi bi-eye"></i> Lihat
+                  </a> -->
                   <a href="/dashboard/tours/{{ $tour->slug }}/edit" class="btn btn-sm btn-warning text-white me-1">
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="bi bi-pencil-square"></i> Edit
                   </a>
                   <form action="/dashboard/tours/{{ $tour->slug }}" method="post" class="d-inline">
                     @method('delete')

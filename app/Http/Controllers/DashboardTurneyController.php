@@ -19,10 +19,16 @@ class DashboardTurneyController extends Controller
      */
     public function index()
     {
+        $tournaments = Tournament::where('user_id', auth()->id())->get();
+        $posts = Post::whereIn('tournament_id', $tournaments->pluck('id'))->get();
+
         return view('dashboard.tours.index', [
-            'tours' => Tournament::where('user_id', auth()->user()->id)->get() //TODO Jangan lupa ganti ke turnamen!!
+            'tours' => $tournaments,
+            'posts' => $posts
         ]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.

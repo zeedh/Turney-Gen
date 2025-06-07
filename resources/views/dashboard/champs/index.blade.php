@@ -3,7 +3,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h2 class="fw-semibold">Bagan Turnamen {{ auth()->user()->name }}</h2>
-  <a href="/dashboard/champs/create" class="btn btn-primary">
+  <a href="/dashboard/champs/create" class="btn btn-success">
     <i class="bi bi-plus-circle me-1"></i> Buat Bagan Baru
   </a>
 </div>
@@ -39,7 +39,7 @@
               <td class="fw-semibold">{{ $champ->tournament->name }}</td>
               <td>{{ $champ->category->name }}</td>
               <td class="text-center">
-                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="btn btn-sm btn-success me-1">
+                <a href="/dashboard/champs/{{ $champ->id }}/edit" class="btn btn-sm btn-primary me-1">
                   <i class="bi bi-diagram-3"></i> Kelola
                 </a>
                 <form action="/dashboard/champs/{{ $champ->id }}" method="post" class="d-inline">

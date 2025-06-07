@@ -19,7 +19,7 @@ class Tournament extends Model
 
     public function post()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(Post::class);
     }
 
      public function category() {
