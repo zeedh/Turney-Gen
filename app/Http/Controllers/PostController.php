@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
+use Xoco70\LaravelTournaments\Models\Championship;
 
 class PostController extends Controller
 {
@@ -31,10 +32,12 @@ class PostController extends Controller
     }
 
     public function show(Post $post) {
+        $champs = Championship::all();
         return view('post', [
             "title" => "Single Post",
             "post" => $post,
-            "active" => 'blog'
+            "active" => 'blog',
+            'champs' => $champs
         ]);
     }
 }

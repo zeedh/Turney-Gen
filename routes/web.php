@@ -10,6 +10,7 @@ use App\Http\Controllers\ChampCompetitorController;
 use App\Http\Controllers\ChampSettingController;
 use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
+use App\Http\Controllers\PostController;
 use Xoco70\LaravelTournaments\Models\Category;
 
 Route::get('/', function () {
@@ -18,6 +19,9 @@ Route::get('/', function () {
         'active' => 'home'
     ]);
 });
+
+Route::get('/blog', [PostController::class, 'index']);
+Route::get('blog/{post:slug}', [PostController::class, 'show']);
 
 Route::get('/about', function () {
     return view('about', [

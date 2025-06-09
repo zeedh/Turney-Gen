@@ -41,7 +41,7 @@
             </p>
             <p class="card-text">{{ $posts[0]->excerpt }}</p>
 
-            <a href="/blog/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-primary">Read more</a>
+            <a href="/blog/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-primary">Lihat Selengkapnya</a>
         </div>
     </div>
 
