@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
   <h2 class="fw-bold">
     <i class="bi bi-trophy-fill me-2 text-warning"></i>
-     Buat Championship Baru, {{ auth()->user()->name }}!
+      Buat Championship Baru, {{ auth()->user()->name }}!
   </h2>
 </div>
 

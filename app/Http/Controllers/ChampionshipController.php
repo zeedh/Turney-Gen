@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 // use App\Models\Championship;
 use Xoco70\LaravelTournaments\Models\Championship;
+use Xoco70\LaravelTournaments\Models\ChampionshipSettings;
 use Xoco70\LaravelTournaments\Models\Competitor;
-use App\Models\Tournament;
+use Xoco70\LaravelTournaments\Models\Tournament;
+// use App\Models\Tournament;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,16 +46,37 @@ class ChampionshipController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'tournament_id'     => 'required|exists:tournament,id',
-            'category_id'       => 'required|exists:category,id'
+        $validated = $request->validate([
+            'tournament_id' => 'required|exists:tournament,id',
+            'category_id' => 'required|exists:category,id',
+            'hasPreliminary' => 'required|in:0,1',
+            'preliminaryGroupSize' => 'nullable|in:3,4,5|required_if:hasPreliminary,1',
+            // 'preliminaryGroupSize' => 'required_if:hasPreliminary,1|in:3,4,5',
+            'numFighters' => 'required|integer|min:4|max:128',
+            'isTeam' => 'required|in:0,1',
+            'treeType' => 'required|in:0,1',
+            'fightingAreas' => 'required|in:1,2,4,8',
         ]);
 
-        // $validatedData['user_id'] = auth()->user()->id;
+        // Simpan Championship utama
+        $championship = Championship::create([
+            'tournament_id' => $validated['tournament_id'],
+            'category_id' => $validated['category_id'],
+        ]);
 
-        Championship::create($validatedData);
+        // Simpan setting terkait
+        ChampionshipSettings::create([
+            'championship_id' => $championship->id,
+            'hasPreliminary' => $validated['hasPreliminary'],
+            'preliminaryGroupSize' => $validated['hasPreliminary'] ? $validated['preliminaryGroupSize'] : null,
+            // 'preliminaryGroupSize' => $validated['preliminaryGroupSize'],
+            'numFighters' => $validated['numFighters'],
+            'isTeam' => $validated['isTeam'],
+            'treeType' => $validated['treeType'],
+            'fightingAreas' => $validated['fightingAreas'],
+        ]);
 
-        return redirect('/dashboard/champs')->with('success', 'Championship Baru telah dibuat!');
+        return redirect('/dashboard/champs')->with('success', 'Championship berhasil dibuat.');
     }
 
     /**
