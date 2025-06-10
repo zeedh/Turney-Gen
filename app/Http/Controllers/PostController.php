@@ -32,7 +32,7 @@ class PostController extends Controller
     }
 
     public function show(Post $post) {
-        $champs = Championship::all();
+        $champs = Championship::where('tournament_id', $post->tournament_id)->get();
         return view('post', [
             "title" => "Single Post",
             "post" => $post,
