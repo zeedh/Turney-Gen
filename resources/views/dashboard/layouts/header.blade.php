@@ -16,7 +16,7 @@
       <a href="#" class="d-flex align-items-center text-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
         <img src="https://github.com/mdo.png" alt="User Avatar" width="32" height="32" class="rounded-circle border border-light">
       </a>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-small shadow">
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow">
         <li><a class="dropdown-item" href="#">New Post</a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
