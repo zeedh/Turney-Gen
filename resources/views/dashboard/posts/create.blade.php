@@ -28,7 +28,7 @@
             @enderror
         </div>
 
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="category" class="form-label">Kategori</label>
             <select class="form-select" name="category_id">
                 @foreach($categories as $category)
@@ -39,7 +39,7 @@
                     @endif  
                 @endforeach
             </select>
-        </div>
+        </div> -->
 
         <div class="mb-3">
             <label for="tournament" class="form-label">Tournament</label>

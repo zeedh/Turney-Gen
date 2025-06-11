@@ -10,7 +10,7 @@
   <div class="d-md-block col-md-3 col-lg-2 bg-white border-end p-0">
 
   <!-- MOBILE COLLAPSIBLE SIDEBAR -->
-  <div class="offcanvas offcanvas-md offcanvas-start offcanvas-60 d-md-flex flex-column p-0 pt-3 overflow-y-auto h-100"
+  <div class="offcanvas-md offcanvas-start offcanvas-60 d-md-flex flex-column p-0 pt-3 overflow-y-auto h-100"
       tabindex="-1"
       id="sidebarMenu"
       aria-labelledby="sidebarMenuLabel">
@@ -27,7 +27,7 @@
 
         <li class="nav-item action">
           <a class="nav-link px-4 py-2 d-flex align-items-center gap-2 {{ Request::is('dashboard') ? 'active bg-primary text-white' : 'text-dark' }}" href="/dashboard">
-            <i class="bi bi-house-fill text-primary"></i> Dashboard
+            <i class="bi bi-house-fill text-warning"></i> Dashboard
           </a>
         </li>
 
