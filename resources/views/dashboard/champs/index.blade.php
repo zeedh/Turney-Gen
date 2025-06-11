@@ -1,7 +1,15 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<style>
+      @media (max-width: 767.98px) {
+      .btn-sm {
+        margin: 5px;
+      }
+    }
+
+</style>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
   <h2 class="fw-semibold">Bagan Turnamen {{ auth()->user()->name }}</h2>
   <a href="/dashboard/champs/create" class="btn btn-success">
     <i class="bi bi-plus-circle me-1"></i> Buat Bagan Baru

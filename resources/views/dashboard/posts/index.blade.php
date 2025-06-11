@@ -1,10 +1,18 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="pt-3 pb-2 mb-4 border-bottom d-flex justify-content-between align-items-center">
+<style>
+      @media (max-width: 767.98px) {
+      .btn-sm {
+        margin: 5px;
+      }
+    }
+
+</style>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
   <h2 class="h3">Daftar Postingan {{ auth()->user()->name }}</h2>
   <a href="/dashboard/posts/create" class="btn btn-success">
-    <i class="bi bi-plus-circle"></i> Buat Postingan Baru
+    <i class="bi bi-plus-circle"></i> Buat Post Baru
   </a>
 </div>
 
