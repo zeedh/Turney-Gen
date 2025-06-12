@@ -1,6 +1,10 @@
 <header class="py-3 border-bottom sticky-top bg-secondary text-dark">
   <div class="container-fluid d-flex align-items-center justify-content-between" style="grid-template-columns: 1fr 2fr;">
 
+    <button class="btn btn-outline-light d-md-none me-2" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-label="Toggle sidebar">
+      <i class="bi bi-list"></i>
+    </button>
+
     <div>
     <a href="/dashboard" class="text-light text-decoration-none fw-bold fs-5">
       TurneyGen
