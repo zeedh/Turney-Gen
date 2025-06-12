@@ -1,28 +1,32 @@
 @foreach($championship->fights()->get()->groupBy('area') as $fightsByArea)
-    <h4>Area {{ $fightsByArea->get(0)->area }}</h4>
-    <table class="table-bordered text-center" width="600">
-        <th class="p-10 text-center" width="100">Id</th>
-        <th class="p-10 text-center" width="250">Competitor 1</th>
-        <th class="p-10 text-center" width="250">Competitor 2</th>
+    <h4 class="mt-4">Area {{ $fightsByArea->get(0)->area }}</h4>
 
-        <?php $fightId = 0; ?>
-        @foreach($fightsByArea as $fight)
-            @if ($fight->shouldBeInFightList(false))
-                <?php
-
-                $fighter1 = optional($fight->fighter1)->fullName ?? "BYE";
-                $fighter2 = optional($fight->fighter2)->fullName ?? "BYE";
-                $fightId++;
-                ?>
-
-
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
                 <tr>
-                    <td class="p-10">{{$fightId}}</td>
-                    <td class="p-10">{{ $fighter1 }}</td>
-                    <td class="p-10">{{ $fighter2 }}</td>
+                    <th scope="col">ID</th>
+                    <th scope="col">Competitor 1</th>
+                    <th scope="col">Competitor 2</th>
                 </tr>
-            @endif
-        @endforeach
-    </table>
-    <br/><br/>
+            </thead>
+            <tbody>
+                @php $fightId = 0; @endphp
+                @foreach($fightsByArea as $fight)
+                    @if ($fight->shouldBeInFightList(false))
+                        @php
+                            $fighter1 = optional($fight->fighter1)->fullName ?? "BYE";
+                            $fighter2 = optional($fight->fighter2)->fullName ?? "BYE";
+                            $fightId++;
+                        @endphp
+                        <tr>
+                            <td>{{ $fightId }}</td>
+                            <td>{{ $fighter1 }}</td>
+                            <td>{{ $fighter2 }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endforeach

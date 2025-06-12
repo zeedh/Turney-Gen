@@ -13,46 +13,65 @@
     }
 @endphp
 
+<style>
+    #brackets-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    }
+    .vertical-connector, .horizontal-connector {
+        z-index: 0;
+    }
+
+</style>
+
 @if ($treeGen)
     @if (Request::is('championships/'.$championship->id.'/pdf'))
-        <h1>{{ $championship->buildName() }}</h1>
+        <h1 class="h5 mb-3">{{ $championship->buildName() }}</h1>
     @endif
 
     <form method="POST" action="{{ route('setting.index', ['champ' => $champ->id])}}" accept-charset="UTF-8">
         @csrf
         @method('PUT')
         <input type="hidden" id="activeTreeTab" name="activeTreeTab" value="{{ $championship->id }}"/>
-        
-        {{-- Render Round Titles --}}
-        {!! $treeGen->printRoundTitles() !!}
 
-        <div id="brackets-wrapper"
-             style="padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
-            @foreach ($treeGen->brackets as $roundNumber => $round)
-                @foreach ($round as $matchNumber => $match)
-                    @include('laravel-tournaments::partials.tree.brackets.fight')
+        {{-- Round Titles --}}
+        <div class="overflow-x-auto mb-3">
+            {!! $treeGen->printRoundTitles() !!}
+        </div>
 
-                    @if ($roundNumber != $treeGen->noRounds)
-                        {{-- Vertical Connector --}}
-                        <div class="vertical-connector"
-                             style="top: {{ $match['vConnectorTop'] }}px;
-                                    left: {{ $match['vConnectorLeft'] }}px;
-                                    height: {{ $match['vConnectorHeight'] }}px;"></div>
+        {{-- Bracket Wrapper --}}
+        <div class="overflow-x-auto">
+            <div id="brackets-wrapper"
+                class="position-relative"
+                style="min-width: 700px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
+                
+                @foreach ($treeGen->brackets as $roundNumber => $round)
+                    @foreach ($round as $matchNumber => $match)
+                        @include('laravel-tournaments::partials.tree.brackets.fight')
 
-                        {{-- Horizontal Connectors --}}
-                        <div class="horizontal-connector"
-                             style="top: {{ $match['hConnectorTop'] }}px;
-                                    left: {{ $match['hConnectorLeft'] }}px;"></div>
-                        <div class="horizontal-connector"
-                             style="top: {{ $match['hConnector2Top'] }}px;
-                                    left: {{ $match['hConnector2Left'] }}px;"></div>
-                    @endif
+                        @if ($roundNumber != $treeGen->noRounds)
+                            {{-- Vertical Connector --}}
+                            <div class="vertical-connector"
+                                 style="top: {{ $match['vConnectorTop'] }}px;
+                                        left: {{ $match['vConnectorLeft'] }}px;
+                                        height: {{ $match['vConnectorHeight'] }}px;"></div>
+
+                            {{-- Horizontal Connectors --}}
+                            <div class="horizontal-connector"
+                                 style="top: {{ $match['hConnectorTop'] }}px;
+                                        left: {{ $match['hConnectorLeft'] }}px;"></div>
+                            <div class="horizontal-connector"
+                                 style="top: {{ $match['hConnector2Top'] }}px;
+                                        left: {{ $match['hConnector2Left'] }}px;"></div>
+                        @endif
+                    @endforeach
                 @endforeach
-            @endforeach
+            </div>
         </div>
 
         <div class="clearfix"></div>
-        <div class="text-end mt-3">
+
+        <div class="text-end mt-4">
             <button type="submit" class="btn btn-success" id="update">
                 Update Tree
             </button>
