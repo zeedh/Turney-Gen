@@ -25,8 +25,11 @@
 
 <div class="card shadow-sm col-lg-10">
   <div class="card-body">
+    <div class="mb-3">
+      <input type="text" class="form-control" id="searchInput" placeholder="Cari postingan...">
+    </div>
     <div class="table-responsive">
-      <table class="table table-hover align-middle">
+      <table class="table table-hover align-middle" id="postTable">
         <thead class="table-light">
           <tr>
             <th>#</th>
@@ -67,4 +70,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('searchInput').addEventListener('keyup', function () {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#postTable tbody tr');
+
+    rows.forEach(row => {
+      const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+      row.style.display = name.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
 @endsection
