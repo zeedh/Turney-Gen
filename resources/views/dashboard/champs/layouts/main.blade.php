@@ -76,12 +76,16 @@
 
 <div class="container-fluid">
   <div class="row">
+    {{-- Sidebar --}}
     @include('dashboard.champs.layouts.sidebar')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+    {{-- Main Content --}}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
       @yield('container')
     </main>
   </div>
 </div>
+
 
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"></script>
 
