@@ -20,11 +20,13 @@ class ChampCompetitorController extends Controller
     
         $users = User::query()
             ->when($search, function ($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('email', 'like', '%' . $search . '%');
+                });
             })
-            ->get();
-
+            ->paginate(5)
+            ->withQueryString();
 
         return view('dashboard.champs.competitors.index',[
             'competitors' => $competitors,
