@@ -38,8 +38,6 @@ class ChampSettingController extends Controller
         ]);
     }
 
-
-
     public function store(Request $request, Championship $champ)
     {
         // Validasi input
@@ -80,8 +78,12 @@ class ChampSettingController extends Controller
         }
 
         return back()
-            ->with('numFighters', $numFighters)
-            ->with('isTeam', $isTeam);
+            ->route('setting.index', $champ->id)
+            ->with('success', 'Pengaturan berhasil disimpan.')
+            ->with('numFighters', $validatedData['numFighters'])
+            ->with('isTeam', $validatedData['isTeam']);
+            // ->with('numFighters', $numFighters)
+            // ->with('isTeam', $isTeam);
     }
 
     protected function validateRequest(Request $request): array

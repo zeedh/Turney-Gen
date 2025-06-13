@@ -44,6 +44,14 @@
                   <span>Pengaturan</span>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/setting*') ? 'active bg-danger text-white' : '' }}"
+                  href="{{ route('setting.tree.index', ['champ' => $champ->id, 'setting' => $settings->id]) }}">
+                  <svg class="bi"><use xlink:href="#file-earmark"/></svg>
+                  <span>Tree</span>
+                </a>
+              </li>
             </ul>
       
             @can('admin')

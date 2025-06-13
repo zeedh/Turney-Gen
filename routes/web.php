@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ChampCompetitorController;
 use App\Http\Controllers\ChampSettingController;
+use App\Http\Controllers\ChampTreeController;
 use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\PostController;
@@ -57,6 +58,7 @@ Route::resource('/dashboard/champs/{champ}/competitors', ChampCompetitorControll
 
 // Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
 Route::resource('/dashboard/champs/{champ}/setting', ChampSettingController::class)->middleware('auth');
+Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampTreeController::class)->middleware('auth');
 
 Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
