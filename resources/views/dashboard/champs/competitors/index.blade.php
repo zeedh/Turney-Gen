@@ -29,7 +29,7 @@
                                 </div>
 
                                 @if($isRegistered)
-                                    <span class="badge bg-success">Terdaftar</span>
+                                    <span class="badge bg-success p-2">Terdaftar</span>
                                 @else
                                     <form action="{{ route('competitors.store', ['champ' => $champ->id]) }}" method="POST">
                                         @csrf

@@ -66,4 +66,4 @@ Route::resource('/dashboard/champs', ChampionshipController::class)->middleware(
 // Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
 Route::resource('/dashboard/champs/{champ}/setting', ChampSettingController::class)->middleware('auth');
 Route::resource('/dashboard/champs/{champ}/competitors', ChampCompetitorController::class)->middleware('auth');
-// Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampTreeController::class)->middleware('auth');
+Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class)->middleware('auth');

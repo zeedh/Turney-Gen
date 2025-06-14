@@ -56,6 +56,7 @@ class ChampSettingController extends Controller
         // Generate tree hanya jika belum ada tree sebelumnya
         if ($champ->fightersGroups()->count() === 0) {
             $champ = $this->provisionObjects($validatedData, $champ);
+            $champ->refresh(); // Paksa ambil ulang data dari DB
 
             try {
                 $generation = $champ->chooseGenerationStrategy();
@@ -68,6 +69,7 @@ class ChampSettingController extends Controller
             $this->clearTreeData($champ);
 
             $champ = $this->provisionObjects($validatedData, $champ);
+            $champ->refresh(); // Paksa ambil ulang data dari DB
 
             try {
                 $generation = $champ->chooseGenerationStrategy();

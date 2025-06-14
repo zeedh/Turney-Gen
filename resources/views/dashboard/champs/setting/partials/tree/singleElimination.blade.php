@@ -29,7 +29,7 @@
         <h1 class="h5 mb-3">{{ $championship->buildName() }}</h1>
     @endif
 
-    <form method="POST" action="{{ route('setting.index', ['champ' => $champ->id])}}" accept-charset="UTF-8">
+    <form method="POST" action="/dashboard/champs/{{ $champ->id }}/setting/{{ $champ->settings->id }}" accept-charset="UTF-8">
         @csrf
         @method('PUT')
         <input type="hidden" id="activeTreeTab" name="activeTreeTab" value="{{ $championship->id }}"/>
