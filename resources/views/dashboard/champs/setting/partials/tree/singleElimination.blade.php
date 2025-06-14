@@ -47,7 +47,7 @@
                 
                 @foreach ($treeGen->brackets as $roundNumber => $round)
                     @foreach ($round as $matchNumber => $match)
-                        @include('laravel-tournaments::partials.tree.brackets.fight')
+                        @include('dashboard.champs.setting.partials.tree.brackets.fight')
 
                         @if ($roundNumber != $treeGen->noRounds)
                             {{-- Vertical Connector --}}
