@@ -1,26 +1,32 @@
-<?php
+@php
+    $indexA = $match['indexA'] ?? 0;
+    $indexB = $match['indexB'] ?? 1;
 
-$isAWinner = (optional($match['playerA'])->id == $match['winner_id'] && $match['winner_id'] != null) ? 'X' : null;
-$isBWinner = (optional($match['playerB'])->id == $match['winner_id'] && $match['winner_id'] != null) ? 'X' : null;
-?>
+    // Cocokan winner_id dengan playerA dan playerB
+    $isAWinner = isset($scores[$indexA]) && optional($match['playerA'])->id == $scores[$indexA] ? 'X' : null;
+    $isBWinner = isset($scores[$indexB]) && optional($match['playerB'])->id == $scores[$indexB] ? 'X' : null;
+@endphp
+
 <div class="match-wrapper"
-     style="top:  {{ $match['matchWrapperTop'] }}px; left:  {{ $match['matchWrapperLeft']  }}px; width: {{   $treeGen->matchWrapperWidth  }}px;">
-    <div {{ $isAWinner ? "id=success" : '' }}>
-        <input type="text" class="score" name="score[]" value="{{ $isAWinner }}" {{ $isAWinner ? "id=success" : '' }}>
-        @include('laravel-tournaments::partials.tree.brackets.playerList',
-            ['selected' => $match['playerA'],
-            'roundNumber'=>$roundNumber,
+     style="top: {{ $match['matchWrapperTop'] }}px; left: {{ $match['matchWrapperLeft'] }}px; width: {{ $treeGen->matchWrapperWidth }}px;">
+     
+    <div class="player-line {{ $isAWinner ? 'bg-success' : '' }}">
+        <input type="text" class="score" name="score[]" value="{{ $isAWinner ? optional($match['playerA'])->id : '' }}">
+        @include('laravel-tournaments::partials.tree.brackets.playerList', [
+            'selected' => $match['playerA'],
+            'roundNumber' => $roundNumber,
             'isSuccess' => $isAWinner
-            ])
+        ])
     </div>
+
     <div class="match-divider"></div>
-    <div {{ $isBWinner ? "id=success" : '' }}>
-        <input type="text" class="score" name="score[]"
-               value="{{ $isBWinner }}" {{ $isBWinner ? "bg-success-300" : "" }}>
-        @include('laravel-tournaments::partials.tree.brackets.playerList',
-            ['selected' => $match['playerB'],
-             'roundNumber'=>$roundNumber,
-             'isSuccess' => $isBWinner
-              ])
+
+    <div class="player-line {{ $isBWinner ? 'bg-success' : '' }}">
+        <input type="text" class="score" name="score[]" value="{{ $isBWinner ? optional($match['playerB'])->id : '' }}">
+        @include('laravel-tournaments::partials.tree.brackets.playerList', [
+            'selected' => $match['playerB'],
+            'roundNumber' => $roundNumber,
+            'isSuccess' => $isBWinner
+        ])
     </div>
 </div>

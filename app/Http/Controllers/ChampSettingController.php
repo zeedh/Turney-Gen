@@ -131,37 +131,45 @@ class ChampSettingController extends Controller
 
     public function update(Request $request, Championship $champ)
     {
+        $scores = $request->input('score', []);
         $competitors = $champ->competitors()->pluck('id')->toArray();
         $numFighter = 0;
 
-        $query = FightersGroup::with('fights')
+        $groupsQuery = FightersGroup::with('fights')
             ->where('championship_id', $champ->id);
 
-        $scores = $request->score;
-
+        // Skip preliminary round jika diatur
         if ($champ->hasPreliminary()) {
-            $query = $query->where('round', '>', 1);
+            $groupsQuery->where('round', '>', 1);
         }
 
-        $groups = $query->get();
+        $groups = $groupsQuery->get();
 
         foreach ($groups as $group) {
             foreach ($group->fights as $fight) {
+                // Set player A
                 $fight->c1 = $competitors[$numFighter] ?? null;
                 $fight->winner_id = $this->getWinnerId($competitors, $scores, $numFighter);
                 $numFighter++;
 
+                // Set player B
                 $fight->c2 = $competitors[$numFighter] ?? null;
+
+                // Jika belum ada pemenang dari sisi A, coba cek sisi B
                 if ($fight->winner_id === null) {
                     $fight->winner_id = $this->getWinnerId($competitors, $scores, $numFighter);
                 }
                 $numFighter++;
 
                 $fight->save();
+
+                if ($fight->winner_id) {
+                    $this->advanceWinnerToNextRound($fight, $group);
+                }
             }
         }
 
-        return back();
+        return back()->with('success', 'Hasil pertarungan berhasil diperbarui.');
     }
 
 
@@ -169,6 +177,73 @@ class ChampSettingController extends Controller
     {
         return $scores[$numFighter] != null ? $fighters[$numFighter] : null;
     }
+
+    public function buildMatches(Championship $champ)
+    {
+        $matches = [];
+        $fights = Fight::whereHas('group', function ($query) use ($champ) {
+                $query->where('championship_id', $champ->id);
+            })
+            ->orderBy('id')
+            ->get();
+
+        $index = 0;
+
+        foreach ($fights as $fight) {
+            $matches[] = [
+                'playerA' => $fight->c1 ? Competitor::find($fight->c1) : null,
+                'playerB' => $fight->c2 ? Competitor::find($fight->c2) : null,
+                'winner_id' => $fight->winner_id,
+                'indexA' => $index,
+                'indexB' => $index + 1,
+                'matchWrapperTop' => 100 * ($index / 2), // atau pakai posisi dari group jika ada
+                'matchWrapperLeft' => 200 * ($fight->group->round ?? 1), // misalnya round = 1,2,3
+            ];
+
+            $index += 2;
+        }
+
+        return $matches;
+    }
+
+    protected function advanceWinnerToNextRound($fight, FightersGroup $group)
+    {
+        // Hitung round berikutnya
+        $nextRound = $group->round + 1;
+
+        // Hitung order pertarungan selanjutnya
+        $nextOrder = floor($group->order / 2);
+
+        // Ambil atau buat group berikutnya
+        $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
+            ->where('round', $nextRound)
+            ->where('area', $group->area)
+            ->where('order', $nextOrder)
+            ->first();
+
+        // Jika tidak ada group selanjutnya, hentikan
+        if (!$nextGroup) {
+            return;
+        }
+
+        // Ambil fight di group tersebut
+        $nextFight = $nextGroup->fights->first(); // asumsikan 1 fight per group
+
+        if (!$nextFight) {
+            return;
+        }
+
+        // Cek posisi (genap/ganjil) untuk menentukan penempatan c1 / c2
+        if ($group->order % 2 === 0) {
+            $nextFight->c1 = $fight->winner_id;
+        } else {
+            $nextFight->c2 = $fight->winner_id;
+        }
+
+        $nextFight->save();
+    }
+
+
 }
 
 
