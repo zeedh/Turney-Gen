@@ -46,47 +46,30 @@ class DashboardTurneyController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-
             'name'              => 'required|max:255',
             'slug'              => 'required|unique:tournament',
             'dateIni'           => "required|date",
             'dateFin'           => "required|date|after_or_equal:dateIni",
             'registerDateLimit' => "nullable|date|before_or_equal:dateFin",
-            'sport'             => 'nullable|in:1', // atau biarkan di-set langsung, tidak lewat request
+            'sport'             => 'nullable|in:1',
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
             'venue_id'          => 'nullable|exists:venues,id',
-            'category_id'       => 'required|exists:category,id'
-            // 'category_id.*'     => 'exists:categories,id',
-
-            // 'sport'             => in:1,
-            // 'type'              => 0,
-            // 'level_id'          => 7,
-            // 'venue_id'          => 'nullable',
-            
+            // 'category_id'       => 'required|exists:category,id'
         ]);
 
-        // dd($validatedData);
-
-        // if($request->file('image')){
-        //     $validatedData['image']=$request->file('image')->store('post-image');
-        // }
-
         $validatedData['user_id'] = auth()->user()->id;
-        // $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
         $tournament = Tournament::create($validatedData);
 
-        // Menyimpan championship
-        Championship::create([
-            'tournament_id' => $tournament->id,
-            'category_id'   => $request->category_id,
-        ]);
+        // $champ = Championship::create([
+        //     'tournament_id' => $tournament->id,
+        //     'category_id'   => $request->category_id,
+        // ]);
 
-
-        return redirect('/dashboard/tours')->with('success', 'Turnamen Baru telah dibuat!');
-        // return redirect('/dashboard/tours')->with('success', 'Post Baru telah dibuat!');
+        return redirect('/dashboard/champs/create');
     }
+
 
     /**
      * Display the specified resource.
@@ -133,14 +116,6 @@ class DashboardTurneyController extends Controller
         }
 
         $validatedData = $request->validate($rules);
-
-        // if($request->file('image')){
-        //     if($request->oldImage) {
-        //         Storage::delete($request->oldImage);
-        //     }
-        //     $validatedData['image']=$request->file('image')->store('post-image');
-        // }
-
         $validatedData['user_id'] = auth()->user()->id;
 
         // Ambil category_id lalu keluarkan dari data
@@ -165,10 +140,6 @@ class DashboardTurneyController extends Controller
      */
     public function destroy(Tournament $tour)
     {
-        // if($post->Image) {
-        //     Storage::delete($post->Image);
-        // }
-        
         Tournament::destroy($tour->id);
 
         return redirect('/dashboard/tours')->with('success', 'Turnamen telah dihapus!');

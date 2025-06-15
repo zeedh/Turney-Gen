@@ -208,41 +208,41 @@ class ChampSettingController extends Controller
 
     protected function advanceWinnerToNextRound($fight, FightersGroup $group)
     {
-        // Hitung round berikutnya
         $nextRound = $group->round + 1;
-
-        // Hitung order pertarungan selanjutnya
         $nextOrder = floor($group->order / 2);
 
-        // Ambil atau buat group berikutnya
         $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
             ->where('round', $nextRound)
             ->where('area', $group->area)
             ->where('order', $nextOrder)
+            ->with('fights')
             ->first();
 
-        // Jika tidak ada group selanjutnya, hentikan
         if (!$nextGroup) {
             return;
         }
 
-        // Ambil fight di group tersebut
-        $nextFight = $nextGroup->fights->first(); // asumsikan 1 fight per group
+        $nextFight = $nextGroup->fights->first();
 
         if (!$nextFight) {
             return;
         }
 
-        // Cek posisi (genap/ganjil) untuk menentukan penempatan c1 / c2
+        // Tentukan posisi (c1 atau c2) berdasarkan order
         if ($group->order % 2 === 0) {
-            $nextFight->c1 = $fight->winner_id;
+            // Jangan timpa c1 kalau sudah terisi
+            if (!$nextFight->c1) {
+                $nextFight->c1 = $fight->winner_id;
+            }
         } else {
-            $nextFight->c2 = $fight->winner_id;
+            // Jangan timpa c2 kalau sudah terisi
+            if (!$nextFight->c2) {
+                $nextFight->c2 = $fight->winner_id;
+            }
         }
 
         $nextFight->save();
     }
-
 
 }
 
