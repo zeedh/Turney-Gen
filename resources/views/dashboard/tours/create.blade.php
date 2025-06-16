@@ -24,7 +24,7 @@
         @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
       </div>
 
-      <!-- <div class="mb-3">
+      <div class="mb-3">
         <label for="category_id" class="form-label">Kategori</label>
         <select class="form-select" name="category_id" id="category_id">
           @foreach($categories as $category)
@@ -34,7 +34,7 @@
             </option>
           @endforeach
         </select>
-      </div> -->
+      </div>
 
       <div class="row">
         <div class="col-md-6 mb-3">

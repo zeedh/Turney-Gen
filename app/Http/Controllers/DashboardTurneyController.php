@@ -55,19 +55,21 @@ class DashboardTurneyController extends Controller
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
             'venue_id'          => 'nullable|exists:venues,id',
-            // 'category_id'       => 'required|exists:category,id'
+            'category_id'       => 'required|exists:category,id'
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
 
         $tournament = Tournament::create($validatedData);
 
-        // $champ = Championship::create([
-        //     'tournament_id' => $tournament->id,
-        //     'category_id'   => $request->category_id,
-        // ]);
+        $champ = Championship::create([
+            'tournament_id' => $tournament->id,
+            'category_id'   => $request->category_id,
+        ]);
+        Championship::destroy($champ->id);
 
-        return redirect('/dashboard/champs/create');
+        // return redirect('/dashboard/champs/create');
+        return redirect('/dashboard/tours')->with('success', 'Turnamen berhasil dibuat!');
     }
 
 
