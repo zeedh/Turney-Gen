@@ -138,7 +138,7 @@ class ChampSettingController extends Controller
         $groupsQuery = FightersGroup::with('fights')
             ->where('championship_id', $champ->id);
 
-        // Skip preliminary round jika diatur
+        // Skip preliminary jika ada pengaturan
         if ($champ->hasPreliminary()) {
             $groupsQuery->where('round', '>', 1);
         }
@@ -147,19 +147,33 @@ class ChampSettingController extends Controller
 
         foreach ($groups as $group) {
             foreach ($group->fights as $fight) {
-                // Set player A
-                $fight->c1 = $competitors[$numFighter] ?? null;
-                $fight->winner_id = $this->getWinnerId($competitors, $scores, $numFighter);
-                $numFighter++;
-
-                // Set player B
-                $fight->c2 = $competitors[$numFighter] ?? null;
-
-                // Jika belum ada pemenang dari sisi A, coba cek sisi B
-                if ($fight->winner_id === null) {
-                    $fight->winner_id = $this->getWinnerId($competitors, $scores, $numFighter);
+                // Lewati fight jika sudah memiliki pemenang
+                if ($fight->winner_id !== null) {
+                    $numFighter += 2;
+                    continue;
                 }
+
+                // Set c1 dan c2
+                $fight->c1 = $competitors[$numFighter] ?? null;
+                $scoreC1 = $scores[$numFighter] ?? null;
                 $numFighter++;
+
+                $fight->c2 = $competitors[$numFighter] ?? null;
+                $scoreC2 = $scores[$numFighter] ?? null;
+                $numFighter++;
+
+                // Simpan skor ke masing-masing kolom
+                $fight->score_c1 = $scoreC1;
+                $fight->score_c2 = $scoreC2;
+
+                // Tetapkan winner_id berdasarkan skor
+                if ($scoreC1 !== null && $scoreC2 !== null) {
+                    if ($scoreC1 > $scoreC2) {
+                        $fight->winner_id = $fight->c1;
+                    } elseif ($scoreC2 > $scoreC1) {
+                        $fight->winner_id = $fight->c2;
+                    }
+                }
 
                 $fight->save();
 
@@ -171,7 +185,6 @@ class ChampSettingController extends Controller
 
         return back()->with('success', 'Hasil pertarungan berhasil diperbarui.');
     }
-
 
     public function getWinnerId($fighters, $scores, $numFighter)
     {
@@ -224,25 +237,27 @@ class ChampSettingController extends Controller
 
         $nextFight = $nextGroup->fights->first();
 
-        if (!$nextFight) {
+        if (!$nextFight || !$fight->winner_id) {
             return;
         }
 
-        // Tentukan posisi (c1 atau c2) berdasarkan order
-        if ($group->order % 2 === 0) {
-            // Jangan timpa c1 kalau sudah terisi
-            if (!$nextFight->c1) {
-                $nextFight->c1 = $fight->winner_id;
-            }
-        } else {
-            // Jangan timpa c2 kalau sudah terisi
-            if (!$nextFight->c2) {
-                $nextFight->c2 = $fight->winner_id;
-            }
+        // Cegah pengisian jika winner sudah ada di c1/c2
+        if ($nextFight->c1 === $fight->winner_id || $nextFight->c2 === $fight->winner_id) {
+            return;
+        }
+
+        // Isi c1 jika kosong
+        if (!$nextFight->c1) {
+            $nextFight->c1 = $fight->winner_id;
+        }
+        // Jika c1 sudah terisi dan c2 kosong, isi c2
+        elseif (!$nextFight->c2) {
+            $nextFight->c2 = $fight->winner_id;
         }
 
         $nextFight->save();
     }
+
 
     public function updateSingleFight(Request $request, Championship $champ, $fightId)
     {

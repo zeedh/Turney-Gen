@@ -36,7 +36,8 @@ class DashboardTurneyController extends Controller
     public function create()
     {
         return view('dashboard.tours.create', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'defaultCategoryId' => 1
         ]);
     }
 
@@ -68,8 +69,8 @@ class DashboardTurneyController extends Controller
         ]);
         Championship::destroy($champ->id);
 
-        // return redirect('/dashboard/champs/create');
-        return redirect('/dashboard/tours')->with('success', 'Turnamen berhasil dibuat!');
+        return redirect('/dashboard/champs/create');
+        // return redirect('/dashboard/tours')->with('success', 'Turnamen berhasil dibuat!');
     }
 
 
