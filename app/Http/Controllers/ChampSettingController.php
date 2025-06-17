@@ -244,6 +244,37 @@ class ChampSettingController extends Controller
         $nextFight->save();
     }
 
+    public function updateSingleFight(Request $request, Championship $champ, $fightId)
+    {
+        $scores = $request->input('score', []);
+        $fight = Fight::findOrFail($fightId);
+
+        $competitorIds = $champ->competitors()->pluck('id')->toArray();
+
+        // Cari c1 dan c2 dari kompetitor terdekat berdasarkan score
+        $c1 = reset($scores);
+        $c2 = next($scores);
+
+        $fight->c1 = $c1 ?: null;
+        $fight->c2 = $c2 ?: null;
+
+        if ($c1 && isset($scores[key($scores)]) && $scores[key($scores)] == $c1) {
+            $fight->winner_id = $c1;
+        } elseif ($c2 && $scores[key($scores)] == $c2) {
+            $fight->winner_id = $c2;
+        } else {
+            $fight->winner_id = null;
+        }
+
+        $fight->save();
+
+        // Optional: Lanjutkan otomatis ke next round jika diperlukan
+        $this->advanceWinnerToNextRound($fight, $champ);
+
+        return back()->with('success', 'Pertandingan berhasil diperbarui.');
+    }
+
+
 }
 
 
