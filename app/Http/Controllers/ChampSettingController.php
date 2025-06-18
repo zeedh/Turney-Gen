@@ -222,36 +222,32 @@ class ChampSettingController extends Controller
     protected function advanceWinnerToNextRound($fight, FightersGroup $group)
     {
         $nextRound = $group->round + 1;
-        $nextOrder = floor($group->order / 2);
+        // $nextOrder = floor($group->order / 2);
+            // $nextOrder = floor(($group->order - 1) / 2);
 
+        // Ambil group untuk round berikutnya
         $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
-            ->where('round', $nextRound)
+            ->where('round', $nextRound) // <-- Pastikan ini round selanjutnya
             ->where('area', $group->area)
-            ->where('order', $nextOrder)
+            // ->where('order', $nextOrder)
             ->with('fights')
             ->first();
 
-        if (!$nextGroup) {
+        // Ambil fight pertama dari group tersebut
+        $nextFight = $nextGroup?->fights->first();
+
+        // Pastikan:
+        // - Fight sekarang punya pemenang
+        // - Next fight belum punya winner
+        // - Next fight belum penuh
+        if (!$nextFight || ($nextFight->c1 && $nextFight->c2) || $nextFight->winner_id) {
             return;
         }
 
-        $nextFight = $nextGroup->fights->first();
-
-        if (!$nextFight || !$fight->winner_id) {
-            return;
-        }
-
-        // Cegah pengisian jika winner sudah ada di c1/c2
-        if ($nextFight->c1 === $fight->winner_id || $nextFight->c2 === $fight->winner_id) {
-            return;
-        }
-
-        // Isi c1 jika kosong
+        // Tambahkan pemenang ke slot kosong
         if (!$nextFight->c1) {
             $nextFight->c1 = $fight->winner_id;
-        }
-        // Jika c1 sudah terisi dan c2 kosong, isi c2
-        elseif (!$nextFight->c2) {
+        } elseif (!$nextFight->c2) {
             $nextFight->c2 = $fight->winner_id;
         }
 
