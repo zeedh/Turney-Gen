@@ -3,12 +3,15 @@
 
     <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">
+
             <thead class="table-light">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Competitor 1</th>
+                    <th scope="col">Skor 1</th> <!-- Tambahan -->
                     <th scope="col">Competitor 2</th>
-                    <th scope="col">Pemenang</th>
+                    <th scope="col">Skor 2</th> <!-- Tambahan -->
+                    <th scope="col">Pilih Pemenang</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -24,7 +27,9 @@
                         <tr>
                             <td>{{ $fightId }}</td>
                             <td>{{ $fighter1?->fullName ?? 'BYE' }}</td>
+                            <td>{{ $fight->score_c1 ?? '-' }}</td> <!-- Tampilkan skor fighter1 -->
                             <td>{{ $fighter2?->fullName ?? 'BYE' }}</td>
+                            <td>{{ $fight->score_c2 ?? '-' }}</td> <!-- Tampilkan skor fighter2 -->
                             <td>
                                 <form action="/dashboard/champs/{{ $championship->id }}/fight/{{ $fight->id }}" method="POST" class="d-flex justify-content-center">
                                     @csrf
@@ -51,6 +56,7 @@
                     @endif
                 @endforeach
             </tbody>
+
         </table>
     </div>
 @endforeach

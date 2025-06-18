@@ -9,6 +9,7 @@ use Xoco70\LaravelTournaments\Exceptions\TreeGenerationException;
 use Xoco70\LaravelTournaments\Models\Championship;
 use Xoco70\LaravelTournaments\Models\ChampionshipSettings;
 use Xoco70\LaravelTournaments\Models\FightersGroup;
+use Xoco70\LaravelTournaments\Models\Fight;
 use Xoco70\LaravelTournaments\Models\Competitor;
 use Xoco70\LaravelTournaments\Models\Tournament;
 // use App\Models\Tournament;
@@ -197,45 +198,23 @@ class ChampSettingController extends Controller
         return $scores[$numFighter] != null ? $fighters[$numFighter] : null;
     }
 
-    public function buildMatches(Championship $champ)
-    {
-        $matches = [];
-        $fights = Fight::whereHas('group', function ($query) use ($champ) {
-                $query->where('championship_id', $champ->id);
-            })
-            ->orderBy('id')
-            ->get();
-
-        $index = 0;
-
-        foreach ($fights as $fight) {
-            $matches[] = [
-                'playerA' => $fight->c1 ? Competitor::find($fight->c1) : null,
-                'playerB' => $fight->c2 ? Competitor::find($fight->c2) : null,
-                'winner_id' => $fight->winner_id,
-                'indexA' => $index,
-                'indexB' => $index + 1,
-                'matchWrapperTop' => 100 * ($index / 2), // atau pakai posisi dari group jika ada
-                'matchWrapperLeft' => 200 * ($fight->group->round ?? 1), // misalnya round = 1,2,3
-            ];
-
-            $index += 2;
-        }
-
-        return $matches;
-    }
-
     protected function advanceWinnerToNextRound($fight, FightersGroup $group)
     {
         $nextRound = $group->round + 1;
-        // $nextOrder = floor($group->order / 2);
-            // $nextOrder = floor(($group->order - 1) / 2);
+        if ($group->order % 2 == 1) {
+            $nextOrder = intdiv($group->order + 1, 2);
+        }
+        else {
+            $nextOrder = floor($group->order / 2);
+        }
+
+        // $nextOrder = floor(($group->order - 1) / 2);
 
         // Ambil group untuk round berikutnya
         $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
             ->where('round', $nextRound) // <-- Pastikan ini round selanjutnya
             ->where('area', $group->area)
-            // ->where('order', $nextOrder)
+            ->where('order', $nextOrder)
             ->with('fights')
             ->first();
 
