@@ -147,26 +147,30 @@ class ChampSettingController extends Controller
 
         foreach ($groups as $group) {
             foreach ($group->fights as $fight) {
-                // Lewati fight jika sudah memiliki pemenang
+                // Lewati jika fight sudah punya pemenang
                 if ($fight->winner_id !== null) {
                     $numFighter += 2;
                     continue;
                 }
 
-                // Set c1 dan c2
-                $fight->c1 = $competitors[$numFighter] ?? null;
+                // Ambil skor
                 $scoreC1 = $scores[$numFighter] ?? null;
+                $c1 = $competitors[$numFighter] ?? $fight->c1;
                 $numFighter++;
 
-                $fight->c2 = $competitors[$numFighter] ?? null;
                 $scoreC2 = $scores[$numFighter] ?? null;
+                $c2 = $competitors[$numFighter] ?? $fight->c2;
                 $numFighter++;
 
-                // Simpan skor ke masing-masing kolom
+                // Jangan timpa jika sudah ada c1 atau c2
+                $fight->c1 = $fight->c1 ?? $c1;
+                $fight->c2 = $fight->c2 ?? $c2;
+
+                // Simpan skor
                 $fight->score_c1 = $scoreC1;
                 $fight->score_c2 = $scoreC2;
 
-                // Tetapkan winner_id berdasarkan skor
+                // Tentukan pemenang
                 if ($scoreC1 !== null && $scoreC2 !== null) {
                     if ($scoreC1 > $scoreC2) {
                         $fight->winner_id = $fight->c1;
@@ -177,6 +181,7 @@ class ChampSettingController extends Controller
 
                 $fight->save();
 
+                // Jika sudah ada pemenang, teruskan ke next round
                 if ($fight->winner_id) {
                     $this->advanceWinnerToNextRound($fight, $group);
                 }
@@ -185,6 +190,7 @@ class ChampSettingController extends Controller
 
         return back()->with('success', 'Hasil pertarungan berhasil diperbarui.');
     }
+
 
     public function getWinnerId($fighters, $scores, $numFighter)
     {
