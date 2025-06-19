@@ -16,6 +16,12 @@ class ChampCompetitorController extends Controller
     public function index(Championship $champ)
     {
         $competitors = Competitor::where('championship_id', $champ->id)->with('championship')->get();
+        // $competitors = Competitor::where('championship_id', $champ->id)
+        //                 ->with('user')
+        //                 ->orderBy('seed')
+        //                 ->paginate(8)
+        //                 ->withQueryString();
+
         $search = request('search');
     
         $users = User::query()

@@ -54,30 +54,45 @@
             </div>
 
 
-        <h4>Daftar Peserta Turnamen "{{ $champ->tournament->name }}"</h4>
+            <h4>Daftar Peserta Turnamen "{{ $champ->tournament->name }}"</h4>
+            <p>Total Peserta: {{ $competitors->count() }}</p>
 
-        @if($competitors->count())
-            <ul class="list-group">
-                @foreach($competitors as $comp)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            "{{ $comp->user->firstname }}" - {{ $comp->user->name }}
-                        </span>
-
-                        <div class="btn-group">
-                            <!-- Tombol Hapus Peserta -->
-                            <form action="{{ route('competitors.destroy', [$champ->id, $comp->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
-                            </form>
+            @if($competitors->count())
+                <ul class="list-group">
+                    <li class="list-group-item bg-light fw-bold">
+                        <div class="row text-center">
+                            <div class="col-1">#</div>
+                            <div class="col-6 text-start">Nama Peserta</div>
+                            <div class="col-2">Seed</div>
+                            <div class="col-3">Aksi</div>
                         </div>
                     </li>
-                @endforeach
-            </ul>
-        @else
-            <p>Belum ada peserta.</p>
-        @endif
+
+                    @foreach($competitors as $index => $comp)
+                        <li class="list-group-item">
+                            <div class="row align-items-center text-center">
+                                <div class="col-1 fw-semibold">{{ $index + 1 }}</div>
+                                <div class="col-6 text-start">"{{ $comp->user->firstname }}" - {{ $comp->user->name }}</div>
+                                <div class="col-2">
+                                    <span class="badge bg-secondary">{{ $comp->seed ?? '-' }}</span>
+                                </div>
+                                <div class="col-3">
+                                    <form action="{{ route('competitors.destroy', [$champ->id, $comp->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+
+
+            @else
+                <p class="text-muted">Belum ada peserta.</p>
+            @endif
+
 
         <a href="{{ route('competitors.seed.edit', $champ->id) }}" class="btn btn-outline-secondary mt-3">
             Edit Seed
