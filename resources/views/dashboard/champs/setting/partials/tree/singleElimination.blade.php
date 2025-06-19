@@ -21,6 +21,11 @@
     .vertical-connector, .horizontal-connector {
         z-index: 0;
     }
+    .round-titles-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
 </style>
 
@@ -29,21 +34,23 @@
         <h1 class="h5 mb-3">{{ $championship->buildName() }}</h1>
     @endif
 
-    <form method="POST" action="/dashboard/champs/{{ $champ->id }}/setting/{{ $champ->settings->id }}" accept-charset="UTF-8">
+    <form id="updateForm" method="POST" action="/dashboard/champs/{{ $champ->id }}/setting/{{ $champ->settings->id }}" accept-charset="UTF-8">
         @csrf
         @method('PUT')
         <input type="hidden" id="activeTreeTab" name="activeTreeTab" value="{{ $championship->id }}"/>
 
-        {{-- Round Titles --}}
-        <div class="overflow-x-auto mb-3">
-            {!! $treeGen->printRoundTitles() !!}
-        </div>
-
+        
         {{-- Bracket Wrapper --}}
         <div class="overflow-x-auto">
+            
+            {{-- Round Titles --}}
+            <div class="round-titles-sticky bg-white border-bottom py-2">
+                {!! $treeGen->printRoundTitles() !!}
+            </div>
+
             <div id="brackets-wrapper"
-                class="position-relative"
-                style="min-width: 700px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
+            class="position-relative"
+            style="min-width: 700px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
                 
                 @foreach ($treeGen->brackets as $roundNumber => $round)
                     @foreach ($round as $matchNumber => $match)
@@ -52,22 +59,23 @@
                         @if ($roundNumber != $treeGen->noRounds)
                             {{-- Vertical Connector --}}
                             <div class="vertical-connector"
-                                 style="top: {{ $match['vConnectorTop'] }}px;
+                                style="top: {{ $match['vConnectorTop'] }}px;
                                         left: {{ $match['vConnectorLeft'] }}px;
                                         height: {{ $match['vConnectorHeight'] }}px;"></div>
 
                             {{-- Horizontal Connectors --}}
                             <div class="horizontal-connector"
-                                 style="top: {{ $match['hConnectorTop'] }}px;
+                                style="top: {{ $match['hConnectorTop'] }}px;
                                         left: {{ $match['hConnectorLeft'] }}px;"></div>
                             <div class="horizontal-connector"
-                                 style="top: {{ $match['hConnector2Top'] }}px;
+                                style="top: {{ $match['hConnector2Top'] }}px;
                                         left: {{ $match['hConnector2Left'] }}px;"></div>
                         @endif
                     @endforeach
                 @endforeach
             </div>
         </div>
+
 
         <div class="clearfix"></div>
 
@@ -77,4 +85,19 @@
             </button>
         </div>
     </form>
+
+    {{-- Script konfirmasi --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('updateForm');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    const confirmed = confirm("Anda yakin? Hasil Pertandingan tidak dapat diubah lagi setelah dimasukkan!");
+                    if (!confirmed) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
 @endif
