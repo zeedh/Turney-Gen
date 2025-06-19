@@ -40,19 +40,7 @@ class ChampCompetitorController extends Controller
      */
     public function create()
     {
-        // $search = request('search');
-    
-        // $users = User::query()
-        //     ->when($search, function ($query, $search) {
-        //         $query->where('name', 'like', '%' . $search . '%')
-        //             ->orWhere('email', 'like', '%' . $search . '%');
-        //     })
-        //     ->get();
-
-        // return view('dashboard.champs.competitors.create', [
-        //     'champ' => $champ,
-        //     'users' => $users
-        // ]);
+        //
     }
 
     /**
@@ -81,17 +69,6 @@ class ChampCompetitorController extends Controller
 
         return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil ditambahkan!');
 
-        // $validatedData = $request->validate([
-        //     'championship_id'   => 'required|exists:championship,id',
-        //     'user_id'           => 'required|exists:user,id',
-        //     'confirmed'         => 'required|int:1'           
-        // ]);
-
-        // // $validatedData['user_id'] = auth()->user()->id;
-
-        // Competitor::create($validatedData);
-
-        // return redirect('/dashboard/champs/edit/{{ $champ->id }}/competitors/')->with('success', 'Championship Baru telah dibuat!');
     }
 
     /**
@@ -113,10 +90,19 @@ class ChampCompetitorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Championship $champ, Competitor $competitor = null)
     {
-        //
+        $seeds = $request->input('seeds', []);
+
+        foreach ($seeds as $competitorId => $seed) {
+            Competitor::where('id', $competitorId)
+                ->where('championship_id', $champ->id)
+                ->update(['seed' => $seed]);
+        }
+
+        return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -128,4 +114,18 @@ class ChampCompetitorController extends Controller
         return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil dihapus.');
 
     }
+
+    public function updateSeed(Request $request, Championship $champ)
+    {
+        $seeds = $request->input('seeds', []);
+
+        foreach ($seeds as $competitorId => $seed) {
+            Competitor::where('id', $competitorId)
+                ->where('championship_id', $champ->id)
+                ->update(['seed' => $seed]);
+        }
+
+        return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
+    }
+
 }
