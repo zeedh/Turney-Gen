@@ -78,6 +78,11 @@
         @else
             <p>Belum ada peserta.</p>
         @endif
+
+        <a href="{{ route('competitors.seed.edit', $champ->id) }}" class="btn btn-outline-secondary mt-3">
+            Edit Seed
+        </a>
+
     </div>
 
 

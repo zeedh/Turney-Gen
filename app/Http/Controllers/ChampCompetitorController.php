@@ -92,17 +92,16 @@ class ChampCompetitorController extends Controller
      */
     public function update(Request $request, Championship $champ, Competitor $competitor = null)
     {
-        $seeds = $request->input('seeds', []);
+        // $seeds = $request->input('seeds', []);
 
-        foreach ($seeds as $competitorId => $seed) {
-            Competitor::where('id', $competitorId)
-                ->where('championship_id', $champ->id)
-                ->update(['seed' => $seed]);
-        }
+        // foreach ($seeds as $competitorId => $seed) {
+        //     Competitor::where('id', $competitorId)
+        //         ->where('championship_id', $champ->id)
+        //         ->update(['seed' => $seed]);
+        // }
 
-        return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
+        // return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -115,17 +114,34 @@ class ChampCompetitorController extends Controller
 
     }
 
-    public function updateSeed(Request $request, Championship $champ)
+    public function editSeed(Championship $champ)
+    {
+        // Pastikan tournament-nya ikut dimuat
+        $champ->load('tournament');
+
+        $competitors = Competitor::where('championship_id', $champ->id)
+            ->with('user')
+            ->orderBy('seed')
+            ->get();
+
+        return view('dashboard.champs.competitors.seed.edit', [
+            'champ' => $champ,
+            'competitors' => $competitors
+        ]);
+    }
+
+    public function saveSeed(Request $request, Championship $champ)
     {
         $seeds = $request->input('seeds', []);
 
-        foreach ($seeds as $competitorId => $seed) {
-            Competitor::where('id', $competitorId)
+        foreach ($seeds as $id => $value) {
+            Competitor::where('id', $id)
                 ->where('championship_id', $champ->id)
-                ->update(['seed' => $seed]);
+                ->update(['seed' => $value]);
         }
 
-        return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
+        return redirect()->route('competitors.seed.edit', $champ->id)->with('success', 'Seed berhasil diperbarui!');
     }
+
 
 }

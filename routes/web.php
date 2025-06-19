@@ -66,7 +66,16 @@ Route::resource('/dashboard/champs', ChampionshipController::class)->middleware(
 // Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
 Route::resource('/dashboard/champs/{champ}/setting', ChampSettingController::class)->middleware('auth');
 
-Route::put('/dashboard/champs/{champ}/competitors', [ChampCompetitorController::class, 'updateSeed'])->name('competitors.seed')->middleware('auth');
-Route::resource('/dashboard/champs/{champ}/competitors', ChampCompetitorController::class)->middleware('auth');
+// Route::put('/dashboard/champs/{champ}/competitors', [ChampCompetitorController::class, 'update'])->name('competitors.seed')->middleware('auth');
+Route::middleware('auth')->prefix('/dashboard/champs/{champ}/competitors')->name('competitors.')->group(function () {
+    Route::get('/', [ChampCompetitorController::class, 'index'])->name('index');
+    Route::post('/', [ChampCompetitorController::class, 'store'])->name('store');
+    Route::delete('/{competitor}', [ChampCompetitorController::class, 'destroy'])->name('destroy');
+
+    // Custom routes for seeding
+    Route::get('/seed', [ChampCompetitorController::class, 'editSeed'])->name('seed.edit');
+    Route::post('/seed', [ChampCompetitorController::class, 'saveSeed'])->name('seed.save');
+});
+
 
 Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class)->middleware('auth');
