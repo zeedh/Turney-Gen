@@ -9,12 +9,7 @@
     }
 
 </style>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
-  <h2 class="fw-semibold">Bagan Turnamen {{ auth()->user()->name }}</h2>
-  <a href="/dashboard/champs/create" class="btn btn-success">
-    <i class="bi bi-plus-circle me-1"></i> Buat Bagan Baru
-  </a>
-</div>
+
 
 @if(session()->has('success'))
   <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
@@ -24,7 +19,7 @@
   </div>
 @endif
 
-<div class="card shadow-sm col-lg-10">
+<div class="card shadow-sm col-lg-10 my-3">
   <div class="card-body">
     <div class="mb-3">
       <input type="text" id="searchInput" class="form-control" placeholder="Cari berdasarkan turnamen atau kategori...">
@@ -37,7 +32,7 @@
             <th scope="col">#</th>
             <th scope="col">Turnamen</th>
             <th scope="col">Kategori</th>
-            <th scope="col" class="text-center">Aksi</th>
+            <th scope="col" class="text-center"></th>
           </tr>
         </thead>
         <tbody>

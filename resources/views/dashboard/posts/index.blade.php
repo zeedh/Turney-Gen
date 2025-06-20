@@ -35,7 +35,7 @@
             <th>#</th>
             <th>Judul</th>
             <th>Turnamen</th>
-            <th>Aksi</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

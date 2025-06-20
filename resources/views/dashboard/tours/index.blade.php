@@ -9,8 +9,8 @@
     }
 
 </style>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
-  <h2 class="fw-semibold">Turnamen {{ auth()->user()->name }}</h2>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3">
+
   <a href="/dashboard/tours/create" class="btn btn-success">
     <i class="bi bi-plus-circle me-1"></i> Buat Turnamen Baru
   </a>
@@ -37,7 +37,7 @@
               <th scope="col">#</th>
               <th scope="col">Judul Turnamen</th>
               <th scope="col">Dibuat</th>
-              <th scope="col">Aksi</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -50,7 +50,7 @@
                   <!-- <a href="/dashboard/tours/{{ $tour->slug }}" class="btn btn-sm btn-info text-white me-1">
                     <i class="bi bi-eye"></i> Lihat
                   </a> -->
-                  <a href="/dashboard/tours/{{ $tour->slug }}/edit" class="btn btn-sm btn-warning text-white me-1">
+                  <a href="/dashboard/tours/{{ $tour->slug }}/edit" class="btn btn-sm btn-primary text-white me-1">
                     <i class="bi bi-pencil-square"></i> Edit
                   </a>
                   <form action="/dashboard/tours/{{ $tour->slug }}" method="post" class="d-inline">
