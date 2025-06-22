@@ -189,8 +189,39 @@ class ChampSettingController extends Controller
             }
         }
 
+        $finalRound = FightersGroup::where('championship_id', $champ->id)
+            ->max('round');
+
+        $semiFinalGroups = FightersGroup::with('fights')
+            ->where('championship_id', $champ->id)
+            ->where('round', $finalRound - 1)
+            ->get();
+
+        // Cek jika dua semifinal sudah punya winner dan loser
+        $semisComplete = $semiFinalGroups->count() === 2 &&
+            $semiFinalGroups->every(function ($group) {
+                $fight = $group->fights->first();
+                return $fight && $fight->c1 && $fight->c2 && $fight->winner_id &&
+                    ($fight->winner_id == $fight->c1 || $fight->winner_id == $fight->c2);
+            });
+
+        // Pastikan final group dan fight-nya juga sudah siap (untuk memastikan sistem sudah membangunnya)
+        $finalGroup = FightersGroup::with('fights')
+            ->where('championship_id', $champ->id)
+            ->where('round', $finalRound)
+            ->first();
+
+        $finalFight = $finalGroup?->fights->first();
+        $finalReady = $finalFight && $finalFight->c1 && $finalFight->c2;
+
+        if ($semisComplete && $finalReady) {
+            $this->fillThirdPlaceFight($champ);
+        }
+
         return back()->with('success', 'Hasil pertarungan berhasil diperbarui.');
+
     }
+
 
 
     public function getWinnerId($fighters, $scores, $numFighter)
@@ -269,6 +300,69 @@ class ChampSettingController extends Controller
 
         return back()->with('success', 'Pertandingan berhasil diperbarui.');
     }
+
+    public function fillThirdPlaceFight(Championship $champ)
+    {
+        // Step 1: Ambil group dengan round terbesar (final)
+        $finalGroup = FightersGroup::where('championship_id', $champ->id)
+            ->orderByDesc('round')
+            ->first();
+
+        if (!$finalGroup) {
+            return back()->with('error', 'Final group tidak ditemukan.');
+        }
+
+        $finalRound = $finalGroup->round;
+        $semiFinalRound = $finalRound - 1;
+
+        // Step 2: Ambil semua fighters_group pada semifinal
+        $semiGroups = FightersGroup::where('championship_id', $champ->id)
+            ->where('round', $semiFinalRound)
+            ->get();
+
+        if ($semiGroups->count() < 2) {
+            return back()->with('error', 'Jumlah semifinal tidak cukup.');
+        }
+
+        // Step 3: Ambil kalahannya semifinal
+        $losers = [];
+
+        foreach ($semiGroups as $group) {
+            $fight = $group->fights->first();
+            if (!$fight || !$fight->winner_id || !$fight->c1 || !$fight->c2) {
+                continue; // lewati jika data kurang lengkap
+            }
+
+            $loserId = $fight->winner_id == $fight->c1 ? $fight->c2 : $fight->c1;
+            $losers[] = $loserId;
+        }
+
+        if (count($losers) < 2) {
+            return back()->with('error', 'Belum ada dua peserta kalah di semifinal.');
+        }
+
+        // Step 4: Ambil group tempat perebutan juara 3 (asumsi: masih di round final, order > 1)
+        $thirdPlaceGroup = FightersGroup::where('championship_id', $champ->id)
+            ->where('round', $finalRound)
+            ->where('order', 1)
+            ->latest('id')
+            ->first();
+
+
+        if (!$thirdPlaceGroup) {
+            return back()->with('error', 'Group untuk perebutan juara 3 tidak ditemukan.');
+        }
+
+        $thirdPlaceFight = $thirdPlaceGroup->fights()->firstOrCreate([]);
+
+        // Step 5: Isi c1 dan c2
+        $thirdPlaceFight->c1 = $losers[0];
+        $thirdPlaceFight->c2 = $losers[1];
+        $thirdPlaceFight->save();
+
+        return back()->with('success', 'Perebutan juara 3 berhasil diatur.');
+    }
+
 
 
 }

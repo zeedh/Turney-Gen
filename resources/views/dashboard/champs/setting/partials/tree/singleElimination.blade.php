@@ -50,7 +50,7 @@
 
             <div id="brackets-wrapper"
             class="position-relative"
-            style="min-width: 700px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
+            style="min-width: 900px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
                 
                 @foreach ($treeGen->brackets as $roundNumber => $round)
                     @foreach ($round as $matchNumber => $match)
