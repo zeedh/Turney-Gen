@@ -43,12 +43,9 @@
             @endif
 
             <!-- Champion Results -->
-          @if ($champion || $runnerUp || $thirdPlace)
-          <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0">Pemenang Kejuaraan</h5>
+          <div class="card shadow-sm my-4 border-none">
             </div>
-            <div class="card-body table-responsive">
+            <div class="card-body table-responsive col-8">
               <table class="table table-bordered text-center">
                 <thead class="table-light">
                   <tr>
@@ -57,35 +54,28 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @if ($champion)
-                    <tr class="table-success">
-                      <td>Juara 1</td>
-                      <td>{{ $champion->fullName ?? 'Tidak diketahui' }}</td>
-                    </tr>
-                  @endif
+                  <tr class="table-success">
+                    <td>Juara 1</td>
+                    <td>{{ $champion->fullName ?? '-' }}</td>
+                  </tr>
 
-                  @if ($runnerUp)
-                    <tr class="table-warning">
-                      <td>Juara 2</td>
-                      <td>{{ $runnerUp->fullName ?? 'Tidak diketahui' }}</td>
-                    </tr>
-                  @endif
+                  <tr class="table-warning">
+                    <td>Juara 2</td>
+                    <td>{{ $runnerUp->fullName ?? '-' }}</td>
+                  </tr>
 
-                  @if ($thirdPlace)
-                    <tr class="table-secondary">
-                      <td>Juara 3</td>
-                      <td>{{ $thirdPlace->fullName ?? 'Tidak diketahui' }}</td>
-                    </tr>
-                  @endif
+                  <tr class="table-secondary">
+                    <td>Juara 3</td>
+                    <td>{{ $thirdPlace->fullName ?? '-' }}</td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>
           </div>
-          @endif
 
 
         <!-- Fight List Section -->
-        <div class="card shadow-sm mb-5">
           <div class="card-header bg-warning text-dark">
             <h5 class="mb-0">Fight List</h5>
           </div>
@@ -96,7 +86,6 @@
 
       @endif
     </div>
-  </div>
 </div>
 
 <script>
