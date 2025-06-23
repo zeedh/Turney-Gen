@@ -20,7 +20,6 @@ class ChampSettingController extends Controller
     {
         $competitorCount = Competitor::where('championship_id', $champ->id)->count();
 
-        // Ambil tournament yang terkait dengan championship ini
         $tournament = Tournament::whereHas('championships', function ($query) use ($champ) {
             $query->where('id', $champ->id)
                 ->where('category_id', $champ->category_id);
@@ -30,7 +29,7 @@ class ChampSettingController extends Controller
             'championships.settings',
             'championships.category'
         ])
-        ->first(); // Ambil satu tournament terkait
+        ->first();
 
         return view('dashboard.champs.setting.index', [
             'champ' => $champ,
@@ -41,7 +40,6 @@ class ChampSettingController extends Controller
 
     public function store(Request $request, Championship $champ)
     {
-        // Validasi input
         $validatedData = $this->validateRequest($request);
         $validatedData['championship_id'] = $champ->id;
 
