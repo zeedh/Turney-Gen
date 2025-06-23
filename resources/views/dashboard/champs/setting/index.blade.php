@@ -11,26 +11,6 @@
     $fights = $championship->fights;
     $numFighters = session('numFighters', $champ->competitors->count());
 
-    $finalRound = $championship->fightersGroups->max('round');
-
-    $finalFight = \Xoco70\LaravelTournaments\Models\Fight::whereHas('group', function ($q) use ($championship, $finalRound) {
-        $q->where('championship_id', $championship->id)
-          ->where('round', $finalRound)
-          ->where('order', 1); // Final biasanya order 1
-    })->first();
-
-    $thirdPlaceFight = \Xoco70\LaravelTournaments\Models\Fight::whereHas('group', function ($q) use ($championship, $finalRound) {
-        $q->where('championship_id', $championship->id)
-          ->where('round', $finalRound)
-          ->where('order', 1)
-          ->latest('id');
-    })->first();
-
-    $champion = $finalFight?->winner;
-    $runnerUp = ($finalFight && $finalFight->c1 && $finalFight->c2)
-        ? (($finalFight->winner_id == $finalFight->c1) ? $finalFight->c2Relation : $finalFight->c1Relation)
-        : null;
-    $thirdPlace = $thirdPlaceFight?->winner;
 @endphp
 
 <div class="container-fluid px-3">
@@ -63,10 +43,13 @@
             @endif
 
             <!-- Champion Results -->
-            <div class="card-header bg-info text-white ">
-              <h5 class="mb-0">Peringkat Juara</h5>
+          @if ($champion || $runnerUp || $thirdPlace)
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Pemenang Kejuaraan</h5>
             </div>
-              <table class="table table-bordered text-center mb-0">
+            <div class="card-body table-responsive">
+              <table class="table table-bordered text-center">
                 <thead class="table-light">
                   <tr>
                     <th>Juara</th>
@@ -74,22 +57,32 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Juara 1</td>
-                    <td>{{ $champion?->fullName ?? '-' }}</td>
-                  </tr>
-                  <tr>
-                    <td>Juara 2</td>
-                    <td>{{ $runnerUp?->fullName ?? '-' }}</td>
-                  </tr>
-                  <tr>
-                    <td>Juara 3</td>
-                    <td>{{ $thirdPlace?->fullName ?? '-' }}</td>
-                  </tr>
+                  @if ($champion)
+                    <tr class="table-success">
+                      <td>Juara 1</td>
+                      <td>{{ $champion->fullName ?? 'Tidak diketahui' }}</td>
+                    </tr>
+                  @endif
+
+                  @if ($runnerUp)
+                    <tr class="table-warning">
+                      <td>Juara 2</td>
+                      <td>{{ $runnerUp->fullName ?? 'Tidak diketahui' }}</td>
+                    </tr>
+                  @endif
+
+                  @if ($thirdPlace)
+                    <tr class="table-secondary">
+                      <td>Juara 3</td>
+                      <td>{{ $thirdPlace->fullName ?? 'Tidak diketahui' }}</td>
+                    </tr>
+                  @endif
                 </tbody>
               </table>
+            </div>
           </div>
-        </div>
+          @endif
+
 
         <!-- Fight List Section -->
         <div class="card shadow-sm mb-5">

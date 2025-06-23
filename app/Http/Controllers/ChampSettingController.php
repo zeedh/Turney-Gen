@@ -31,10 +31,15 @@ class ChampSettingController extends Controller
         ])
         ->first();
 
+        $winners = $this->getWinners($champ);
+
         return view('dashboard.champs.setting.index', [
             'champ' => $champ,
             'competitorCount' => $competitorCount,
-            'tournament' => $tournament
+            'tournament' => $tournament,
+            'champion' => $winners['champion'],
+            'runnerUp' => $winners['runnerUp'],
+            'thirdPlace' => $winners['thirdPlace']
         ]);
     }
 
@@ -302,6 +307,37 @@ class ChampSettingController extends Controller
         }
 
         $fight->save();
+    }
+
+    public function getWinners(Championship $champ)
+    {
+        $finalRound = FightersGroup::where('championship_id', $champ->id)->max('round');
+
+        // Final: round terakhir, order = 1
+        $finalFight = Fight::whereHas('group', function ($q) use ($champ, $finalRound) {
+            $q->where('championship_id', $champ->id)
+            ->where('round', $finalRound)
+            ->where('order', 1);
+        })->with(['winner', 'competitor1', 'competitor2'])->first();
+
+        // Perebutan Juara 3: round terakhir, order = 2 (atau fight terakhir di round tsb selain final)
+        $thirdPlaceFight = Fight::whereHas('group', function ($q) use ($champ, $finalRound) {
+            $q->where('championship_id', $champ->id)
+            ->where('round', $finalRound);
+        })->with('winner')->latest('id')->first();
+
+        // Tentukan Juara
+        $champion = $finalFight?->winner;
+        $runnerUp = null;
+        if ($finalFight && $finalFight->c1 && $finalFight->c2 && $finalFight->winner_id) {
+            $runnerUp = $finalFight->winner_id == $finalFight->c1
+                ? $finalFight->competitor2
+                : $finalFight->competitor1;
+        }
+
+        $thirdPlace = $thirdPlaceFight?->winner;
+
+        return compact('champion', 'runnerUp', 'thirdPlace');
     }
 
 
