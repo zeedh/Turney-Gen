@@ -14,13 +14,38 @@
 @endphp
 
 <style>
-    #brackets-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    }
     .vertical-connector, .horizontal-connector {
         z-index: 0;
     }
+    .round-titles-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+        #brackets-wrapper {
+        position: relative;
+        width: 100%;
+        padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px;
+    }
+
+    @media (max-width: 768px) {
+        #brackets-wrapper {
+            overflow-x: auto;
+            min-width: 900px;
+        }
+    }
+
+    @media (min-width: 769px) {
+        #brackets-wrapper {
+            overflow-x: visible;
+        }
+    }
+
+    .vertical-connector, .horizontal-connector {
+        z-index: 0;
+    }
+
     .round-titles-sticky {
         position: sticky;
         top: 0;
@@ -48,9 +73,7 @@
                 {!! $treeGen->printRoundTitles() !!}
             </div>
 
-            <div id="brackets-wrapper"
-            class="position-relative"
-            style="min-width: 900px; padding-bottom: {{ ($championship->groupsByRound(1)->count() / 2 * 205) }}px">
+            <div id="brackets-wrapper" class="position-relative">
                 
                 @foreach ($treeGen->brackets as $roundNumber => $round)
                     @foreach ($round as $matchNumber => $match)
@@ -61,15 +84,18 @@
                             <div class="vertical-connector"
                                 style="top: {{ $match['vConnectorTop'] }}px;
                                         left: {{ $match['vConnectorLeft'] }}px;
-                                        height: {{ $match['vConnectorHeight'] }}px;"></div>
+                                        height: {{ $match['vConnectorHeight'] }}px;">
+                            </div>
 
                             {{-- Horizontal Connectors --}}
                             <div class="horizontal-connector"
                                 style="top: {{ $match['hConnectorTop'] }}px;
-                                        left: {{ $match['hConnectorLeft'] }}px;"></div>
+                                        left: {{ $match['hConnectorLeft'] }}px;">
+                            </div>
                             <div class="horizontal-connector"
                                 style="top: {{ $match['hConnector2Top'] }}px;
-                                        left: {{ $match['hConnector2Left'] }}px;"></div>
+                                        left: {{ $match['hConnector2Left'] }}px;">
+                            </div>
                         @endif
                     @endforeach
                 @endforeach
@@ -77,13 +103,15 @@
         </div>
 
 
-        <div class="clearfix"></div>
+        <div class="clearfix">
+            <div class="text-end mt-4">
+                <button type="submit" class="btn btn-success" id="update">
+                    Update Tree
+                </button>
+            </div>
 
-        <div class="text-end mt-4">
-            <button type="submit" class="btn btn-success" id="update">
-                Update Tree
-            </button>
         </div>
+
     </form>
 
     {{-- Script konfirmasi --}}

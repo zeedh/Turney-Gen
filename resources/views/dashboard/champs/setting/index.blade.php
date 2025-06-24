@@ -43,28 +43,26 @@
             @endif
 
             <!-- Champion Results -->
-          <div class="card shadow-sm my-4 border-none">
-            </div>
-            <div class="card-body table-responsive col-8">
-              <table class="table table-bordered text-center">
-                <thead class="table-light">
+            <div class="card-body col-lg-4">
+              <table class="table table-bordered table-responsive text-center">
+                <thead class="table-dark">
                   <tr>
                     <th>Juara</th>
                     <th>Nama</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="table-success">
+                  <tr class="table-warning">
                     <td>Juara 1</td>
                     <td>{{ $champion->fullName ?? '-' }}</td>
                   </tr>
 
-                  <tr class="table-warning">
+                  <tr class="table-secondary">
                     <td>Juara 2</td>
                     <td>{{ $runnerUp->fullName ?? '-' }}</td>
                   </tr>
 
-                  <tr class="table-secondary">
+                  <tr class="table-light">
                     <td>Juara 3</td>
                     <td>{{ $thirdPlace->fullName ?? '-' }}</td>
                   </tr>
@@ -72,7 +70,6 @@
                 </tbody>
               </table>
             </div>
-          </div>
 
 
         <!-- Fight List Section -->
