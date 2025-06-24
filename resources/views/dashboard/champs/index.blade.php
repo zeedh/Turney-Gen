@@ -19,7 +19,7 @@
   </div>
 @endif
 
-<div class="card shadow-sm col-lg-10 my-3">
+<div class="card shadow-sm col-lg-10 my-5 mx-3">
   <div class="card-body">
     <div class="mb-3">
       <input type="text" id="searchInput" class="form-control" placeholder="Cari berdasarkan turnamen atau kategori...">

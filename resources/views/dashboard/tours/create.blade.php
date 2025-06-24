@@ -1,11 +1,11 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 mx-3 border-bottom">
   <h2 class="fw-bold">Buat Turnamen Anda, {{ auth()->user()->name }}!</h2>
 </div>
 
-<div class="card shadow-sm col-lg-8">
+<div class="card shadow-sm col-lg-8 mx-3">
   <div class="card-body">
     <form method="POST" action="/dashboard/tours" enctype="multipart/form-data">
       @csrf

@@ -1,10 +1,10 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
     <h1 class="h2">My Posts {{ auth()->user()->name}}!!</h1>
   </div>
-<div class="col-lg-8">
+<div class="col-lg-8 mx-3">
     <form method="post" action="/dashboard/posts" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">

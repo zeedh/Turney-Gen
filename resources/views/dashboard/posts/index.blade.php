@@ -9,8 +9,7 @@
     }
 
 </style>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 border-bottom">
-  <h2 class="h3">Daftar Postingan {{ auth()->user()->name }}</h2>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 my-3 mx-3 col-lg-10">
   <a href="/dashboard/posts/create" class="btn btn-success">
     <i class="bi bi-plus-circle"></i> Buat Post Baru
   </a>
@@ -23,7 +22,7 @@
   </div>
 @endif
 
-<div class="card shadow-sm col-lg-10">
+<div class="card shadow-sm col-lg-10 mx-3">
   <div class="card-body">
     <div class="mb-3">
       <input type="text" class="form-control" id="searchInput" placeholder="Cari postingan...">

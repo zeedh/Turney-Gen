@@ -110,7 +110,7 @@ class DashboardTurneyController extends Controller
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
             'venue_id'          => 'nullable|exists:venues,id',
-            'category_id'       => 'required|exists:category,id'
+            // 'category_id'       => 'required|exists:category,id'
         ];
 
 
@@ -129,11 +129,9 @@ class DashboardTurneyController extends Controller
         Tournament::where('id', $tour->id)->update($validatedData);
 
         // Simpan ke Championship
-        Championship::where('tournament_id', $tour->id)->update([
-            'category_id' => $categoryId,
-        ]);
-
-
+        // Championship::where('tournament_id', $tour->id)->update([
+        //     'category_id' => $categoryId,
+        // ]);
 
         return redirect('/dashboard/tours')->with('success', 'Turnamen telah diperbarui!');
     }

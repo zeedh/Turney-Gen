@@ -9,7 +9,7 @@
     }
 
 </style>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 mx-3 col-lg-10">
 
   <a href="/dashboard/tours/create" class="btn btn-success">
     <i class="bi bi-plus-circle me-1"></i> Buat Turnamen Baru
@@ -24,7 +24,7 @@
   </div>
 @endif
 
-<div class="col-lg-10">
+<div class="col-lg-10 mx-3">
   <div class="card shadow-sm">
     <div class="card-body">
       <div class="mb-3">

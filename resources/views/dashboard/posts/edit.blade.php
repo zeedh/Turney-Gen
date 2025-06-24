@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-<div class="col-lg-8">
+<div class="col-lg-8 mx-3">
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i> Edit Post</h4>
