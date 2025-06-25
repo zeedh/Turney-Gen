@@ -42,12 +42,42 @@
 
       {{-- Jumlah Peserta --}}
       <div class="mb-3">
-        <label for="numFighters" class="form-label">Maksimal Jumlah Peserta</label>
-        <input type="number" class="form-control @error('numFighters') is-invalid @enderror" id="numFighters" name="numFighters" min="4" max="128" value="{{ old('numFighters') ?? 8 }}" required>
-        @error('numFighters') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <label for="limitByEntity" class="form-label">Maksimal Jumlah Peserta</label>
+        <input type="number" class="form-control @error('limitByEntity') is-invalid @enderror" id="limitByEntity" name="limitByEntity" min="4" max="128" value="{{ old('limitByEntity') ?? 8 }}" required>
+        @error('limitByEntity') <div class="invalid-feedback">{{ $message }}</div> @enderror
       </div>
 
-      {{-- Apakah Beregu? --}}
+      {{-- Jenis Pertandingan --}}
+    <input type="hidden" name="isTeam" id="isTeam" value="0">
+
+    {{-- Preliminary --}}
+    <input type="hidden" name="hasPreliminary" id="hasPreliminary" value="0">
+
+    {{-- Ukuran Grup Penyisihan --}}
+    <input type="hidden" name="preliminaryGroupSize" id="preliminaryGroupSize" value="0">
+
+    {{-- Jenis Tree --}}
+    <div class="mb-3">
+      <label for="treeType" class="form-label">
+        Tipe Bagan Pertandingan 
+        <small class="text-muted d-block">*Belum bisa memilih karena sedang dalam pengembangan</small>
+      </label>
+
+      {{-- Disabled select (untuk ditampilkan saja) --}}
+      <select class="form-select" id="treeType_display" disabled>
+        <option value="0">Playoff / Round Robin</option>
+        <option value="1" selected>Single Elimination</option>
+      </select>
+
+      {{-- Hidden input agar tetap terkirim ke server --}}
+      <input type="hidden" name="treeType" value="1">
+
+      @error('treeType') 
+        <div class="invalid-feedback d-block">{{ $message }}</div> 
+      @enderror
+    </div>
+
+      <!-- {{-- Apakah Beregu? --}}
       <div class="mb-3">
         <label for="isTeam" class="form-label">Jenis Pertandingan</label>
         <select class="form-select @error('isTeam') is-invalid @enderror" name="isTeam" id="isTeam" required>
@@ -87,7 +117,7 @@
           <option value="1" {{ old('treeType') == '1' ? 'selected' : '' }}>Single Elimination</option>
         </select>
         @error('treeType') <div class="invalid-feedback">{{ $message }}</div> @enderror
-      </div>
+      </div> -->
 
       {{-- Jumlah Arena --}}
       <div class="mb-3">
@@ -101,7 +131,7 @@
       </div>
 
       <button type="submit" class="btn btn-success mt-4">
-        <i class="bi bi-plus-circle me-1"></i> Buat Championship
+        <i class="bi bi-plus-circle me-1"></i> Buat Bagan
       </button>
     </form>
   </div>
