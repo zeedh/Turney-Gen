@@ -213,35 +213,27 @@ class ChampSettingController extends Controller
     protected function advanceWinnerToNextRound($fight, FightersGroup $group)
     {
         $nextRound = $group->round + 1;
-        if ($group->order % 2 == 1) {
-            $nextOrder = intdiv($group->order + 1, 2);
-        }
-        else {
-            $nextOrder = floor($group->order / 2);
-        }
+        $nextOrder = intval(ceil($group->order / 2));
 
-        // $nextOrder = floor(($group->order - 1) / 2);
-
-        // Ambil group untuk round berikutnya
+        // Ambil group di round berikutnya dengan order sesuai posisi gabungan
         $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
-            ->where('round', $nextRound) // <-- Pastikan ini round selanjutnya
+            ->where('round', $nextRound)
             ->where('area', $group->area)
             ->where('order', $nextOrder)
             ->with('fights')
             ->first();
 
-        // Ambil fight pertama dari group tersebut
-        $nextFight = $nextGroup?->fights->first();
+        if (!$nextGroup) return;
 
-        // Pastikan:
-        // - Fight sekarang punya pemenang
-        // - Next fight belum punya winner
-        // - Next fight belum penuh
+        // Ambil fight pertama dari grup tersebut
+        $nextFight = $nextGroup->fights->first();
+
+        // Jika tidak ada fight atau sudah penuh atau sudah ada pemenang, jangan lanjut
         if (!$nextFight || ($nextFight->c1 && $nextFight->c2) || $nextFight->winner_id) {
             return;
         }
 
-        // Tambahkan pemenang ke slot kosong
+        // Isi ke slot kosong
         if (!$nextFight->c1) {
             $nextFight->c1 = $fight->winner_id;
         } elseif (!$nextFight->c2) {
@@ -251,36 +243,6 @@ class ChampSettingController extends Controller
         $nextFight->save();
     }
 
-
-    public function updateSingleFight(Request $request, Championship $champ, $fightId)
-    {
-        $scores = $request->input('score', []);
-        $fight = Fight::findOrFail($fightId);
-
-        $competitorIds = $champ->competitors()->pluck('id')->toArray();
-
-        // Cari c1 dan c2 dari kompetitor terdekat berdasarkan score
-        $c1 = reset($scores);
-        $c2 = next($scores);
-
-        $fight->c1 = $c1 ?: null;
-        $fight->c2 = $c2 ?: null;
-
-        if ($c1 && isset($scores[key($scores)]) && $scores[key($scores)] == $c1) {
-            $fight->winner_id = $c1;
-        } elseif ($c2 && $scores[key($scores)] == $c2) {
-            $fight->winner_id = $c2;
-        } else {
-            $fight->winner_id = null;
-        }
-
-        $fight->save();
-
-        // Optional: Lanjutkan otomatis ke next round jika diperlukan
-        $this->advanceWinnerToNextRound($fight, $champ);
-
-        return back()->with('success', 'Pertandingan berhasil diperbarui.');
-    }
 
     protected function fillThirdPlaceFight(Championship $champ, $loserId)
     {
