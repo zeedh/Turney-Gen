@@ -142,7 +142,6 @@ class ChampSettingController extends Controller
         $groupsQuery = FightersGroup::with('fights')
             ->where('championship_id', $champ->id);
 
-        // Skip preliminary jika ada pengaturan
         if ($champ->hasPreliminary()) {
             $groupsQuery->where('round', '>', 1);
         }
@@ -152,13 +151,19 @@ class ChampSettingController extends Controller
 
         foreach ($groups as $group) {
             foreach ($group->fights as $fight) {
+
                 // Lewati jika fight sudah punya pemenang
                 if ($fight->winner_id !== null) {
                     $numFighter += 2;
                     continue;
                 }
 
-                // Ambil skor
+                // Skip jika fight di round 1 tapi masih kosong (c1 dan c2 null)
+                if ($group->round == 1 && !$fight->c1 && !$fight->c2) {
+                    $numFighter += 2;
+                    continue;
+                }
+
                 $scoreC1 = $scores[$numFighter] ?? null;
                 $c1 = $competitors[$numFighter] ?? $fight->c1;
                 $numFighter++;
@@ -167,30 +172,23 @@ class ChampSettingController extends Controller
                 $c2 = $competitors[$numFighter] ?? $fight->c2;
                 $numFighter++;
 
-                // Jangan timpa jika sudah ada c1 atau c2
+                // Jangan timpa jika sudah ada
                 $fight->c1 = $fight->c1 ?? $c1;
                 $fight->c2 = $fight->c2 ?? $c2;
 
-                // Simpan skor
                 $fight->score_c1 = $scoreC1;
                 $fight->score_c2 = $scoreC2;
 
-                // Tentukan pemenang
-                if ($scoreC1 !== null && $scoreC2 !== null) {
-                    if ($scoreC1 > $scoreC2) {
-                        $fight->winner_id = $fight->c1;
-                    } elseif ($scoreC2 > $scoreC1) {
-                        $fight->winner_id = $fight->c2;
-                    }
-                }
+                // Tentukan pemenang jika ada skor
+                $fight->winner_id = $this->getWinnerId($fight);
 
                 $fight->save();
 
-                // Jika sudah ada pemenang, teruskan ke next round
+                // Lanjutkan winner ke next round
                 if ($fight->winner_id) {
                     $this->advanceWinnerToNextRound($fight, $group);
 
-                    // Jika fight ini adalah semifinal, langsung isi perebutan juara 3
+                    // Isi fight perebutan juara 3 jika semifinal
                     if ($group->round === $finalRound - 1) {
                         $loserId = ($fight->winner_id == $fight->c1) ? $fight->c2 : $fight->c1;
                         if ($loserId) {
@@ -204,18 +202,29 @@ class ChampSettingController extends Controller
         return back()->with('success', 'Hasil pertarungan berhasil diperbarui.');
     }
 
-
-    public function getWinnerId($fighters, $scores, $numFighter)
+    public function getWinnerId($fight)
     {
-        return $scores[$numFighter] != null ? $fighters[$numFighter] : null;
+        if ($fight->score_c1 !== null && $fight->score_c2 !== null) {
+            if ($fight->score_c1 > $fight->score_c2) {
+                return $fight->c1;
+            } elseif ($fight->score_c2 > $fight->score_c1) {
+                return $fight->c2;
+            }
+        }
+
+        return null;
     }
+
 
     protected function advanceWinnerToNextRound($fight, FightersGroup $group)
     {
-        $nextRound = $group->round + 1;
-        $nextOrder = intval(ceil($group->order / 2));
+        $currentRound = (int) $group->round;
+        $nextRound = $currentRound + 1;
 
-        // Ambil group di round berikutnya dengan order sesuai posisi gabungan
+        $nextOrder = ($group->order % 2 == 1)
+            ? intdiv($group->order + 1, 2)
+            : intdiv($group->order, 2);
+
         $nextGroup = FightersGroup::where('championship_id', $group->championship_id)
             ->where('round', $nextRound)
             ->where('area', $group->area)
@@ -223,17 +232,12 @@ class ChampSettingController extends Controller
             ->with('fights')
             ->first();
 
-        if (!$nextGroup) return;
+        $nextFight = $nextGroup?->fights->first();
 
-        // Ambil fight pertama dari grup tersebut
-        $nextFight = $nextGroup->fights->first();
-
-        // Jika tidak ada fight atau sudah penuh atau sudah ada pemenang, jangan lanjut
         if (!$nextFight || ($nextFight->c1 && $nextFight->c2) || $nextFight->winner_id) {
             return;
         }
 
-        // Isi ke slot kosong
         if (!$nextFight->c1) {
             $nextFight->c1 = $fight->winner_id;
         } elseif (!$nextFight->c2) {
@@ -242,6 +246,7 @@ class ChampSettingController extends Controller
 
         $nextFight->save();
     }
+
 
 
     protected function fillThirdPlaceFight(Championship $champ, $loserId)
