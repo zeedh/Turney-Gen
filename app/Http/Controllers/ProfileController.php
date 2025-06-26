@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -12,10 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profile = User::where('id', auth()->id())->get();
-        return view('dashboard.profile.index', [
-            'profile' => $profile
-        ]);
+        $user = Auth::user();
+        return view('dashboard.profile.index', compact('user'));
     }
 
     /**
@@ -47,7 +48,8 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $user = Auth::user();
+        return view('dashboard.profile.edit', compact('user'));
     }
 
     /**
@@ -55,7 +57,25 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'birthDate' => 'required|date',
+            'image'     => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::delete($user->image);
+            }
+            $validated['image'] = $request->file('image')->store('profile-images');
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('dashboard.profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
 
     /**

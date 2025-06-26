@@ -52,7 +52,12 @@ Route::get('/register', [RegisterController::class, 'index'])->middleware('guest
 Route::post('/register', [RegisterController::class, 'store']);
 
 //Profile
-Route::resource('/dashboard/profile', ProfileController::class)->middleware('auth');
+// Route::resource('/dashboard/profile', ProfileController::class)->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('dashboard/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('dashboard/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 // Dashboard
 Route::get('dashboard',function(){return view('dashboard.index');})->middleware('auth');
