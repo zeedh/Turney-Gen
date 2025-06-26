@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('firstname')->default('firstname');
             $table->string('lastname')->default('lastname');
             $table->string('email')->unique();
+            $table->string('image')->nullable();
             $table->date('birthDate');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 60);

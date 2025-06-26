@@ -12,6 +12,7 @@ use App\Http\Controllers\ChampTreeController;
 use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use Xoco70\LaravelTournaments\Models\Category;
 
 Route::get('/', function () {
@@ -49,6 +50,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
+
+//Profile
+Route::resource('/dashboard/profile', ProfileController::class)->middleware('auth');
 
 // Dashboard
 Route::get('dashboard',function(){return view('dashboard.index');})->middleware('auth');

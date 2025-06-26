@@ -19,11 +19,15 @@
 
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow">
         <li>
+          <a class="dropdown-item d-flex align-items-center gap-2" href="/dashboard/profile">
+            <i class="bi bi-person-fill text-dark"></i> Profil Anda
+          </a>
+        </li>
+        <li>
           <a class="dropdown-item d-flex align-items-center gap-2" href="/blog">
             <i class="bi bi-house-door-fill text-dark"></i> Halaman Depan
           </a>
         </li>
-        <li><hr class="dropdown-divider"></li>
         <li>
           <a class="dropdown-item d-flex align-items-center gap-2" href="#">
             <i class="bi bi-pencil-square text-dark"></i> New Post
