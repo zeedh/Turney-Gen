@@ -13,10 +13,10 @@
                     <a class="nav-link {{ $active === 'home' ? 'active fw-semibold' : '' }}" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'about' ? 'active fw-semibold' : '' }}" href="/about">About</a>
+                    <a class="nav-link {{ $active === 'blog' ? 'active fw-semibold' : '' }}" href="/blog">Turnamen</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active === 'blog' ? 'active fw-semibold' : '' }}" href="/blog">Turnamen</a>
+                    <a class="nav-link {{ $active === 'about' ? 'active fw-semibold' : '' }}" href="/about">About</a>
                 </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link {{ $active === 'categories' ? 'active fw-semibold' : '' }}" href="/categories">Kategori</a>
@@ -35,6 +35,11 @@
                         <li>
                             <a class="dropdown-item" href="/dashboard">
                                 <i class="bi bi-cast me-1"></i> My Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/dashboard/profile">
+                                <i class="bi bi-person-fill me-1"></i> Profile
                             </a>
                         </li>
                         <li>
