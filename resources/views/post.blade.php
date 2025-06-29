@@ -36,16 +36,49 @@
     <!-- Perlu diedit menambah tombol daftar dan lihat -->
         <ul class="list-group list-group-flush">
             @forelse ($champs as $champ)
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{{ url('/dashboard/champs/' . $champ->id . '/edit') }}" class="text-decoration-none text-dark fw-semibold">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="flex-grow-1">
+                    <a href="{{ url('/dashboard/champs/' . $champ->id . '/edit') }}" 
+                        class="text-decoration-none text-dark fw-semibold">
                         {{ $champ->category->name ?? '-' }}
                     </a>
-                    <span class="badge bg-info text-white">
+                    <span class="badge bg-info text-white ms-2">
                         {{ $champ->category->gender ?? '-' }}
                     </span>
-                </li>
+                </div>
+
+                @auth
+                    @if (in_array($champ->id, $competitorChampionshipIds))
+                        <div class="d-flex align-items-center">
+                            <span class="text-success me-2">Sudah terdaftar</span>
+                            <form action="{{ route('blog.destroy', ['post' => $post->slug]) }}" method="POST" onsubmit="return confirm('Yakin batal daftar?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Batal Daftar
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <form action="{{ route('blog.store', ['post' => $post->slug]) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="championship_id" value="{{ $champ->id }}">
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            <button type="submit" class="btn btn-sm btn-success">
+                                Daftar
+                            </button>
+                        </form>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
+                        Login untuk Daftar
+                    </a>
+                @endauth
+            </li>
             @empty
-                <li class="list-group-item text-muted">Tidak ada championship untuk turnamen ini.</li>
+                <li class="list-group-item text-muted">
+                    Tidak ada championship untuk turnamen ini.
+                </li>
             @endforelse
         </ul>
     </div>
@@ -53,7 +86,7 @@
     {{-- Tombol Kembali --}}
     <div class="text-center">
         <a href="/blog" class="btn btn-outline-primary">
-            <i class="bi bi-arrow-left"></i> Kembali ke Post Turnamen
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
