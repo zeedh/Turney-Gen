@@ -17,8 +17,8 @@
                 @endif
                 
                 <div class="input-group mb-6">
-                    <input type="text" class="form-control" placeholder="Search.." name="search" value="{{ request('search') }}">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    <input type="text" class="form-control" placeholder="Cari Turnamen.." name="search" value="{{ request('search') }}">
+                    <button class="btn btn-outline-secondary" type="submit">Cari</button>
                 </div>
             </form>
         </div>
@@ -34,9 +34,10 @@
         
         <div class="card-body text-center">
             <h3 class="card-title"><a href="/blog/{{ $posts[0]->slug }}" class="text-decoration-none text-dark">{{ $posts[0]->title }}</a></h3>
-            <p><small class="text-body-secondary">By : 
-                <a href="/blog?author={{ $posts[0]->author->username }}" class="text-decoration-none">{{ $posts[0]->author->name }}</a> in 
-                <a href="/blog?category={{ $posts[0]->category->slug }}" class="text-decoration-none">{{ $posts[0]->category->name }} </a>
+            <p><small class="text-body-secondary">Oleh : 
+                <a href="/blog?author={{ $posts[0]->author->username }}" class="text-decoration-none">{{ $posts[0]->author->name }}</a> <br>
+                Kategori :
+                <a href="/blog?category={{ $posts[0]->category->slug }}" class="text-decoration-none">{{ $posts[0]->category->name }} </a> <br>
                 {{ $posts[0]->created_at->diffForHumans() }}</small>
             </p>
             <p class="card-text">{{ $posts[0]->excerpt }}</p>
@@ -63,7 +64,7 @@
 
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
-                        <p><small class="text-body-secondary">By : 
+                        <p><small class="text-body-secondary">Oleh : 
                             <a href="/blog?author={{ $posts[0]->author->username }}" class="text-decoration-none">{{ $post->author->name }}</a>
                             {{ $post->created_at->diffForHumans() }}</small>
                         </p>
@@ -77,7 +78,7 @@
     </div>
 
     @else
-    <p class="text-center fs-4">No post found.</p>
+    <p class="text-center fs-6">Postingan Turnamen tidak ditemukan</p>
 
     @endif
     

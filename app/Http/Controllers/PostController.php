@@ -24,7 +24,7 @@ class PostController extends Controller
         }
 
         return view('blog', [
-            "title" => "All Posts" . $title,
+            "title" => "Post Turnamen" . $title,
             "active" => 'blog',
             //"posts" => Post::all()
             "posts" => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString()
