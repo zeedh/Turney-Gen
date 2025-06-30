@@ -221,37 +221,51 @@ abstract class SingleEliminationTreeGen extends TreeGen
      *
      * @return Collection - Full list of fighters including byes
      */
-    private function insertByes(Collection $fighters, $numByeTotal)
+    private function insertByes(Collection $fighters, int $numByeTotal)
     {
-        $bye = $this->createByeFighter();
-        $groupSize = $this->firstRoundGroupSize();
-        $frequency = $groupSize != 0
-            ? (int) floor(count($fighters) / $groupSize / $groupSize)
-            : -1;
-        if ($frequency < $groupSize) {
-            $frequency = $groupSize;
-        }
+        // Hitung jumlah slot (kelipatan 2 terdekat)
+        $slots = pow(2, ceil(log($fighters->count() + $numByeTotal, 2)));
 
-        $newFighters = new Collection();
-        $count = 0;
-        $byeCount = 0;
-        foreach ($fighters as $fighter) {
-            // Each $frequency(3) try to insert $groupSize byes (3)
-            // Not the first iteration, and at the good frequency, and with $numByeTotal as limit
-            if ($this->shouldInsertBye($frequency, $count, $byeCount, $numByeTotal)) { //
-                for ($i = 0; $i < $groupSize; $i++) {
-                    if ($byeCount < $numByeTotal) {
-                        $newFighters->push($bye);
-                        $byeCount++;
-                    }
-                }
+        // Dapatkan seed order (pola seeding tradisional)
+        $seedOrder = $this->generateTraditionalSeedingOrder($slots);
+
+        $filledSlots = [];
+
+        // Pisahkan fighter yang punya seed dan yang tidak
+        $seeded = $fighters->filter(fn($f) => $f->seed !== null)->sortBy('seed')->values();
+        $unseeded = $fighters->filter(fn($f) => $f->seed === null)->values();
+
+        $i = 0;
+        // Masukkan seeded ke slot sesuai urutan
+        foreach ($seeded as $fighter) {
+            $slot = $seedOrder[$i] ?? null;
+            if ($slot) {
+                $filledSlots[$slot] = $fighter;
             }
-            $newFighters->push($fighter);
-            $count++;
+            $i++;
         }
 
-        return $newFighters;
+        // Masukkan unseeded ke slot kosong
+        foreach ($seedOrder as $slot) {
+            if (!isset($filledSlots[$slot]) && $unseeded->isNotEmpty()) {
+                $filledSlots[$slot] = $unseeded->shift();
+            }
+        }
+
+        // Slot yang kosong → isi dengan bye fighter
+        $bye = $this->createByeFighter();
+        for ($j = 1; $j <= $slots; $j++) {
+            if (!isset($filledSlots[$j])) {
+                $filledSlots[$j] = $bye;
+            }
+        }
+
+        // Kembalikan urutan fighter (Collection)
+        $orderedFighters = collect($filledSlots)->sortKeys()->values();
+
+        return $orderedFighters;
     }
+
 
     /**
      * @param $frequency
@@ -333,5 +347,22 @@ abstract class SingleEliminationTreeGen extends TreeGen
         }
 
         return $fighters;
+    }
+
+    private function generateTraditionalSeedingOrder($slots)
+    {
+        if ($slots == 2) return [1, 2];
+
+        $order = [1, 2];
+        while (count($order) < $slots) {
+            $next = [];
+            $max = count($order) * 2 + 1;
+            foreach ($order as $n) {
+                $next[] = $n;
+                $next[] = $max - $n;
+            }
+            $order = $next;
+        }
+        return $order;
     }
 }
