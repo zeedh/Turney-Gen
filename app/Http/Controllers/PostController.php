@@ -55,20 +55,18 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(Request $request, Championship $champ)
+    public function store(Request $request, Post $post)
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'championship_id' => 'required|exists:championship,id',
         ]);
 
-        if ($champ->id != $validated['championship_id']) {
-            abort(403, 'Invalid championship data.');
-        }
+        $champ = Championship::findOrFail($validated['championship_id']);
 
         $exists = Competitor::where('championship_id', $champ->id)
-                    ->where('user_id', $validated['user_id'])
-                    ->exists();
+            ->where('user_id', $validated['user_id'])
+            ->exists();
 
         if ($exists) {
             return back()->with('error', 'User sudah terdaftar sebagai peserta.');
@@ -86,14 +84,15 @@ class PostController extends Controller
             'short_id' => $shortId,
         ]);
 
-        return redirect()
-            ->route('champs.competitors.index', $champ->id)
+        return redirect()->route('blog.show', ['post' => $post->slug])
             ->with('success', 'Peserta berhasil ditambahkan!');
     }
 
-    public function destroy(Request $request, Championship $champ)
+
+    public function destroy(Request $request, Post $post)
     {
         $userId = auth()->id();
+        $champ = Championship::where('tournament_id', $post->tournament_id)->first();
 
         $competitor = Competitor::where('championship_id', $champ->id)
             ->where('user_id', $userId)

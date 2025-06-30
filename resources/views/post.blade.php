@@ -12,76 +12,83 @@
         @endif
 
         <div class="card-body">
-            <h2 class="card-title">{{ $post->title }}</h2>
-            <p class="text-muted">Kategori: 
-            @foreach ($champs as $champ)    
+            <h2 class="card-title mx-3 justify-content-center">{{ $post->title }}</h2>
+            <!-- <p class="text-muted mx-3">Kategori : 
+                @foreach ($champs as $champ)    
                 <span class="badge bg-secondary">{{ $champ->category->name }}</span>
-            @endforeach   
+                @endforeach    -->
             </p>
+            {{-- Daftar Championship --}}
+            <div class="card shadow-sm mb-4 col-lg-4">
+                <ul class="list-group list-group-flush my-3">
+                    @forelse ($champs as $champ)
+                        <li class="list-group-item">
+                            <div class="row align-items-center text-center">
+                                {{-- KIRI: Nama, gender, status --}}
+                                <div class="col-md-8 d-flex align-items-center justify-content-center justify-content-md-start flex-wrap gap-2">
+                                    <a href="{{ url('/dashboard/champs/' . $champ->id . '/edit') }}" 
+                                    class="text-decoration-none text-dark fw-semibold mx-1"> Kategori :
+                                        {{ $champ->category->name ?? '-' }}
+                                    </a>
+                                    <span class="badge bg-info text-white">
+                                        {{ $champ->category->gender ?? '-' }}
+                                    </span>
+        
+                                    @auth
+                                        @if (in_array($champ->id, $competitorChampionshipIds))
+                                            <span class="text-success small fw-semibold mx-1">
+                                                Sudah terdaftar
+                                            </span>
+                                        @endif
+                                    @endauth
+                                </div>
+        
+                                {{-- KANAN: tombol daftar/batal --}}
+                                <div class="col-md-4 d-flex justify-content-center justify-content-md-end mt-2 mt-md-0">
+                                    @auth
+                                        @if (in_array($champ->id, $competitorChampionshipIds))
+                                            <form action="{{ route('blog.destroy', ['post' => $post->slug]) }}" method="POST" onsubmit="return confirm('Yakin batal daftar?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="championship_id" value="{{ $champ->id }}">
+                                                <button type="submit" class="btn btn-sm btn-danger mx-3">
+                                                    Batalkan
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('blog.store', ['post' => $post->slug]) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="championship_id" value="{{ $champ->id }}">
+                                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    Daftar
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
+                                            Login untuk Mendaftar
+                                        </a>
+                                    @endauth
+                                </div>
+                            </div>
+                        </li>
+                    @empty
+                        <li class="list-group-item text-muted">
+                            Tidak ada championship untuk turnamen ini.
+                        </li>
+                    @endforelse
+                </ul>
+            </div>
             <hr>
-            <h5 class="mb-3">Deskripsi</h5>
-            <article class="card-text fs-6">
+            <h5 class="mb-3 mx-3">Deskripsi</h5>
+            <article class="card-text fs-6 m-3">
                 {!! $post->body !!}
             </article>
         </div>
     </div>
 
-    {{-- Daftar Championship --}}
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <span class="fw-semibold">Daftar Championship</span>
-            <span class="badge bg-light text-dark">{{ $champs->count() }} Total</span>
-        </div>
 
-    <!-- Perlu diedit menambah tombol daftar dan lihat -->
-        <ul class="list-group list-group-flush">
-            @forelse ($champs as $champ)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="flex-grow-1">
-                    <a href="{{ url('/dashboard/champs/' . $champ->id . '/edit') }}" 
-                        class="text-decoration-none text-dark fw-semibold">
-                        {{ $champ->category->name ?? '-' }}
-                    </a>
-                    <span class="badge bg-info text-white ms-2">
-                        {{ $champ->category->gender ?? '-' }}
-                    </span>
-                </div>
-
-                @auth
-                    @if (in_array($champ->id, $competitorChampionshipIds))
-                        <div class="d-flex align-items-center">
-                            <span class="text-success me-2">Sudah terdaftar</span>
-                            <form action="{{ route('blog.destroy', ['post' => $post->slug]) }}" method="POST" onsubmit="return confirm('Yakin batal daftar?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    Batal Daftar
-                                </button>
-                            </form>
-                        </div>
-                    @else
-                        <form action="{{ route('blog.store', ['post' => $post->slug]) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="championship_id" value="{{ $champ->id }}">
-                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                            <button type="submit" class="btn btn-sm btn-success">
-                                Daftar
-                            </button>
-                        </form>
-                    @endif
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
-                        Login untuk Daftar
-                    </a>
-                @endauth
-            </li>
-            @empty
-                <li class="list-group-item text-muted">
-                    Tidak ada championship untuk turnamen ini.
-                </li>
-            @endforelse
-        </ul>
-    </div>
 
     {{-- Tombol Kembali --}}
     <div class="text-center">

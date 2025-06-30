@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 
 Route::get('/blog', [PostController::class, 'index']);
-Route::get('blog/{post:slug}', [PostController::class, 'show']);
+Route::get('blog/{post:slug}', [PostController::class, 'show'])->name('blog.show');
 Route::post('blog/{post:slug}', [PostController::class, 'store'])->name('blog.store');
 Route::delete('blog/{post:slug}', [PostController::class, 'destroy'])->name('blog.destroy');
 
