@@ -76,7 +76,7 @@ class CreateSingleEliminationTree
             foreach ($round as $matchNumber => &$match) {
                 $match['playerA'] = $match[0];
                 $match['playerB'] = $match[1];
-                $match['winner_id'] = $match[2]?->id;
+                $match['winner_id'] = $match[2] ?? null; //Pastikan agar tidak mengecek id, tapi mengecek apakah ada nilai atau tidak
 
                 unset($match[0], $match[1], $match[2]);
 
