@@ -221,50 +221,60 @@ abstract class SingleEliminationTreeGen extends TreeGen
      *
      * @return Collection - Full list of fighters including byes
      */
-    private function insertByes(Collection $fighters, int $numByeTotal)
-    {
-        // Hitung jumlah slot (kelipatan 2 terdekat)
-        $slots = pow(2, ceil(log($fighters->count() + $numByeTotal, 2)));
+private function insertByes(Collection $fighters, int $numByeTotal)
+{
+    $slots = pow(2, ceil(log(max(1, $fighters->count() + $numByeTotal), 2)));
+    $seedOrder = $this->generateTraditionalSeedingOrder($slots);
+    $filledSlots = [];
 
-        // Dapatkan seed order (pola seeding tradisional)
-        $seedOrder = $this->generateTraditionalSeedingOrder($slots);
+    $seeded = $fighters->filter(fn($f) => $f->seed !== null)->sortBy('seed')->values();
+    $unseeded = $fighters->filter(fn($f) => $f->seed === null)->values();
 
-        $filledSlots = [];
+    // Step 1: Place seeded in their slots
+    $criticalSlots = [];
+    foreach ($seeded as $index => $fighter) {
+        $seedSlot = $seedOrder[$index];
+        $filledSlots[$seedSlot] = $fighter;
 
-        // Pisahkan fighter yang punya seed dan yang tidak
-        $seeded = $fighters->filter(fn($f) => $f->seed !== null)->sortBy('seed')->values();
-        $unseeded = $fighters->filter(fn($f) => $f->seed === null)->values();
+        // determine the slot of its opponent
+        $matchIndex = intdiv($seedSlot - 1, 2);
+        $slot1 = $matchIndex * 2 + 1;
+        $slot2 = $matchIndex * 2 + 2;
+        $opponentSlot = ($seedSlot === $slot1) ? $slot2 : $slot1;
 
-        $i = 0;
-        // Masukkan seeded ke slot sesuai urutan
-        foreach ($seeded as $fighter) {
-            $slot = $seedOrder[$i] ?? null;
-            if ($slot) {
-                $filledSlots[$slot] = $fighter;
-            }
-            $i++;
-        }
-
-        // Masukkan unseeded ke slot kosong
-        foreach ($seedOrder as $slot) {
-            if (!isset($filledSlots[$slot]) && $unseeded->isNotEmpty()) {
-                $filledSlots[$slot] = $unseeded->shift();
-            }
-        }
-
-        // Slot yang kosong → isi dengan bye fighter
-        $bye = $this->createByeFighter();
-        for ($j = 1; $j <= $slots; $j++) {
-            if (!isset($filledSlots[$j])) {
-                $filledSlots[$j] = $bye;
-            }
-        }
-
-        // Kembalikan urutan fighter (Collection)
-        $orderedFighters = collect($filledSlots)->sortKeys()->values();
-
-        return $orderedFighters;
+        $criticalSlots[] = $opponentSlot;
     }
+
+    // Step 2: Fill critical slots with BYE if we have byes to place
+    $bye = $this->createByeFighter();
+    foreach ($criticalSlots as $slot) {
+        if ($numByeTotal <= 0) {
+            break;
+        }
+
+        if (!isset($filledSlots[$slot])) {
+            $filledSlots[$slot] = $bye;
+            $numByeTotal--;
+        }
+    }
+
+    // Step 3: Fill remaining slots with unseeded fighters
+    foreach ($seedOrder as $slot) {
+        if (!isset($filledSlots[$slot])) {
+            if ($unseeded->isNotEmpty()) {
+                $filledSlots[$slot] = $unseeded->shift();
+            } elseif ($numByeTotal > 0) {
+                $filledSlots[$slot] = $bye;
+                $numByeTotal--;
+            } else {
+                $filledSlots[$slot] = $bye;
+            }
+        }
+    }
+
+    return collect($filledSlots)->sortKeys()->values();
+}
+
 
 
     /**
@@ -288,26 +298,32 @@ abstract class SingleEliminationTreeGen extends TreeGen
      *
      * @return Collection
      */
-    public function adjustFightersGroupWithByes($fighters, $fighterGroups): Collection
-    {
-        $tmpFighterGroups = clone $fighterGroups;
-        $numBye = count($this->getByeGroup($fighters));
+public function adjustFightersGroupWithByes($fighters, $fighterGroups): Collection
+{
+    $tmpFighterGroups = clone $fighterGroups;
 
-        // Get biggest competitor's group
-        $max = $this->getMaxFightersByEntity($tmpFighterGroups);
+    // Hitung jumlah fighter sesudah repart
+    $max = $this->getMaxFightersByEntity($tmpFighterGroups);
+    $fighters = $this->repart($fighterGroups, $max);
 
-        // We put them so that we can mix them up and they don't fight with another competitor of his entity.
-        $fighters = $this->repart($fighterGroups, $max);
-
-        if (!app()->runningUnitTests()) {
-            $fighters = $fighters->shuffle();
-        }
-        // Insert byes to fill the tree.
-        // Strategy: first, one group full, one group empty with byes, then groups of 2 fighters
-        $fighters = $this->insertByes($fighters, $numBye);
-
-        return $fighters;
+    // Optionally shuffle if not in test
+    if (!app()->runningUnitTests()) {
+        $fighters = $fighters->shuffle();
     }
+
+    // Hitung slot kelipatan 2 terdekat
+    $total = $fighters->count();
+    $slots = pow(2, ceil(log(max(1, $total), 2)));
+
+    // Hitung jumlah bye
+    $numBye = $slots - $total;
+
+    // Gunakan insertByes yang benar
+    $fighters = $this->insertByes($fighters, $numBye);
+
+    return $fighters;
+}
+
 
     /**
      * Get the biggest entity group.
