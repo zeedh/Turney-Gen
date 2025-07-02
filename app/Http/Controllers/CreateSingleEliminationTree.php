@@ -28,43 +28,142 @@ class CreateSingleEliminationTree
         $this->groupsByRound = $groupsByRound;
         $this->hasPreliminary = $hasPreliminary;
     }
-
     public function build()
     {
-        $fighters = $this->groupsByRound->first()->map(function ($item) {
-            $fighters = $item->getFightersWithBye();
-            $fighter1 = $fighters->get(0);
-            $fighter2 = $fighters->get(1);
-
-            return [$fighter1, $fighter2];
-        })->flatten()->all();
-        $this->numFighters = count($fighters);
-
-        //Calculate the size of the first full round - for example if you have 5 fighters, then the first full round will consist of 4 fighters
-        $this->noRounds = log($this->numFighters, 2);
         $roundNumber = 1;
 
-        //Group 2 fighters into a match
-        $matches = array_chunk($fighters, 2);
+        /** 
+         * Step 1: Ambil semua fighter di round 1 
+         * → termasuk fighter yang bertemu bye
+         */
+        $groups = $this->groupsByRound->get($roundNumber) ?? collect();
 
-        //If there's already a match in the match array, then that means the next round is round 2, so increase the round number
-        if (count($this->brackets)) {
-            $roundNumber++;
-        }
-        $countMatches = count($matches);
-        //Create the first full round of fighters, some may be blank if waiting on the results of a previous round
-        for ($i = 0; $i < $countMatches; $i++) {
-            $this->brackets[$roundNumber][$i + 1] = $matches[$i];
+        $fighters = collect();
+        $fightersById = collect();
+        $fightersWonByBye = collect();
+
+        foreach ($groups as $group) {
+            $fight = $group->fights->first();
+
+            if (!$fight) {
+                continue;
+            }
+
+            $fighter1 = $fight->fighter1;
+            $fighter2 = $fight->fighter2;
+
+            // cek siapa yang BYE
+            if ($this->isBye($fighter1) && !$this->isBye($fighter2)) {
+                // fighter2 menang otomatis
+                $this->setWinner($fight, $fighter2);
+                $fightersWonByBye->push($fighter2->id);
+            } elseif ($this->isBye($fighter2) && !$this->isBye($fighter1)) {
+                $this->setWinner($fight, $fighter1);
+                $fightersWonByBye->push($fighter1->id);
+            } else {
+                // match normal → keduanya masuk round 1
+                if ($fighter1) {
+                    $fighters->push($fighter1);
+                    $fightersById->put($fighter1->id, $fighter1);
+                }
+                if ($fighter2) {
+                    $fighters->push($fighter2);
+                    $fightersById->put($fighter2->id, $fighter2);
+                }
+            }
         }
 
-        //Create the result of the empty rows for this tournament
+        /**
+         * Step 2:
+         * Ambil semua fighter dari fighter groups (getFightersWithBye),
+         * lalu masukkan ke list fighter jika belum ada
+         */
+        $allFighters = $this->groupsByRound->first()->flatMap(function ($group) {
+            return $group->getFightersWithBye();
+        })->filter();
+
+        foreach ($allFighters as $fighter) {
+            if (!$fightersById->has($fighter->id)) {
+                // tambahkan fighter yang menang bye → akan bertanding di round 2
+                $fighters->push($fighter);
+                $fightersById->put($fighter->id, $fighter);
+            }
+        }
+
+        // Update jumlah fighter
+        $this->numFighters = $fighters->count();
+
+        $this->noRounds = $this->numFighters > 0
+            ? log($this->numFighters, 2)
+            : 0;
+
+        /**
+         * Step 3:
+         * Buat matches untuk round 1
+         */
+        $matches = array_chunk($fighters->all(), 2);
+
+        foreach ($matches as $index => $match) {
+            $this->brackets[$roundNumber][$index + 1] = $match;
+        }
+
         $this->assignFightersToBracket($roundNumber, $this->hasPreliminary);
         $this->assignPositions();
 
         if ($this->numFighters >= $this->championship->getGroupSize() * 2) {
-            $this->brackets[$this->noRounds][2]['matchWrapperTop'] = $this->brackets[$this->noRounds][1]['matchWrapperTop'] + 100;
+            $this->brackets[$this->noRounds][2]['matchWrapperTop'] =
+                $this->brackets[$this->noRounds][1]['matchWrapperTop'] + 100;
         }
     }
+
+
+    private function setWinner($fight, $fighter)
+    {
+        $fight->winner_id = $fighter->id;
+        $fight->save();
+    }
+
+    private function isBye($fighter): bool
+    {
+        return $fighter === null || ($fighter?->is_bye ?? false);
+    }
+    
+    // public function build()
+    // {
+    //     $fighters = $this->groupsByRound->first()->map(function ($item) {
+    //         $fighters = $item->getFightersWithBye();
+    //         $fighter1 = $fighters->get(0);
+    //         $fighter2 = $fighters->get(1);
+
+    //         return [$fighter1, $fighter2];
+    //     })->flatten()->all();
+    //     $this->numFighters = count($fighters);
+
+    //     //Calculate the size of the first full round - for example if you have 5 fighters, then the first full round will consist of 4 fighters
+    //     $this->noRounds = log($this->numFighters, 2);
+    //     $roundNumber = 1;
+
+    //     //Group 2 fighters into a match
+    //     $matches = array_chunk($fighters, 2);
+
+    //     //If there's already a match in the match array, then that means the next round is round 2, so increase the round number
+    //     if (count($this->brackets)) {
+    //         $roundNumber++;
+    //     }
+    //     $countMatches = count($matches);
+    //     //Create the first full round of fighters, some may be blank if waiting on the results of a previous round
+    //     for ($i = 0; $i < $countMatches; $i++) {
+    //         $this->brackets[$roundNumber][$i + 1] = $matches[$i];
+    //     }
+
+    //     //Create the result of the empty rows for this tournament
+    //     $this->assignFightersToBracket($roundNumber, $this->hasPreliminary);
+    //     $this->assignPositions();
+
+    //     if ($this->numFighters >= $this->championship->getGroupSize() * 2) {
+    //         $this->brackets[$this->noRounds][2]['matchWrapperTop'] = $this->brackets[$this->noRounds][1]['matchWrapperTop'] + 100;
+    //     }
+    // }
 
 
     private function assignPositions()
