@@ -57,9 +57,11 @@ class CreateSingleEliminationTree
                 // fighter2 menang otomatis
                 $this->setWinner($fight, $fighter2);
                 $fightersWonByBye->push($fighter2->id);
+                continue;
             } elseif ($this->isBye($fighter2) && !$this->isBye($fighter1)) {
                 $this->setWinner($fight, $fighter1);
                 $fightersWonByBye->push($fighter1->id);
+                continue;
             } else {
                 // match normal → keduanya masuk round 1
                 if ($fighter1) {
