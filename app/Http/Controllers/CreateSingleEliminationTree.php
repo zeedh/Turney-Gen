@@ -104,7 +104,10 @@ class CreateSingleEliminationTree
         $matches = array_chunk($fighters->all(), 2);
 
         foreach ($matches as $index => $match) {
-            $this->brackets[$roundNumber][$index + 1] = $match;
+            $fighter1 = $match[0] ?? null;
+            $fighter2 = $match[1] ?? null;
+
+            $this->brackets[$roundNumber][$index + 1] = [$fighter1, $fighter2];
         }
 
         $this->assignFightersToBracket($roundNumber, $this->hasPreliminary);
@@ -127,7 +130,7 @@ class CreateSingleEliminationTree
     {
         return $fighter === null || ($fighter?->is_bye ?? false);
     }
-    
+
     // public function build()
     // {
     //     $fighters = $this->groupsByRound->first()->map(function ($item) {
@@ -173,9 +176,9 @@ class CreateSingleEliminationTree
 
         foreach ($this->brackets as $roundNumber => &$round) {
             foreach ($round as $matchNumber => &$match) {
-                $match['playerA'] = $match[0];
-                $match['playerB'] = $match[1];
-                $match['winner_id'] = $match[2] ?? null; //Pastikan agar tidak mengecek id, tapi mengecek apakah ada nilai atau tidak
+                $match['playerA'] = $match[0] ?? null;
+                $match['playerB'] = $match[1] ?? null;
+                $match['winner_id'] = $match[2] ?? null;
 
                 unset($match[0], $match[1], $match[2]);
 
