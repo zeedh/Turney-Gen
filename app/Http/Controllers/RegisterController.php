@@ -15,20 +15,64 @@ class RegisterController extends Controller
     ]);
     
     }
+    public function Panitia(){
+        return view('register.panitia',[
+        'title' => 'Register Peserta',
+        'active' => 'register'
+    ]);
+    
+    }
 
-    public function store(Request $request){
+    public function Peserta(){
+        return view('register.peserta',[
+        'title' => 'Register Peserta',
+        'active' => 'register'
+    ]);
+    
+    }
+
+
+    public function storePanitia(Request $request)
+    {
         $validatedData = $request->validate([
-            'name'      => 'required|max:255',
-            'firstname' => 'required|max:255',
-            'lastname'  => 'required|max:255',
-            'email'     => 'required|email:dns|unique:users',
-            'birthDate' => 'required|date',
-            'password'  => 'required|min:5|max:255'
+            'name'        => 'required|max:255',
+            'firstname'   => 'required|max:255',
+            'lastname'    => 'required|max:255',
+            'email'       => 'required|email:dns|unique:users,email',
+            'birthDate'   => 'required|date',
+            'gender'      => 'required|in:M,F',
+            'is_panitia'  => 'required|boolean',
+            'password'    => 'required|min:5|max:255',
         ]);
+
+        // Hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
+        // Simpan ke database
         User::create($validatedData);
 
-        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan Login');    
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
+    }
+
+    public function storePeserta(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name'        => 'required|max:255',
+            'firstname'   => 'required|max:255',
+            'lastname'    => 'required|max:255',
+            'email'       => 'required|email:dns|unique:users,email',
+            'birthDate'   => 'required|date',
+            'gender'      => 'required|in:M,F',
+            'is_panitia'  => 'required|boolean',
+            'password'    => 'required|min:5|max:255',
+        ]);
+
+        // Hash password
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        // Simpan ke database
+        User::create($validatedData);
+
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }

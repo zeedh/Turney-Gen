@@ -54,7 +54,15 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store']);
+
+// Register Panitia
+Route::get('/register/panitia', [RegisterController::class, 'Panitia'])->middleware('guest');
+Route::post('/register/panitia', [RegisterController::class, 'storePanitia'])->middleware('guest');
+
+// Register Peserta
+Route::get('/register/peserta', [RegisterController::class, 'Peserta'])->middleware('guest');
+Route::post('/register/peserta', [RegisterController::class, 'storePeserta'])->middleware('guest');
+
 
 //Profile
 // Route::resource('/dashboard/profile', ProfileController::class)->middleware('auth');
