@@ -1,8 +1,12 @@
 @extends('layouts.main')
 
 @section('container')
+
 <div class="row justify-content-center">
-  <div class="col-lg-8">
+    <div class="col-lg-8">
+    <a href="/register" class="btn btn-outline-primary me-2">
+        <i class="bi bi-arrow-left-circle"></i> Kembali ke Registrasi
+    </a>
     <main class="form-registration w-100 m-auto shadow p-4 rounded bg-white mt-3">
       <h1 class="h3 mb-4 fw-semibold text-center text-primary">Daftar Sebagai Peserta</h1>
 

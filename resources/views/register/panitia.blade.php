@@ -1,10 +1,14 @@
 @extends('layouts.main')
 
 @section('container')
+
 <div class="row justify-content-center">
   <div class="col-lg-8">
+    <a href="/register" class="btn btn-outline-success me-2">
+        <i class="bi bi-arrow-left-circle"></i> Kembali ke Registrasi
+    </a>
     <main class="form-registration w-100 m-auto shadow p-4 rounded bg-white mt-3">
-      <h1 class="h3 mb-4 fw-semibold text-center text-primary">Daftar Sebagai Panitia</h1>
+      <h1 class="h3 mb-4 fw-semibold text-center text-success">Daftar Sebagai Panitia</h1>
 
       <form action="/register/panitia" method="post">
         @csrf
@@ -106,7 +110,7 @@
         {{-- Hidden is_panitia --}}
         <input type="hidden" name="is_panitia" value="1">
 
-        <button class="btn btn-primary w-100 py-2 mt-4" type="submit">Daftar</button>
+        <button class="btn btn-success w-100 py-2 mt-4" type="submit">Daftar</button>
       </form>
 
       <small class="d-block text-center mt-3">
