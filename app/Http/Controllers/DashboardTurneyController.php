@@ -51,7 +51,7 @@ class DashboardTurneyController extends Controller
             'slug'              => 'required|unique:tournament',
             'dateIni'           => "required|date",
             'dateFin'           => "required|date|after_or_equal:dateIni",
-            'registerDateLimit' => "nullable|date|before_or_equal:dateFin",
+            'registerDateLimit' => "nullable|date|before_or_equal:dateIni",
             'sport'             => 'nullable|in:1',
             'type'              => 'nullable|in:0',
             'level_id'          => 'nullable|exists:levels,id',
