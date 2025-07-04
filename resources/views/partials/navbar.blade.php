@@ -27,9 +27,9 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 @auth
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        👋 Hi, {{ auth()->user()->name }}
+                    <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
+                        <img src="https://github.com/mdo.png" alt="User Avatar" width="32" height="32" class="rounded-circle border border-light mx-2">
+                        {{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li>
