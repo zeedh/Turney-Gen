@@ -13,6 +13,8 @@ use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+
+use App\Http\Middleware\IsPanitia;
 use Xoco70\LaravelTournaments\Models\Category;
 
 Route::get('/', function () {
@@ -73,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Dashboard
-Route::get('dashboard',function(){return view('dashboard.index');})->middleware('auth');
+Route::get('dashboard',function(){return view('dashboard.index');})->middleware(IsPanitia::class);
 
 // Turnamen
 Route::get('dashboard/tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->middleware('auth');
