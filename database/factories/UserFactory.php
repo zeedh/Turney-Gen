@@ -12,12 +12,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'      => $this->faker->userName,
-            'email'     => $this->faker->unique()->safeEmail,
-            'password'  => bcrypt('password'), // atau langsung: Hash::make('password')
-            'firstname' => $this->faker->firstName,
-            'lastname'  => $this->faker->lastName,
-            'birthDate' => $this->faker->date('Y-m-d', '2020-12-30'),
+            'name'       => $this->faker->userName,
+            'email'      => $this->faker->unique()->safeEmail,
+            'password'   => bcrypt('password'), // atau: Hash::make('password')
+            'firstname'  => $this->faker->firstName,
+            'lastname'   => $this->faker->lastName,
+            'birthDate'  => $this->faker->date('Y-m-d', '2020-12-30'),
+            'gender'     => $this->faker->randomElement(['M', 'F']),
         ];
     }
+
 }
