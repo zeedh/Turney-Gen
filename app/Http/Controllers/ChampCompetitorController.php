@@ -73,7 +73,7 @@ class ChampCompetitorController extends Controller
             'short_id' => random_int(1, 200),
         ]);
 
-        return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil ditambahkan!');
+        return redirect()->route('dashboard.competitors.index', $champ->id)->with('success', 'Peserta berhasil ditambahkan!');
 
     }
 
@@ -106,7 +106,7 @@ class ChampCompetitorController extends Controller
         //         ->update(['seed' => $seed]);
         // }
 
-        // return redirect()->route('competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
+        // return redirect()->route('dashboard.competitors.index', $champ->id)->with('success', 'Seed peserta berhasil diperbarui!');
     }
 
     /**
@@ -116,7 +116,7 @@ class ChampCompetitorController extends Controller
     {
         $competitor->delete();
 
-        return redirect()->route('competitors.index', $champ->id)->with('success', 'Peserta berhasil dihapus.');
+        return redirect()->route('dashboard.competitors.index', $champ->id)->with('success', 'Peserta berhasil dihapus.');
 
     }
 
@@ -146,7 +146,7 @@ class ChampCompetitorController extends Controller
                 ->update(['seed' => $value]);
         }
 
-        return redirect()->route('competitors.seed.edit', $champ->id)->with('success', 'Seed berhasil diperbarui!');
+        return redirect()->route('dashboard.competitors.seed.edit', $champ->id)->with('success', 'Seed berhasil diperbarui!');
     }
 
 

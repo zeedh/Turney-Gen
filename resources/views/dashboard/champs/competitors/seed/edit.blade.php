@@ -4,7 +4,7 @@
 <div class="card shadow-sm p-4 mt-4 col-lg-8 mx-auto">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Update Seed untuk Turnamen "{{ $champ->tournament->name }}"</h4>
-        <a href="{{ route('competitors.index', $champ->id) }}" class="btn btn-outline-secondary">
+        <a href="{{ route('dashboard.competitors.index', $champ->id) }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Kembali ke Peserta
         </a>
     </div>
@@ -13,7 +13,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form method="POST" action="{{ route('competitors.seed.save', $champ->id) }}">
+    <form method="POST" action="{{ route('dashboard.competitors.seed.save', $champ->id) }}">
         @csrf
 
         <div class="row fw-bold border-bottom pb-2 mb-2">

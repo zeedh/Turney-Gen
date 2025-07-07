@@ -84,7 +84,7 @@ class ChampSettingController extends Controller
         }
 
         return back()
-            // ->route('setting.index', $champ->id)
+            // ->route('dashboard.setting.index', $champ->id)
             ->with('success', 'Pengaturan berhasil disimpan.')
             ->with('numFighters', $validatedData['numFighters'])
             ->with('isTeam', $validatedData['isTeam']);

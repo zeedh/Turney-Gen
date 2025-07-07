@@ -29,7 +29,9 @@ Route::get('/blog', [PostController::class, 'index']);
 Route::get('blog/{post:slug}', [PostController::class, 'show'])->name('blog.show');
 Route::post('blog/{post:slug}', [PostController::class, 'store'])->name('blog.store');
 Route::delete('blog/{post:slug}', [PostController::class, 'destroy'])->name('blog.destroy');
-Route::get('blog/{post:slug}/{champ}', [PostController::class, 'tree'])->name('blog.tree');
+
+// Bagan di post
+Route::get('bagan/{champ}', [BaganController::class, 'index'])->name('bagan.index');
 
 Route::get('/about', function () {
     return view('about', [
@@ -48,9 +50,6 @@ Route::get('/categories', function() {
     ]);
 });
 
-// Bagan di post
-Route::get('bagan/{champ}', [BaganController::class, 'index'])->name('bagan.index');
-
 // Login/Logout
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -67,41 +66,45 @@ Route::post('/register/panitia', [RegisterController::class, 'storePanitia'])->m
 Route::get('/register/peserta', [RegisterController::class, 'Peserta'])->middleware('guest');
 Route::post('/register/peserta', [RegisterController::class, 'storePeserta'])->middleware('guest');
 
+// ----------------------------
+// Dashboard Group
+// ----------------------------
+Route::middleware(['auth', IsPanitia::class])
+    ->prefix('dashboard')
+    ->name('dashboard.')
+    ->group(function () {
 
-//Profile
-// Route::resource('/dashboard/profile', ProfileController::class)->middleware('auth');
-Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('dashboard/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('dashboard/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-});
+        // Dashboard Home
+        Route::view('/', 'dashboard.index')->name('home');
 
-// Dashboard
-Route::get('dashboard',function(){return view('dashboard.index');})->middleware(IsPanitia::class);
+        // Profile
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-// Turnamen
-Route::get('dashboard/tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->middleware('auth');
-Route::resource('/dashboard/tours', DashboardTurneyController::class)->middleware('auth');
+        // Turnamen
+        Route::get('tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->name('tours.checkSlug');
+        Route::resource('tours', DashboardTurneyController::class);
 
-//POstingan
-Route::get('dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
-Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+        // Postingan
+        Route::get('posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->name('posts.checkSlug');
+        Route::resource('posts', DashboardPostController::class);
 
-//Championship/Bagan
-Route::resource('/dashboard/champs', ChampionshipController::class)->middleware('auth');
-// Route::resource('/dashboard/champs/edit/{champ}/setting', ChampSettingController::class)->middleware('auth');
-Route::resource('/dashboard/champs/{champ}/setting', ChampSettingController::class)->middleware('auth');
+        // Championship / Bagan
+        Route::resource('champs', ChampionshipController::class);
+        Route::resource('champs/{champ}/setting', ChampSettingController::class);
 
-// Route::put('/dashboard/champs/{champ}/competitors', [ChampCompetitorController::class, 'update'])->name('competitors.seed')->middleware('auth');
-Route::middleware('auth')->prefix('/dashboard/champs/{champ}/competitors')->name('competitors.')->group(function () {
-    Route::get('/', [ChampCompetitorController::class, 'index'])->name('index');
-    Route::post('/', [ChampCompetitorController::class, 'store'])->name('store');
-    Route::delete('/{competitor}', [ChampCompetitorController::class, 'destroy'])->name('destroy');
+        // Competitors routes
+        Route::prefix('champs/{champ}/competitors')
+            ->name('competitors.')
+            ->group(function () {
+                Route::get('/', [ChampCompetitorController::class, 'index'])->name('index');
+                Route::post('/', [ChampCompetitorController::class, 'store'])->name('store');
+                Route::delete('/{competitor}', [ChampCompetitorController::class, 'destroy'])->name('destroy');
 
-    // Custom routes for seeding
-    Route::get('/seed', [ChampCompetitorController::class, 'editSeed'])->name('seed.edit');
-    Route::post('/seed', [ChampCompetitorController::class, 'saveSeed'])->name('seed.save');
-});
+                Route::get('/seed', [ChampCompetitorController::class, 'editSeed'])->name('seed.edit');
+                Route::post('/seed', [ChampCompetitorController::class, 'saveSeed'])->name('seed.save');
+            });
 
-
-Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class)->middleware('auth');
+        Route::resource('champs/{champ}/setting/{setting}', ChampSettingController::class);
+    });

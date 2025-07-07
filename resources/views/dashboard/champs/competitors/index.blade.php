@@ -4,7 +4,7 @@
     <!-- <h2>Peserta Turnamen: {{ $champ->tournament->name }} untuk kategori {{ $champ->category->name }}</h2> -->
     <div class="card shadow-sm col-lg-8 p-3 mt-3 mb-4">
 
-            <form action="{{ route('competitors.index', ['champ' => $champ->id]) }}" method="GET" class="mb-3">
+            <form action="{{ route('dashboard.competitors.index', ['champ' => $champ->id]) }}" method="GET" class="mb-3">
                 <div class="input-group col-lg-8">
                     <input type="text" name="search" class="form-control" placeholder="Cari user..." value="{{old('search'), request('search') }}">
                     <button class="btn btn-outline-secondary" type="submit">Cari</button>
@@ -31,7 +31,7 @@
                                 @if($isRegistered)
                                     <span class="badge bg-success p-2">Terdaftar</span>
                                 @else
-                                    <form action="{{ route('competitors.store', ['champ' => $champ->id]) }}" method="POST">
+                                    <form action="{{ route('dashboard.competitors.store', ['champ' => $champ->id]) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="championship_id" value="{{ $champ->id }}">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
@@ -77,7 +77,7 @@
                                     <span class="badge bg-secondary">{{ $comp->seed ?? '-' }}</span>
                                 </div>
                                 <div class="col-3">
-                                    <form action="{{ route('competitors.destroy', [$champ->id, $comp->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
+                                    <form action="{{ route('dashboard.competitors.destroy', [$champ->id, $comp->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus peserta ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
@@ -94,7 +94,7 @@
             @endif
 
 
-        <a href="{{ route('competitors.seed.edit', $champ->id) }}" class="btn btn-outline-secondary mt-3">
+        <a href="{{ route('dashboard.competitors.seed.edit', $champ->id) }}" class="btn btn-outline-secondary mt-3">
             Edit Seed
         </a>
 

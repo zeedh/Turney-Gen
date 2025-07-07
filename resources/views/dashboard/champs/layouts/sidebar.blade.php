@@ -23,25 +23,17 @@
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
                 <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/competitor*') ? 'active bg-danger text-white' : '' }}"
-                  href="{{ route('competitors.index', $champ->id) }}">
+                  href="{{ route('dashboard.competitors.index', $champ->id) }}">
                   <i class="bi bi-person text-dark"></i> Peserta
                 </a>
               </li>
       
               <li class="nav-item">
                 <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/edit') ? 'active bg-danger text-white' : '' }}"
-                  href="{{ route('champs.edit', $champ->id) }}">
+                  href="{{ route('dashboard.champs.edit', $champ->id) }}">
                   <i class="bi bi-puzzle text-dark"></i> Kategori
                 </a>
               </li>
-      
-              <!-- <li class="nav-item">
-                <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/setting*') ? 'active bg-danger text-white' : '' }}"
-                  href="{{ route('setting.index', $champ->id) }}">
-                  <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                  <span>Pengaturan</span>
-                </a>
-              </li> -->
 
               <li class="nav-item">
                 <a class="nav-link text-black d-flex align-items-center gap-2 px-4 py-2 {{ Request::is('champs/setting*') ? 'active bg-danger text-white' : '' }}"

@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('setting.index', ['champ' => $champ->id, 'setting' => $champ->settings->id])}}" accept-charset="UTF-8" class="form-settings">
+<form method="POST" action="{{ route('dashboard.setting.index', ['champ' => $champ->id, 'setting' => $champ->settings->id])}}" accept-charset="UTF-8" class="form-settings">
     @csrf
 
     <div class="card shadow-sm mb-4">

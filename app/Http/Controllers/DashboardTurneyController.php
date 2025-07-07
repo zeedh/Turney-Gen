@@ -122,8 +122,8 @@ class DashboardTurneyController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
 
         // Ambil category_id lalu keluarkan dari data
-        $categoryId = $validatedData['category_id'];
-        unset($validatedData['category_id']);
+        // $categoryId = $validatedData['category_id'];
+        // unset($validatedData['category_id']);
 
         // Simpan ke tournaments (tanpa category_id)
         Tournament::where('id', $tour->id)->update($validatedData);
