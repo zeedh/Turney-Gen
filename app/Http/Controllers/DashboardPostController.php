@@ -49,29 +49,36 @@ class DashboardPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'title'         => 'required|max:255',
+        'slug'          => 'required|unique:posts',
+        'tournament_id' => 'required|exists:tournament,id', // pastikan turnamen valid
+        'image'         => 'image|file|max:1024',
+        'body'          => 'required'
+    ]);
 
-        $validatedData = $request->validate([
-            'title'         => 'required|max:255',
-            'slug'          => 'required|unique:posts',
-            'category_id'   => 'required',
-            'tournament_id' => 'required',
-            'image'         => 'image|file|max:1024',
-            'body'          => 'required'
-        ]);
+    // Ambil category_id dari championship yang terkait tournament_id
+    $championship = Championship::where('tournament_id', $request->tournament_id)->first();
 
-        if($request->file('image')){
-            $validatedData['image']=$request->file('image')->store('post-image');
-        }
-
-        $validatedData['user_id'] = auth()->user()->id;
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
-
-        Post::create($validatedData);
-
-        return redirect('/dashboard/posts')->with('success', 'Post Baru telah dibuat!');
+    if (!$championship) {
+        return back()->withErrors(['tournament_id' => 'Turnamen belum memiliki championship'])->withInput();
     }
+
+    $validatedData['category_id'] = $championship->category_id;
+
+    if ($request->file('image')) {
+        $validatedData['image'] = $request->file('image')->store('post-image');
+    }
+
+    $validatedData['user_id'] = auth()->id();
+    $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+    Post::create($validatedData);
+
+    return redirect('/dashboard/posts')->with('success', 'Post Baru telah dibuat!');
+}
 
     /**
      * Display the specified resource.
@@ -116,6 +123,7 @@ class DashboardPostController extends Controller
         $rules =[
             'title' => 'required|max:255',
             'category_id' => 'required',
+            'tournament_id' => 'required',
             'image' => 'image|file|max:1024',
             'body' => 'required'
         ];

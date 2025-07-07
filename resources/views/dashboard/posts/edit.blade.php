@@ -8,9 +8,9 @@
             <a href="/dashboard/posts" class="btn btn-light btn-sm">← Kembali</a>
         </div>
         <div class="card-body">
-            <form method="post" action="/dashboard/posts/{{ $post->slug }}" enctype="multipart/form-data">
-                @method('put')
+           <form action="/dashboard/posts/{{ $post->slug }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
 
                 <div class="mb-3">
                     <label for="title" class="form-label">📝 Judul Post</label>
@@ -25,6 +25,8 @@
                     <input type="text" class="form-control" id="tournament" value="{{ $post->tournament->name }}" disabled>
                     <input type="hidden" name="tournament_id" value="{{ $post->tournament_id }}">
                 </div>
+
+                <input type="hidden" name="category_id" value="{{ $post->category_id }}">
 
                 <div class="mb-3">
                     <label for="slug" class="form-label">🔗 Slug</label>
