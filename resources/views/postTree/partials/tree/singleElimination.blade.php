@@ -71,7 +71,7 @@
                 
                 @foreach ($treeGen->brackets as $roundNumber => $round)
                     @foreach ($round as $matchNumber => $match)
-                        @include('dashboard.champs.setting.partials.tree.brackets.fight')
+                        @include('postTree.partials.tree.brackets.fight')
 
                         @if ($roundNumber != $treeGen->noRounds)
                             {{-- Vertical Connector --}}

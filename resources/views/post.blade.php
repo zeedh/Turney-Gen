@@ -74,7 +74,7 @@
                                         @endauth
                                     @else
                                         <span class="text-muted small">Turnamen sudah dimulai</span>
-                                        <a href="{{ url('bagan/' . $champ->id) }}"
+                                        <a href="{{ route('bagan.index', ['champ' => $champ->id]) }}"
                                         class="btn btn-success btn-sm">
                                             Lihat Tree
                                         </a>

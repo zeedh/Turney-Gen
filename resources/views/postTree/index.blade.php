@@ -26,12 +26,12 @@
           </div>
           <div class="card-body overflow-auto">
             @if ($championship->hasPreliminary())
-              @include('dashboard.champs.setting.partials.tree.preliminary')
+              @include('postTree.partials.tree.preliminary')
             @else
               @if ($championship->isSingleEliminationType())
-                @include('dashboard.champs.setting.partials.tree.singleElimination', ['hasPreliminary' => 0])
+                @include('postTree.partials.tree.singleElimination', ['hasPreliminary' => 0])
               @elseif ($championship->isPlayOffType())
-                @include('dashboard.champs.setting.partials.tree.playOff')
+                @include('postTree.partials.tree.playOff')
               @else
                 <div class="alert alert-danger mb-0" role="alert">
                   <strong>Oops!</strong> There seems to be a problem with the championship type.
@@ -74,7 +74,7 @@
             <h5 class="mb-0">Fight List</h5>
           </div>
           <div class="card-body text-center table-responsive">
-            @include('dashboard.champs.setting.partials.fights')
+            @include('postTree.partials.fights')
           </div>
         </div>
 

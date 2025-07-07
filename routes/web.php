@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardTurneyController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BaganController;
 
 use App\Http\Middleware\IsPanitia;
 use Xoco70\LaravelTournaments\Models\Category;
@@ -28,6 +29,7 @@ Route::get('/blog', [PostController::class, 'index']);
 Route::get('blog/{post:slug}', [PostController::class, 'show'])->name('blog.show');
 Route::post('blog/{post:slug}', [PostController::class, 'store'])->name('blog.store');
 Route::delete('blog/{post:slug}', [PostController::class, 'destroy'])->name('blog.destroy');
+Route::get('blog/{post:slug}/{champ}', [PostController::class, 'tree'])->name('blog.tree');
 
 Route::get('/about', function () {
     return view('about', [
@@ -47,7 +49,7 @@ Route::get('/categories', function() {
 });
 
 // Bagan di post
-Route::get('bagan/{champs}', [BaganController::class, 'index'])->name('bagan.index');
+Route::get('bagan/{champ}', [BaganController::class, 'index'])->name('bagan.index');
 
 // Login/Logout
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
