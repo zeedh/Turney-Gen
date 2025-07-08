@@ -13,10 +13,19 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function panitiaIndex()
     {
         $user = Auth::user();
         return view('dashboard.profile.index', compact('user'));
+    }
+
+    public function pesertaIndex()
+    {
+        $user = Auth::user();
+        return view('profile.index', compact('user'),[
+            'title' => 'Post Categories',
+            'active' => ''
+        ]);
     }
 
     /**
@@ -46,16 +55,25 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function panitiaEdit(User $user)
     {
         $user = Auth::user();
         return view('dashboard.profile.edit', compact('user'));
     }
 
+    public function pesertaEdit(User $user)
+    {
+        $user = Auth::user();
+        return view('profile.edit', compact('user'),[
+            'title' => 'Post Categories',
+            'active' => ''
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function panitiaUpdate(Request $request, User $user)
     {
         $user = Auth::user();
 
@@ -76,6 +94,29 @@ class ProfileController extends Controller
         $user->update($validated);
 
         return redirect()->route('dashboard.profile.index')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function pesertaUpdate(Request $request, User $user)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'birthDate' => 'required|date',
+            'image'     => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::delete($user->image);
+            }
+            $validated['image'] = $request->file('image')->store('profile-images');
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
 
     /**

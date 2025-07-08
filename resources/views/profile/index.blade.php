@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.main')
+@extends('layouts.main')
 
 @section('container')
 <div class="container">
@@ -17,7 +17,7 @@
             <p><strong>Email:</strong> {{ $user->email }}</p>
             <p><strong>Tanggal Lahir:</strong> {{ $user->birthDate->format('d M Y') }}</p>
 
-            <a href="{{ route('dashboard.profile.edit') }}" class="btn btn-warning">Edit Profil</a>
+            <a href="{{ route('profile.edit') }}" class="btn btn-warning">Edit Profil</a>
         </div>
     </div>
 </div>

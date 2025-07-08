@@ -1,10 +1,10 @@
-@extends('dashboard.layouts.main')
+@extends('layouts.main')
 
 @section('container')
 <div class="container">
     <h1>Edit Profil</h1>
 
-    <form method="POST" action="{{ route('dashboard.profile.update') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -40,7 +40,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-        <a href="{{ route('dashboard.profile.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('profile.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

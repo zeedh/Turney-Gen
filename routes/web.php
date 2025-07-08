@@ -66,6 +66,23 @@ Route::post('/register/panitia', [RegisterController::class, 'storePanitia'])->m
 Route::get('/register/peserta', [RegisterController::class, 'Peserta'])->middleware('guest');
 Route::post('/register/peserta', [RegisterController::class, 'storePeserta'])->middleware('guest');
 
+// Profile Peserta
+Route::get('/profile', [ProfileController::class, 'pesertaIndex'])->name('profile.index')->middleware('auth');
+Route::get('/profile/edit', [ProfileController::class, 'pesertaEdit'])->name('profile.edit')->middleware('auth');
+Route::put('/profile/update', [ProfileController::class, 'pesertaUpdate'])->name('profile.update')->middleware('auth');
+
+// Akses Foto Profil
+Route::get('/profile-image/{filename}', function ($filename) {
+    $path = storage_path('app/private/profile-images/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->middleware('auth');
+
+
 // ----------------------------
 // Dashboard Group
 // ----------------------------
@@ -78,9 +95,9 @@ Route::middleware(['auth', IsPanitia::class])
         Route::view('/', 'dashboard.index')->name('home');
 
         // Profile
-        Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-        Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::get('profile', [ProfileController::class, 'panitiaIndex'])->name('profile.index');
+        Route::get('profile/edit', [ProfileController::class, 'panitiaEdit'])->name('profile.edit');
+        Route::put('profile/update', [ProfileController::class, 'panitiaUpdate'])->name('profile.update');
 
         // Turnamen
         Route::get('tours/checkSlug', [DashboardTurneyController::class, 'checkSlug'])->name('tours.checkSlug');

@@ -32,13 +32,15 @@
                         {{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @if(auth()->check() && auth()->user()->is_panitia)
                         <li>
                             <a class="dropdown-item" href="/dashboard">
                                 <i class="bi bi-cast me-1"></i> My Dashboard
                             </a>
                         </li>
+                        @endif
                         <li>
-                            <a class="dropdown-item" href="/dashboard/profile">
+                            <a class="dropdown-item" href="/profile">
                                 <i class="bi bi-person-fill me-1"></i> Profile
                             </a>
                         </li>

@@ -31,7 +31,7 @@
             <h5 class="mb-0">Tournament Tree</h5>
           </div>
                       <!-- Champion Results -->
-            <div class="card-body col-lg-4 ">
+            <div class="card-body col-lg-4  ">
               <table class="table table-bordered table-responsive text-center">
                 <thead class="table-dark">
                   <tr>
