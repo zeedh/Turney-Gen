@@ -74,7 +74,7 @@
                                         @endauth
                                     @else
                                         <span class="text-muted small">Turnamen sudah dimulai</span>
-                                        <a href="{{ route('bagan.index', ['champ' => $champ->id]) }}"
+                                        <a href="/dashboard/champs/{{ $champ->id }}/setting/{{ $champ->settings->id }}"
                                         class="btn btn-success btn-sm">
                                             Lihat Tree
                                         </a>

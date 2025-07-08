@@ -66,7 +66,7 @@
 
         
         {{-- Bracket Wrapper --}}
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto my-4">
             
             {{-- Round Titles --}}
             <div class="round-titles-sticky bg-white border-bottom py-2">
@@ -102,15 +102,15 @@
             </div>
         </div>
 
-
+        @if($tournament->user_id === auth()->id())
         <div class="clearfix">
-            <div class="text-end mt-4">
+            <div class="text-end my-4">
                 <button type="submit" class="btn btn-success" id="update">
                     Update Tree
                 </button>
             </div>
-
         </div>
+        @endif
 
     </form>
 

@@ -37,7 +37,8 @@ class ChampCompetitorController extends Controller
         return view('dashboard.champs.competitors.index',[
             'competitors' => $competitors,
             'champ' => $champ,
-            'users' => $users
+            'users' => $users,
+            "active" => 'blog'
         ]);
     }
 

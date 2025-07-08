@@ -93,6 +93,7 @@ class ChampionshipController extends Controller
     {
         return view('dashboard.champs.edit', [
             'champ' => $champ,
+            "active" => 'blog',
             'tours' => Tournament::all(),
             'categories' => Category::all(),
             'users' => User::all(),

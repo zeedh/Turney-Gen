@@ -17,8 +17,11 @@
   <div class="row">
     <div class="col-12 col-lg-12 mx-auto">
 
-      @include('dashboard.champs.setting.partials.errors')
-      @include('dashboard.champs.setting.partials.settings')
+@if($tournament->user_id === auth()->id())
+    @include('dashboard.champs.setting.partials.errors')
+    @include('dashboard.champs.setting.partials.settings')
+@endif
+
 
       @if ($championship->fightersGroups->count() > 0)
 
@@ -27,23 +30,8 @@
           <div class="card-header bg-success text-white">
             <h5 class="mb-0">Tournament Tree</h5>
           </div>
-          <div class="card-body overflow-auto">
-            @if ($championship->hasPreliminary())
-              @include('dashboard.champs.setting.partials.tree.preliminary')
-            @else
-              @if ($championship->isSingleEliminationType())
-                @include('dashboard.champs.setting.partials.tree.singleElimination', ['hasPreliminary' => 0])
-              @elseif ($championship->isPlayOffType())
-                @include('dashboard.champs.setting.partials.tree.playOff')
-              @else
-                <div class="alert alert-danger mb-0" role="alert">
-                  <strong>Oops!</strong> There seems to be a problem with the championship type.
-                </div>
-              @endif
-            @endif
-
-            <!-- Champion Results -->
-            <div class="card-body col-lg-4">
+                      <!-- Champion Results -->
+            <div class="card-body col-lg-4 ">
               <table class="table table-bordered table-responsive text-center">
                 <thead class="table-dark">
                   <tr>
@@ -71,6 +59,20 @@
               </table>
             </div>
 
+          <div class="card-body overflow-auto">
+            @if ($championship->hasPreliminary())
+              @include('dashboard.champs.setting.partials.tree.preliminary')
+            @else
+              @if ($championship->isSingleEliminationType())
+                @include('dashboard.champs.setting.partials.tree.singleElimination', ['hasPreliminary' => 0])
+              @elseif ($championship->isPlayOffType())
+                @include('dashboard.champs.setting.partials.tree.playOff')
+              @else
+                <div class="alert alert-danger mb-0" role="alert">
+                  <strong>Oops!</strong> There seems to be a problem with the championship type.
+                </div>
+              @endif
+            @endif
 
         <!-- Fight List Section -->
           <div class="card-header bg-warning text-dark">

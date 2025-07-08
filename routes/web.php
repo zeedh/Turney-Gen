@@ -106,5 +106,5 @@ Route::middleware(['auth', IsPanitia::class])
                 Route::post('/seed', [ChampCompetitorController::class, 'saveSeed'])->name('seed.save');
             });
 
-        Route::resource('champs/{champ}/setting/{setting}', ChampSettingController::class);
-    });
+        });
+Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class);

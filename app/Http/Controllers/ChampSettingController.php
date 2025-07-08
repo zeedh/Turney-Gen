@@ -37,6 +37,7 @@ class ChampSettingController extends Controller
             'champ' => $champ,
             'competitorCount' => $competitorCount,
             'tournament' => $tournament,
+            "active" => 'blog',
             'champion' => $winners['champion'],
             'runnerUp' => $winners['runnerUp'],
             'thirdPlace' => $winners['thirdPlace']

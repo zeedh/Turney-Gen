@@ -72,12 +72,19 @@
   </symbol>
 </svg>
 
-@include('dashboard.champs.layouts.header')
+@if(auth()->check() && auth()->user()->is_panitia)
+    @include('dashboard.champs.layouts.header')
+@else
+    @include('partials.navbar')
+@endif
+
 
 <div class="container-fluid">
   <div class="row">
     {{-- Sidebar --}}
+    @if(auth()->check() && auth()->user()->is_panitia)
     @include('dashboard.champs.layouts.sidebar')
+    @endif
 
     {{-- Main Content --}}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
