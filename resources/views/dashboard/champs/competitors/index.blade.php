@@ -2,6 +2,12 @@
 
 @section('container')
     <!-- <h2>Peserta Turnamen: {{ $champ->tournament->name }} untuk kategori {{ $champ->category->name }}</h2> -->
+     @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <div class="card shadow-sm col-lg-8 p-3 mt-3 mb-4">
 
             <form action="{{ route('dashboard.competitors.index', ['champ' => $champ->id]) }}" method="GET" class="mb-3">
@@ -55,7 +61,18 @@
 
 
             <h4>Daftar Peserta Turnamen "{{ $champ->tournament->name }}"</h4>
-            <p>Total Peserta: {{ $competitors->count() }}</p>
+
+            @php
+                $total = $competitors->count();
+            @endphp
+
+            <p class="{{ $limit && $total >= $limit ? 'text-danger' : 'text-muted' }}">
+                Total Peserta: <strong>{{ $total }}</strong>
+                @if($limit)
+                    / <strong>{{ $limit }}</strong> peserta
+                @endif
+            </p>
+
 
             @if($competitors->count())
                 <ul class="list-group">

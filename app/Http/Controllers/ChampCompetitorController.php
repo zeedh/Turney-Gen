@@ -23,6 +23,8 @@ class ChampCompetitorController extends Controller
         //                 ->withQueryString();
 
         $search = request('search');
+
+        $limit = $champ->settings->limitByEntity ?? null;
     
         $users = User::query()
             ->when($search, function ($query, $search) {
@@ -38,7 +40,8 @@ class ChampCompetitorController extends Controller
             'competitors' => $competitors,
             'champ' => $champ,
             'users' => $users,
-            "active" => 'blog'
+            "active" => 'blog',
+            'limit' => $limit
         ]);
     }
 
@@ -59,9 +62,25 @@ class ChampCompetitorController extends Controller
             'user_id' => 'required|exists:users,id'
         ]);
 
+        // Ambil setting untuk championship ini
+        $setting = $champ->settings()->first();
+
+        if (!$setting) {
+            return back()->with('error', 'Pengaturan kejuaraan belum dibuat.');
+        }
+
+        $limit = $setting->limitByEntity ?? 0;
+
+        $currentCount = Competitor::where('championship_id', $champ->id)->count();
+
+        if ($limit > 0 && $currentCount >= $limit) {
+            return back()->with('error', 'Jumlah peserta sudah mencapai batas maksimum.');
+        }
+
+        // Cek apakah user sudah terdaftar
         $exists = Competitor::where('championship_id', $champ->id)
-                    ->where('user_id', $validated['user_id'])
-                    ->exists();
+            ->where('user_id', $validated['user_id'])
+            ->exists();
 
         if ($exists) {
             return back()->with('error', 'User sudah terdaftar sebagai peserta.');
@@ -74,7 +93,10 @@ class ChampCompetitorController extends Controller
             'short_id' => random_int(1, 200),
         ]);
 
-        return redirect()->route('dashboard.competitors.index', $champ->id)->with('success', 'Peserta berhasil ditambahkan!');
+        return redirect()
+            ->route('dashboard.competitors.index', $champ->id)
+            ->with('success', 'Peserta berhasil ditambahkan!');
+
 
     }
 
