@@ -28,7 +28,7 @@
         <!-- Tree Section -->
         <div class="card shadow-sm mb-4">
           <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Tournament Tree</h5>
+            <h5 class="mb-0">Bagan Pertandingan</h5>
           </div>
                       <!-- Champion Results -->
             <div class="card-body col-lg-4  ">
@@ -76,7 +76,7 @@
 
         <!-- Fight List Section -->
           <div class="card-header bg-warning text-dark">
-            <h5 class="mb-0">Fight List</h5>
+            <h5 class="mb-0">Daftar Pertandingan</h5>
           </div>
           <div class="card-body text-center table-responsive">
             @include('dashboard.champs.setting.partials.fights')

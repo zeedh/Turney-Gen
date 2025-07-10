@@ -16,6 +16,9 @@
                     <a class="nav-link {{ $active === 'blog' ? 'active fw-semibold' : '' }}" href="/blog">Turnamen</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ $active === 'tutor' ? 'active fw-semibold' : '' }}" href="/tutorial">Tutorial</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ $active === 'about' ? 'active fw-semibold' : '' }}" href="/about">About</a>
                 </li>
                 <!-- <li class="nav-item">

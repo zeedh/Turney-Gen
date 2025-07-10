@@ -2,7 +2,7 @@
     @csrf
 
 
-        <div class="card-body">
+        <div class="card-body mb-3 mt-5">
 
             <div class="row g-4">
                 <!-- Preliminary -->

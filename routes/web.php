@@ -14,6 +14,7 @@ use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BaganController;
+use App\Http\Controllers\TutorialController;
 
 use App\Http\Middleware\IsPanitia;
 use Xoco70\LaravelTournaments\Models\Category;
@@ -49,6 +50,8 @@ Route::get('/categories', function() {
         'categories' => Category::all()
     ]);
 });
+
+Route::get('/tutorial', [TutorialController::class, 'index']);
 
 // Login/Logout
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
