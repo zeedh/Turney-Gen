@@ -3,11 +3,11 @@
 @section('container')
 
 <div class="container my-5">
+    <div class="card-header text-dark my-4 align-items-center">
+      <h2 class="mb-0">Tutorial</h2>
+    </div>
 
   <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">Selamat Datang di TurneyGen</h4>
-    </div>
     <div class="card-body mx-4">
       <p>
         Sebelum Anda menggunakan web aplikasi ini, ada baiknya membaca tutorial atau tata cara penggunaan berikut:

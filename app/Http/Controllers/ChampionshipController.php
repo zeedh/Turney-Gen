@@ -22,7 +22,14 @@ class ChampionshipController extends Controller
     public function index()
     {
         // $tour = Tournament::where('user_id', auth()->user()->id)->get();
-        $champs = Championship::with(['tournament', 'category'])->get();
+        $tournaments = Tournament::where('user_id', auth()->id())->get();
+
+        $tournamentIds = $tournaments->pluck('id')->toArray();
+
+        $champs = Championship::whereIn('tournament_id', $tournamentIds)
+            ->with(['tournament', 'category'])
+            ->get();
+
 
 
         return view('dashboard.champs.index',[
@@ -35,9 +42,10 @@ class ChampionshipController extends Controller
      */
     public function create()
     {
+        $tours = Tournament::where('user_id', auth()->id())->get();
         return view('dashboard.champs.create', [
             'categories' => Category::all(),
-            'tours' => Tournament::all()
+            'tours' => $tours
         ]);
     }
 

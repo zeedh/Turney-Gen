@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Category;
 use Xoco70\LaravelTournaments\Models\Championship;
 use Xoco70\LaravelTournaments\Models\Competitor;
+use App\Models\Tournament;
 
 class PostController extends Controller
 {
@@ -43,10 +44,12 @@ class PostController extends Controller
                 ->pluck('championship_id')
                 ->toArray();
         }
+        $tour = Tournament::where('id', $post->tournament_id)->first();
 
         $champs = Championship::where('tournament_id', $post->tournament_id)->get();
         return view('post', [
             "title" => "Single Post",
+            'tour' => $tour,
             "post" => $post,
             "active" => 'blog',
             'champs' => $champs,

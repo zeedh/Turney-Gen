@@ -57,16 +57,30 @@
                                                         Batal Daftar
                                                     </button>
                                                 </form>
-                                            @else
-                                                <form action="{{ route('blog.store', ['post' => $post->slug]) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="championship_id" value="{{ $champ->id }}">
-                                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                                    <button type="submit" class="btn btn-sm btn-success">
-                                                        Daftar
-                                                    </button>
-                                                </form>
-                                            @endif
+                                                @else
+                                                    @php
+                                                        $userGender = auth()->user()->gender ?? null;
+                                                        $categoryGender = $champ->category->gender ?? 'X';
+                                                    @endphp
+
+                                                    @if ($categoryGender === 'X' || $categoryGender === $userGender)
+                                                        <form action="{{ route('blog.store', ['post' => $post->slug]) }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="championship_id" value="{{ $champ->id }}">
+                                                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                                            <button type="submit" class="btn btn-sm btn-success">
+                                                                Daftar
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <span class="text-danger small">
+                                                            Tidak bisa mendaftar. Kategori ini hanya untuk
+                                                            <strong>
+                                                                {{ $categoryGender === 'M' ? 'Laki-laki' : ($categoryGender === 'F' ? 'Perempuan' : 'Campuran') }}
+                                                            </strong>.
+                                                        </span>
+                                                    @endif
+                                                @endif
                                         @else
                                             <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
                                                 Login untuk Mendaftar
@@ -82,6 +96,18 @@
 
                                 </div>
                             </div>
+                        </li>
+                        <li>
+                            <span class="badge bg-info text-white">
+                                Waktu Penyelenggaraan
+                                {{ $tour->dateIni ?? '-' }} - {{ $tour->dateFin ?? '-' }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="badge bg-info text-white">
+                                Batas akhir pendaftaran :
+                                {{ $tour->registerDateLimit ?? '-' }}
+                            </span>
                         </li>
                     @empty
                         <li class="list-group-item text-muted">
