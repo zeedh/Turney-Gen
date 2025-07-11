@@ -43,9 +43,18 @@
       {{-- Jumlah Peserta --}}
       <div class="mb-3">
         <label for="limitByEntity" class="form-label">Maksimal Jumlah Peserta</label>
-        <input type="number" class="form-control @error('limitByEntity') is-invalid @enderror" id="limitByEntity" name="limitByEntity" min="4" max="128" value="{{ old('limitByEntity') ?? 8 }}" required>
-        @error('limitByEntity') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <select class="form-select @error('limitByEntity') is-invalid @enderror" id="limitByEntity" name="limitByEntity" required>
+          @foreach ([4, 8, 16, 32, 64, 128, 256, 512] as $limit)
+            <option value="{{ $limit }}" {{ (old('limitByEntity', 8) == $limit) ? 'selected' : '' }}>
+              {{ $limit }}
+            </option>
+          @endforeach
+        </select>
+        @error('limitByEntity') 
+          <div class="invalid-feedback">{{ $message }}</div> 
+        @enderror
       </div>
+
 
       {{-- Jenis Pertandingan --}}
     <input type="hidden" name="isTeam" id="isTeam" value="0">

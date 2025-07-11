@@ -42,8 +42,8 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Post Gambar</label>
+        <div class="">
+            <label for="image" class="form-label">Poster</label>
             
             <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
             @error('image')
@@ -51,10 +51,10 @@
                 {{ $message }}
             </div>
             @enderror
-            <img class="img-preview img-fluid mb-3 mt-3 col-sm-5" src="" alt="">
+            <img class="img-preview img-fluid mt-3 col-sm-5" src="" alt="">
         </div>
         <div class="mb-3">
-            <label for="body" class="form-label">Body</label>
+            <label for="body" class="form-label">Deskripsi Turnamen</label>
             @error ('body')
             <p class="text-danger">{{ $message }}</p>
                 
