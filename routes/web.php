@@ -31,6 +31,21 @@ Route::get('blog/{post:slug}', [PostController::class, 'show'])->name('blog.show
 Route::post('blog/{post:slug}', [PostController::class, 'store'])->name('blog.store');
 Route::delete('blog/{post:slug}', [PostController::class, 'destroy'])->name('blog.destroy');
 
+/*Route::get('/categories/{category:slug}', function(Category $category) {
+    return view('blog', [
+        'title' => "Post By Category : $category->name",
+        'active' => 'categories',
+        'posts' => $category->posts->load('category', 'author'),
+    ]);
+});
+
+Route::get('/authors/{author:username}', function(User $author){
+    return view('blog', [
+        'title' => "Post By Author : $author->name",
+        'posts' => $author->posts->load('category', 'author'),
+    ]);
+});*/
+
 // Bagan di post
 Route::get('bagan/{champ}', [BaganController::class, 'index'])->name('bagan.index');
 

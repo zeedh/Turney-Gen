@@ -44,18 +44,6 @@
 
           <div class="col-md-6">
             <div class="form-floating">
-              <input type="text" name="name"
-                class="form-control @error('name') is-invalid @enderror"
-                id="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required>
-              <label for="name">Nama Lengkap (Username)</label>
-              @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-floating">
               <input type="text" name="firstname"
                 class="form-control @error('firstname') is-invalid @enderror"
                 id="firstname" placeholder="Nama Depan" value="{{ old('firstname') }}" required>

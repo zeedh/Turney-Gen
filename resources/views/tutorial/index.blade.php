@@ -19,9 +19,10 @@
         <li class="list-group-item"><a href="#mendaftar-turnamen">Mendaftar Turnamen</a></li>
         <li class="list-group-item"><a href="#membuat-turnamen">Membuat Turnamen</a></li>
         <li class="list-group-item"><a href="#membuat-postingan">Membuat Postingan</a></li>
-        <li class="list-group-item"><a href="#mengelola-bagan">Mengelola Bagan Pertandingan</a></li>
         <li class="list-group-item"><a href="#mengelola-peserta">Mengelola Peserta Turnamen</a></li>
         <li class="list-group-item"><a href="#membuat-bagan-otomatis">Membuat Bagan Pertandingan</a></li>
+        <li class="list-group-item"><a href="#mengelola-bagan">Mengelola Bagan Pertandingan</a></li>
+        <li class="list-group-item"><a href="#mengedit-profile">Mengedit Profile</a></li>
       </ul>
 
       {{-- Section Cara Registrasi --}}
@@ -122,29 +123,7 @@
         </ol>
       </div>
 
-      {{-- Section Mengelola Bagan --}}
-        <h5 id="mengelola-bagan" class="text-primary mt-5">
-        <a class="text-decoration-none d-flex align-items-center"
-            data-bs-toggle="collapse"
-            href="#collapseMengelolaBagan"
-            role="button"
-            aria-expanded="false"
-            aria-controls="collapseMengelolaBagan">
-            Mengelola Bagan
-            <span class="collapse-icon mx-3">
-            <i class="bi bi-chevron-down"></i>
-            </span>
-        </a>
-        </h5>
-      <div class="collapse" id="collapseMengelolaBagan">
-        <ol class="mb-4">
-          <li>Setiap turnamen memiliki satu bagan pertandingan yang dapat dikelola.</li>
-          <li>Klik menu <strong>Bagan Pertandingan</strong> di Dashboard, lalu pilih turnamen yang ingin Anda atur.</li>
-          <li>Di halaman ini, Anda dapat mengubah kategori turnamen, mengelola peserta, dan membuat bagan secara otomatis.</li>
-        </ol>
-      </div>
-
-      {{-- Section Mengelola Peserta --}}
+            {{-- Section Mengelola Peserta --}}
         <h5 id="mengelola-peserta" class="text-primary mt-5">
         <a class="text-decoration-none d-flex align-items-center"
             data-bs-toggle="collapse"
@@ -152,7 +131,7 @@
             role="button"
             aria-expanded="false"
             aria-controls="collapseMengelolaPeserta">
-            Mengelola Peserta
+            Mengelola Peserta Turnamen
             <span class="collapse-icon mx-3">
             <i class="bi bi-chevron-down"></i>
             </span>
@@ -169,7 +148,7 @@
         </ol>
       </div>
 
-      {{-- Section Membuat Bagan Otomatis --}}
+            {{-- Section Membuat Bagan Otomatis --}}
         <h5 id="membuat-bagan-otomatis" class="text-primary mt-5">
         <a class="text-decoration-none d-flex  align-items-center"
             data-bs-toggle="collapse"
@@ -177,7 +156,7 @@
             role="button"
             aria-expanded="false"
             aria-controls="collapseMembuatBaganOtomatis">
-            Membuat Bagan
+            Membuat Bagan Pertandingan
             <span class="collapse-icon mx-3">
             <i class="bi bi-chevron-down"></i>
             </span>
@@ -191,6 +170,51 @@
           <li>Klik <strong>Generate Tree</strong> untuk membuat bagan otomatis.</li>
           <li>Anda dapat mengisi skor pertandingan di sebelah nama peserta. Masukkan skor kedua peserta agar pemenang otomatis lanjut ke babak berikutnya. <em>*gambar petunjuk</em></li>
           <li>Klik <strong>Update Tree</strong> untuk menyimpan skor. <strong>Catatan:</strong> Anda tidak dapat mengedit skor yang sudah tersimpan. Jika ingin mengulang, klik <strong>Generate Tree</strong> lagi. Seluruh turnamen akan di-reset dan peserta akan teracak ulang. Penempatan seed dan bye tetap sesuai aturan PBSI.</li>
+        </ol>
+      </div>
+
+      {{-- Section Mengelola Bagan --}}
+        <h5 id="mengelola-bagan" class="text-primary mt-5">
+        <a class="text-decoration-none d-flex align-items-center"
+            data-bs-toggle="collapse"
+            href="#collapseMengelolaBagan"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseMengelolaBagan">
+            Mengelola Bagan Pertandingan
+            <span class="collapse-icon mx-3">
+            <i class="bi bi-chevron-down"></i>
+            </span>
+        </a>
+        </h5>
+      <div class="collapse" id="collapseMengelolaBagan">
+        <ol class="mb-4">
+          <li>Setiap turnamen memiliki satu bagan pertandingan yang dapat dikelola.</li>
+          <li>Klik menu <strong>Bagan Pertandingan</strong> di Dashboard, lalu pilih turnamen yang ingin Anda atur.</li>
+          <li>Di halaman ini, Anda dapat mengubah kategori turnamen, mengelola peserta, dan membuat bagan secara otomatis.</li>
+        </ol>
+      </div>
+
+      {{-- Section Mengedit Profile --}}
+        <h5 id="mengedit-profile" class="text-primary mt-5">
+        <a class="text-decoration-none d-flex  align-items-center"
+            data-bs-toggle="collapse"
+            href="#collapseMengeditProfile"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseMengeditProfile">
+            Mengedit Profile
+            <span class="collapse-icon mx-3">
+            <i class="bi bi-chevron-down"></i>
+            </span>
+        </a>
+        </h5>
+      <div class="collapse" id="collapseMengeditProfile">
+        <ol>
+          <li>Klik <strong>Gambar / Nama</strong> di pojok kanan atas jika kalian menggunakan desktop, atau klik dahul tiga baris di pojok kanan atas lalu klik <strong>Gambar / Nama</strong> </li>
+          <li>Pilih menu <strong>Profile</strong> dan kalian akan dibawa ke detail profile</li>
+          <li>Klik edit profile jika ingin melakukan perubahan, termasuk ingin menambah foto profile.<strong>Peserta</strong>.</li>
+          <li>Isi sesuai keinginan anda lalu klik <strong>Simpan Perubahan</strong> </li>
         </ol>
       </div>
 

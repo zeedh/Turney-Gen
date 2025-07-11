@@ -35,7 +35,7 @@ class RegisterController extends Controller
     public function storePanitia(Request $request)
     {
         $validatedData = $request->validate([
-            'name'        => 'required|max:255',
+            // HAPUS 'name' di sini
             'firstname'   => 'required|max:255',
             'lastname'    => 'required|max:255',
             'email'       => 'required|email:dns|unique:users,email',
@@ -45,6 +45,9 @@ class RegisterController extends Controller
             'password'    => 'required|min:5|max:255',
         ]);
 
+        // Buat name = firstname + lastname
+        $validatedData['name'] = $validatedData['firstname'] . ' ' . $validatedData['lastname'];
+
         // Hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -53,11 +56,10 @@ class RegisterController extends Controller
 
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
-
     public function storePeserta(Request $request)
     {
         $validatedData = $request->validate([
-            'name'        => 'required|max:255',
+            // HAPUS 'name' di sini
             'firstname'   => 'required|max:255',
             'lastname'    => 'required|max:255',
             'email'       => 'required|email:dns|unique:users,email',
@@ -67,6 +69,9 @@ class RegisterController extends Controller
             'password'    => 'required|min:5|max:255',
         ]);
 
+        // Buat name = firstname + lastname
+        $validatedData['name'] = $validatedData['firstname'] . ' ' . $validatedData['lastname'];
+
         // Hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -75,4 +80,6 @@ class RegisterController extends Controller
 
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
+
+
 }
