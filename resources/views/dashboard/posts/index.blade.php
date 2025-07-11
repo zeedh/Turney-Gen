@@ -34,6 +34,7 @@
             <th>#</th>
             <th>Judul</th>
             <th>Turnamen</th>
+            <th>Kategori</th>
             <th></th>
           </tr>
         </thead>
@@ -43,6 +44,14 @@
             <td>{{ $loop->iteration }}</td>
             <td class="fw-semibold">{{ $post->title }}</td>
             <td>{{ $post->tournament->name ?? '—' }}</td>
+            <td>
+                @php
+                    // Ambil championships untuk tournament_id ini
+                    $relatedChamps = $champs[$post->tournament_id] ?? collect();
+                    $categoryName = $relatedChamps->first()?->category?->name ?? '—';
+                @endphp
+                {{ $categoryName }}
+            </td>
             <td>
               <a href="/dashboard/posts/{{ $post->slug }}" class="btn btn-sm btn-primary text-white">
                 <i class="bi bi-eye"></i> Lihat

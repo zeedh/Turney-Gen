@@ -19,15 +19,23 @@ class DashboardPostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $tours = Tournament::where('user_id', auth()->user()->id)->get();
+public function index()
+{
+    $tours = Tournament::where('user_id', auth()->id())->get();
 
-        return view('dashboard.posts.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get(),
-            'tours'  => $tours
-        ]);
-    }
+    $championships = Championship::whereIn('tournament_id', $tours->pluck('id'))
+        ->with('category')
+        ->get()
+        ->groupBy('tournament_id');
+
+    return view('dashboard.posts.index', [
+        'posts' => Post::where('user_id', auth()->id())->with('tournament')->get(),
+        'tours' => $tours,
+        'champs' => $championships
+    ]);
+}
+
+
 
     /**
      * Show the form for creating a new resource.
