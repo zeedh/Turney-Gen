@@ -14,7 +14,14 @@
     <!-- User Dropdown -->
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User menu">
-        <img src="https://github.com/mdo.png" alt="User Avatar" width="32" height="32" class="rounded-circle border border-light mx-2">
+        @if(auth()->user()->image)
+            <img src="{{ auth()->user()->image ? url('/profile-image/' . basename(auth()->user()->image)) : asset('default-profile.png') }}"
+                alt="User Avatar"                                 
+                width="32" height="32" 
+                class="rounded-circle border border-light mx-2">
+        @else
+            <i class="bi bi-person-circle fs-4 mx-3 mb-4"></i>
+        @endif
         {{ auth()->user()->name }}
       </a>
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-light text-small shadow me-auto mb-2 mb-lg-0">

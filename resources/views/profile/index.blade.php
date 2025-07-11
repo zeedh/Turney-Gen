@@ -10,8 +10,12 @@
 
     <div class="card">
         <div class="card-body m-3">
-            <img src="{{ $user->image ? url('/profile-image/' . basename($user->image)) : asset('default-profile.png') }}"
-                 alt="Profile Image" width="200" class="img-thumbnail mb-3">
+            @if(auth()->user()->image)
+                <img src="{{ $user->image ? url('/profile-image/' . basename($user->image)) : asset('default-profile.png') }}"
+                    alt="Profile Image" width="200" class="img-thumbnail mb-3">
+            @else
+                <i class="bi bi-person-circle fs-1 mb-3" ></i>
+            @endif
 
             <p><strong>Nama Lengkap:</strong> {{ $user->firstname }} {{ $user->lastname }}</p>
             <p><strong>Email:</strong> {{ $user->email }}</p>
