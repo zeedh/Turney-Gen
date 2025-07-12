@@ -92,10 +92,9 @@
           <br> <img src="{{ asset('storage/tutorial/membuat tour tree line.png') }}" alt="Login Tree Line" class="img-fluid rounded mb-3 shadow p-3 mb-5 bg-body rounded">
           <li>Klik <strong>Buat Turnamen Baru</strong>.</li>
           <li>Isi form sesuai rencana Anda. Slug akan terisi otomatis mengikuti judul turnamen, namun Anda tetap bisa mengubahnya selama belum digunakan turnamen lain. Klik <strong>Lanjut</strong> setelah semua terisi.</li>
-          <li>Di halaman berikutnya, Anda akan diminta mengisi detail turnamen lagi. Pilih judul turnamen yang baru saja dibuat.</li>
+          <li>Di halaman berikutnya, Anda akan diminta mengisi detail turnamen lagi.</li>
           <li>Klik <strong>Buat Bagan</strong> dan turnamen Anda sudah berhasil dibuat.</li>
-          <li>Jika Anda ingin orang mendaftar, Anda perlu membuat post agar orang dapat melihat turnamen yang Anda buat.</li>
-          <li>Jangan lupa memulai turnamen Anda jika sudah waktunya, dengan memulai bagan pertandingan.</li>
+          <br> <strong>Catatan : </strong> Jika Anda ingin orang mendaftar, Anda perlu membuat post agar orang dapat melihat turnamen yang Anda buat. Jangan lupa memulai turnamen Anda jika sudah waktunya, dengan memulai bagan pertandingan.
         </ol>
       </div>
 

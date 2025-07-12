@@ -42,7 +42,7 @@ class ChampionshipController extends Controller
      */
     public function create()
     {
-        $tours = Tournament::where('user_id', auth()->id())->get();
+        $tours = Tournament::where('user_id', auth()->id())->latest()->first();
         return view('dashboard.champs.create', [
             'categories' => Category::all(),
             'tours' => $tours

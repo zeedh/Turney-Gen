@@ -14,17 +14,17 @@
 
       {{-- Turnamen --}}
       <div class="mb-3">
-        <label for="tournament_id" class="form-label">Pilih Turnamen</label>
-        <select class="form-select @error('tournament_id') is-invalid @enderror" name="tournament_id" id="tournament_id" required>
-          <option selected disabled>-- Pilih Turnamen --</option>
-          @foreach($tours as $tour)
-            <option value="{{ $tour->id }}" {{ old('tournament_id') == $tour->id ? 'selected' : '' }}>
-              {{ $tour->name }}
-            </option>
-          @endforeach
-        </select>
-        @error('tournament_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+          <label for="tournament_id" class="form-label">Turnamen</label>
+          <select class="form-select @error('tournament_id') is-invalid @enderror" name="tournament_id" id="tournament_id" disabled>
+              <option selected disabled>-- Pilih Turnamen --</option>
+              @if($tours)
+                  <option value="{{ $tours->id }}" selected>{{ $tours->name }}</option>
+                  <input type="hidden" name="tournament_id" value="{{ $tours->id }}">
+              @endif
+          </select>
+          @error('tournament_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
       </div>
+
 
       {{-- Kategori --}}
       <div class="mb-3">
