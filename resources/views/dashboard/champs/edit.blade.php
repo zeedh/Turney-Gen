@@ -41,4 +41,15 @@
     </form>
   </div>
 </div>
+
+<div class="alert alert-info shadow-sm mx-4 my-4">
+  <i class="bi bi-lightbulb-fill me-2"></i>
+  <strong>Kembali ke Dashboard :</strong> Bisa klik icon namamu di pojok kanan atas.
+    <br>
+    <img src="{{ asset('storage/tutorial/ke dash2.png') }}" alt="" class="img-fluid rounded mb-3 shadow p-3 my-4 bg-body rounded">
+    <br>
+  <strong>Menu Edit :</strong> Bisa klik icon tiga garis di pojok kiri atas.
+  <br>
+  <img src="{{ asset('storage/tutorial/edit ch.png') }}" alt="" class="img-fluid rounded mb-3 shadow p-3 my-4 bg-body rounded">
+</div>
 @endsection

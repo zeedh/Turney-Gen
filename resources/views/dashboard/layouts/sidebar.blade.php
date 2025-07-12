@@ -33,7 +33,7 @@
 
         <li class="nav-item action">
           <a class="nav-link px-4 py-2 d-flex align-items-center gap-2 {{ Request::is('dashboard/tours*') ? 'active bg-primary text-white' : 'text-dark' }}" href="/dashboard/tours">
-            <i class="bi bi-puzzle-fill text-danger"></i> Turnamen
+            <i class="bi bi-trophy-fill text-danger"></i> Turnamen
           </a>
         </li>
 

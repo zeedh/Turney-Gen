@@ -9,7 +9,7 @@
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-primary">About TurneyGen</h1>
         <p class="lead text-muted">
-            TurneyGen adalah aplikasi untuk membantu membuat turnamen secara mudah, cepat, 
+            TurneyGen adalah aplikasi untuk membantu membuat turnamen bulutangkis secara mudah, cepat, 
             dan sesuai regulasi resmi PBSI.
         </p>
     </div>
@@ -17,7 +17,7 @@
     {{-- Info Tentang Proyek Skripsi --}}
     <div class="alert alert-primary text-center shadow-sm">
         <i class="bi bi-info-circle-fill me-2"></i>
-        Aplikasi generator turnamen otomatis sesuai aturan PBSI ini merupakan <strong>proyek skripsi</strong>.
+        Web aplikasi ini merupakan sebuah Proyek Skripri dengan judul <strong>'Generator Turnamen Badminton Otomatis Sesuai dengan Aturan PBSI' </strong>
         <h5><strong>Oleh : </strong></h5>
     </div>
 

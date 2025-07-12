@@ -4,8 +4,8 @@
 <div class="card shadow-sm p-4 mt-4 col-lg-8 mx-auto">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Update Seed untuk Turnamen "{{ $champ->tournament->name }}"</h4>
-        <a href="{{ route('dashboard.competitors.index', $champ->id) }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Kembali ke Peserta
+        <a href="{{ route('dashboard.competitors.index', $champ->id) }}" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
