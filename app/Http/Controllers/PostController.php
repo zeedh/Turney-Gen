@@ -46,7 +46,9 @@ class PostController extends Controller
         }
         $tour = Tournament::where('id', $post->tournament_id)->first();
 
-        $champs = Championship::where('tournament_id', $post->tournament_id)->get();
+        $champs = Championship::where('tournament_id', $post->tournament_id)
+                    ->with(['settings', 'competitors'])
+                    ->get();
         return view('post', [
             "title" => "Single Post",
             'tour' => $tour,

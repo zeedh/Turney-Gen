@@ -108,7 +108,9 @@ public function store(Request $request)
 
         $tour = Tournament::where('id', $post->tournament_id)->first();
 
-        $champs = Championship::where('tournament_id', $post->tournament_id)->get();
+        $champs = Championship::where('tournament_id', $post->tournament_id)
+                    ->with(['settings', 'competitors'])
+                    ->get();
         // $champs = $post->tournament->championships;
 
         return view('dashboard.posts.show', [

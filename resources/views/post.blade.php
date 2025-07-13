@@ -32,7 +32,7 @@
                             <div class="row g-3 align-items-center">
 
                                 {{-- KIRI: Nama, gender, status --}}
-                                <div class="col-md-8">
+                                <div class="col-md-8 mb-3">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
                                         <a
                                            class="text-decoration-none text-dark fw-semibold">
@@ -60,9 +60,21 @@
                                             Waktu Penyelenggaraan :
                                             {{ $tour->dateIni ?? '-' }} s.d. {{ $tour->dateFin ?? '-' }}
                                         </span>
+                                    </div>
+
+                                    <div class="mt-2">
                                         <span class="badge bg-warning text-dark">
                                             <i class="bi bi-clock-fill me-1"></i>
                                             Batas Daftar: {{ $tour->registerDateLimit ?? '-' }}
+                                        </span>
+                                    </div>
+
+                                    {{-- Info Pendaftar --}}
+                                    <div class="mt-2">
+                                        <span class="badge bg-secondary me-2">
+                                            <i class="bi bi-calendar-event me-1"></i>
+                                            Jumlah Pendaftar:
+                                            {{ $champ->competitors->count() }} / {{ $champ->settings->limitByEntity ?? '-' }}
                                         </span>
                                     </div>
                                 </div>
@@ -148,10 +160,10 @@
                 </ul>
             </div>
 
-            <hr class="my-4">
+            <hr class="my-4 mx-2">
 
             <h5 class="mb-3 text-primary text-center"><i class="bi bi-info-circle-fill me-2"></i>Deskripsi</h5>
-            <article class="card-text fs-6">
+            <article class="card-text fs-6 mx-4">
                 {!! $post->body !!}
             </article>
         </div>
