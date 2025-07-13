@@ -54,7 +54,7 @@
             </td>
             <td>
               <a href="/dashboard/posts/{{ $post->slug }}" class="btn btn-sm btn-primary text-white">
-                <i class="bi bi-eye"></i> Lihat
+                <i class="bi bi-eye"></i> Preview
               </a>
               <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-sm btn-warning text-white">
                 <i class="bi bi-pencil-square"></i> Edit

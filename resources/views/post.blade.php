@@ -34,7 +34,7 @@
                                 {{-- KIRI: Nama, gender, status --}}
                                 <div class="col-md-8">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <a href="{{ url('/dashboard/champs/' . $champ->id . '/edit') }}"
+                                        <a
                                            class="text-decoration-none text-dark fw-semibold">
                                             Kategori: {{ $champ->category->name ?? '-' }}
                                         </a>

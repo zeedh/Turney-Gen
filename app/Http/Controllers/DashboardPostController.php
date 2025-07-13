@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tournament;
 use Xoco70\LaravelTournaments\Models\Championship;
+use Xoco70\LaravelTournaments\Models\Competitor;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
@@ -96,12 +98,24 @@ public function store(Request $request)
      */
     public function show(Post $post)
     {
+        $user = Auth::user();
+        $competitorIds = [];
+        if ($user) {
+            $competitorIds = Competitor::where('user_id', $user->id)
+                ->pluck('championship_id')
+                ->toArray();
+        }
+
+        $tour = Tournament::where('id', $post->tournament_id)->first();
+
         $champs = Championship::where('tournament_id', $post->tournament_id)->get();
         // $champs = $post->tournament->championships;
 
         return view('dashboard.posts.show', [
+            'competitorChampionshipIds' => $competitorIds,
             'post'   => $post,
-            'champs' => $champs
+            'champs' => $champs,
+            'tour'  => $tour
         ]);
     }
 
