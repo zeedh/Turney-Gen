@@ -25,7 +25,7 @@
     @if ($posts->count())
     <div class="card mb-3">
         @if($posts[0]->image)
-            <img src="{{ asset('storage/'.$posts[0]->image) }}" class="img-fluid mt-3">
+            <img src="{{ url('/post-image/' . basename($posts[0]->image)) }}" class="img-fluid mt-3">
         @else
         <img src="https://picsum.photos/id/{{$posts[0]->category->id}}/1200/400" class="card-img-top" alt="{{$posts[0]->category->name}}">
         @endif         
@@ -55,7 +55,7 @@
                         <a href="/blog?category={{ $post->category->slug }}" class="text-white text-decoration-none">{{$post->category->name}}</a>
                     </div>
                     @if($post->image)
-                    <img src="{{ asset('storage/'.$post->image) }}" class="img-fluid mt-3">
+                    <img src="{{ url('/post-image/' . basename($post->image)) }}" class="img-fluid mt-3">
                 @else
                 <img src="https://picsum.photos/id/{{$post->category->id}}/500" class="card-img-top" alt="{{$post->category->name}}">
                 @endif

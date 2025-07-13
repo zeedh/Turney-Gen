@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\LoginController;
@@ -100,6 +102,16 @@ Route::get('/profile-image/{filename}', function ($filename) {
     return response()->file($path);
 })->middleware('auth');
 
+// Akses Foto Post
+Route::get('/post-image/{filename}', function ($filename) {
+    $path = storage_path('app/private/post-image/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->name('post.image');
 
 // ----------------------------
 // Dashboard Group
