@@ -17,7 +17,7 @@
   <div class="row">
     <div class="col-12 col-lg-12 mx-auto">
 
-@if($tournament->user_id === auth()->id())
+@if((int)$tournament->user_id === (int)auth()->id())
     @include('dashboard.champs.setting.partials.errors')
     @include('dashboard.champs.setting.partials.settings')
 @endif
