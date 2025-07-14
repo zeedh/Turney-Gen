@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Xoco70\LaravelTournaments\Models\Competitor;
 use Xoco70\LaravelTournaments\Models\Championship;
+use Xoco70\LaravelTournaments\Models\Tournament;
 use App\Models\User;
 use Illuminate\Support\Str;
 
@@ -36,8 +37,20 @@ class ChampCompetitorController extends Controller
             ->paginate(5)
             ->withQueryString();
 
+        $tournament = Tournament::whereHas('championships', function ($query) use ($champ) {
+            $query->where('id', $champ->id)
+                ->where('category_id', $champ->category_id);
+        })
+        ->with([
+            'competitors',
+            'championships.settings',
+            'championships.category'
+        ])
+        ->first();
+
         return view('dashboard.champs.competitors.index',[
             'competitors' => $competitors,
+            'tournament' => $tournament,
             'champ' => $champ,
             'users' => $users,
             "active" => 'blog',

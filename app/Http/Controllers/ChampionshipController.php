@@ -99,9 +99,20 @@ class ChampionshipController extends Controller
      */
     public function edit(Championship $champ)
     {
+        $tournament = Tournament::whereHas('championships', function ($query) use ($champ) {
+            $query->where('id', $champ->id)
+                ->where('category_id', $champ->category_id);
+        })
+        ->with([
+            'competitors',
+            'championships.settings',
+            'championships.category'
+        ])
+        ->first();
         return view('dashboard.champs.edit', [
             'champ' => $champ,
             "active" => 'blog',
+            'tournament' => $tournament,
             'tours' => Tournament::all(),
             'categories' => Category::all(),
             'users' => User::all(),
