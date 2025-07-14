@@ -72,7 +72,7 @@
   </symbol>
 </svg>
 
-@if(auth()->check() && auth()->user()->is_panitia)
+@if((int)$tournament->user_id === (int)auth()->id())
     @include('dashboard.champs.layouts.header')
 @else
     @include('partials.navbar')
@@ -82,7 +82,7 @@
 <div class="container-fluid">
   <div class="row">
     {{-- Sidebar --}}
-    @if(auth()->check() && auth()->user()->is_panitia)
+    @if((int)$tournament->user_id === (int)auth()->id())
     @include('dashboard.champs.layouts.sidebar')
     @endif
 

@@ -38,9 +38,9 @@
         </h5>
         <div class="collapse" id="collapseCaraRegistrasi">
             <ol class="mb-4">
-                <li>Klik tombol <strong>Login</strong> di pojok kanan atas jika menggunakan desktop. Pada perangkat mobile, klik ikon tiga garis, lalu klik Login. <em>*gambar petunjuk</em></li>
-                <li>Klik <strong>Daftar sekarang</strong> di bawah tombol login.</li>
+                <li>Klik tombol <strong>Login</strong> di pojok kanan atas jika menggunakan desktop. Pada perangkat mobile, klik ikon tiga garis, lalu klik Login.</li>
                 <br> <img src="{{ asset('storage/tutorial/login tree line.png') }}" alt="Login Tree Line" class="img-fluid rounded mb-3 shadow p-3 mb-5 bg-body rounded">
+                <li>Klik <strong>Daftar sekarang</strong> di bawah tombol login.</li>
                 <li>Pilih apakah Anda ingin mendaftar sebagai Panitia atau Peserta.</li>
                 <li>Isi semua form pendaftaran lalu klik Daftar.</li>
                 <li>Setelah berhasil daftar, Anda bisa login menggunakan akun yang sudah dibuat.</li>

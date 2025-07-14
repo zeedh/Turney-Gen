@@ -102,7 +102,7 @@
             </div>
         </div>
 
-        @if($tournament->user_id === auth()->id())
+        @if((int)$tournament->user_id === (int)auth()->id())
         <div class="clearfix">
             <div class="text-end my-4">
                 <button type="submit" class="btn btn-success" id="update">
