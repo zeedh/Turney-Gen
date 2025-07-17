@@ -39,7 +39,7 @@ class RegisterController extends Controller
             'firstname'   => 'required|max:255',
             'lastname'    => 'required|max:255',
             'email'       => 'required|email:dns|unique:users,email',
-            'birthDate'   => 'required|date',
+            'birthDate'   => 'required|date|before_or_equal:today',
             'gender'      => 'required|in:M,F',
             'is_panitia'  => 'required|boolean',
             'password'    => 'required|min:5|max:255',
