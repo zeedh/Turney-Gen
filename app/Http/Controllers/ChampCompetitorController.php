@@ -165,10 +165,21 @@ class ChampCompetitorController extends Controller
             ->with('user')
             ->orderBy('seed')
             ->get();
+        $tournament = Tournament::whereHas('championships', function ($query) use ($champ) {
+            $query->where('id', $champ->id)
+                ->where('category_id', $champ->category_id);
+        })
+        ->with([
+            'competitors',
+            'championships.settings',
+            'championships.category'
+        ])
+        ->first();
 
         return view('dashboard.champs.competitors.seed.edit', [
             'champ' => $champ,
-            'competitors' => $competitors
+            'competitors' => $competitors,
+            'tournament' => $tournament
         ]);
     }
 
