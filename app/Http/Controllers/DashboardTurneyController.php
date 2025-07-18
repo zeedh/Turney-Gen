@@ -102,7 +102,7 @@ class DashboardTurneyController extends Controller
     {
         $rules =[
             'name'              => 'required|max:255',
-            'slug'              => 'required|unique:tournament',
+            'slug'              => 'required',
             'dateIni'           => "required|date",
             'dateFin'           => "required|date|after_or_equal:dateIni",
             'registerDateLimit' => "nullable|date|before_or_equal:dateFin",
