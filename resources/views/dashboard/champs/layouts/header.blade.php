@@ -20,7 +20,7 @@
                                 width="32" height="32" 
                                 class="rounded-circle border border-light mx-2">
                         @else
-                            <i class="bi bi-person-circle fs-4 mx-2"></i>
+                            <i class="bi bi-person-circle fs-4 mx-3 mb-4"></i>
                         @endif
                         {{ auth()->user()->name }}
       </a>
