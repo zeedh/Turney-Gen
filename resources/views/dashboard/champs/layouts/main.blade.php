@@ -37,6 +37,17 @@
     trix-toolbar [data-trix-button-group="file-tools"]{
       display:none
     }
+    .navbar-brand {
+      background-color : white;
+    }
+    .bi-person-circle {
+      margin-bottom: 20px; 
+      padding-right: 28px; 
+    }
+    .navbar-nav {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
   </style>
   </head>
   <body>

@@ -93,9 +93,8 @@
             </div>
           </div>
 
-        </div> {{-- end row --}}
+        </div>
 
-        {{-- Hidden is_panitia --}}
         <input type="hidden" name="is_panitia" value="0">
 
         <button class="btn btn-primary w-100 py-2 mt-4" type="submit">Daftar</button>

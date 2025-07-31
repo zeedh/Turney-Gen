@@ -12,7 +12,7 @@
     {{-- Gambar & Deskripsi Post --}}
     <div class="card shadow-sm mb-4">
         @if($post->image)
-            <img src="{{ url('/post-image/' . basename($post->image)) }}" class="card-img-top" style="max-height: 400px; object-fit: cover;">
+            <img src="{{ url('/post-image/' . basename($post->image)) }}" class="img-fluid" style="object-fit: cover;">
         @else
             <img src="https://picsum.photos/id/{{ $post->category->id }}/1200/400" alt="{{ $post->category->name }}" class="card-img-top" style="max-height: 400px; object-fit: cover;">
         @endif
@@ -154,7 +154,7 @@
                         </li>
                     @empty
                         <li class="list-group-item text-muted text-center">
-                            Tidak ada championship untuk turnamen ini.
+                            Pendaftaran belum dibuka.
                         </li>
                     @endforelse
                 </ul>
