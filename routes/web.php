@@ -117,9 +117,9 @@ Route::get('/post-image/{filename}', function ($filename) {
 // ----------------------------
 // Dashboard Group
 // ----------------------------
-Route::get('/dashboard/admin/', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
-Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
-Route::put('/dashboard/admin/update', [Administrator::class, 'update'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.edit')->middleware(['auth', IsPanitia::class]);
+Route::put('/dashboard/admin/{user}/update', [Administrator::class, 'update'])->name('admin.update')->middleware(['auth', IsPanitia::class]);
 
 Route::middleware(['auth', IsPanitia::class])
     ->prefix('dashboard')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class Administrator extends Controller
 {
@@ -56,7 +57,22 @@ class Administrator extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $rules =[
+            'name' => 'required|max:255',
+            'password'    => 'required|min:5|max:255'
+            // 'category_id' => 'required',
+            // 'tournament_id' => 'required',
+            // 'image' => 'image|file|max:1024',
+            // 'body' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+        $validatedData['password'] = Hash::make($validatedData['password']);
+
+        User::where('id', $user->id)
+        ->update($validatedData);
+
+        return redirect('/dashboard/admin')->with('success', 'Data user telah diperbarui!');
     }
 
     /**

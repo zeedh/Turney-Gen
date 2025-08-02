@@ -7,7 +7,7 @@
             <h4 class="mb-0"><i class="bi bi-pencil-square me-2 mx-2"></i> Edit Data User</h4>
         </div>
         <div class="card-body mx-2">
-           <form action="/dashboard/admin/{{ $user->id }}" method="POST" enctype="multipart/form-data">
+           <form action="{{ route('admin.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
