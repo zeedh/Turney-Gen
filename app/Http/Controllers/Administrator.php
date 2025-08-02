@@ -12,7 +12,9 @@ class Administrator extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(10); // <= pagination 10 per halaman
+        return view('dashboard.admin.index', 
+        compact('users'));
     }
 
     /**
@@ -44,7 +46,9 @@ class Administrator extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('dashboard.admin.edit', [
+            'user' => $user
+        ]);
     }
 
     /**

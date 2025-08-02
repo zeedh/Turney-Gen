@@ -17,6 +17,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BaganController;
 use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\Administrator;
 
 use App\Http\Middleware\IsPanitia;
 use Xoco70\LaravelTournaments\Models\Category;
@@ -116,6 +117,10 @@ Route::get('/post-image/{filename}', function ($filename) {
 // ----------------------------
 // Dashboard Group
 // ----------------------------
+Route::get('/dashboard/admin/', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+Route::put('/dashboard/admin/update', [Administrator::class, 'update'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+
 Route::middleware(['auth', IsPanitia::class])
     ->prefix('dashboard')
     ->name('dashboard.')
@@ -155,3 +160,4 @@ Route::middleware(['auth', IsPanitia::class])
 
         });
 Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class);
+
