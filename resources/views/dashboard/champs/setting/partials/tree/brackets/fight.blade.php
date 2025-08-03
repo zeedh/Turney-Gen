@@ -26,7 +26,12 @@
      style="top: {{ $match['matchWrapperTop'] }}px; left: {{ $match['matchWrapperLeft'] }}px; width: {{ $treeGen->matchWrapperWidth }}px;">
 
     <div class="player-line {{ $isAWinner ? 'bg-success' : '' }}">
-        <input type="text" class="score" name="score[]" value="{{ $isAWinner ? optional($match['playerA'])->id : '' }}">
+        <!-- <input type="number" class="score" name="score[]" value="{{ $isAWinner ? optional($match['playerA'])->id : '' }}"> -->
+        <input type="number" class="score" name="score[]"
+                value="{{ $isAWinner ? optional($match['playerA'])->id : '' }}"
+                min="0" max="2" step="1"
+                oninput="this.value = Math.max(0, Math.min(2, this.value))">
+
         <div class="player-name">
             @include('dashboard.champs.setting.partials.tree.brackets.playerList', [
                 'selected' => $match['playerA'],
@@ -39,7 +44,12 @@
     <div class="match-divider"></div>
 
     <div class="player-line {{ $isBWinner ? 'bg-success' : '' }}">
-        <input type="text" class="score" name="score[]" value="{{ $isBWinner ? optional($match['playerB'])->id : '' }}">
+        <!-- <input type="number" class="score" name="score[]" value="{{ $isBWinner ? optional($match['playerB'])->id : '' }}"> -->
+        <input type="number" class="score" name="score[]"
+                value="{{ $isAWinner ? optional($match['playerB'])->id : '' }}"
+                min="0" max="2" step="1"
+                oninput="this.value = Math.max(0, Math.min(2, this.value))">
+
         <div class="player-name">
             @include('dashboard.champs.setting.partials.tree.brackets.playerList', [
                 'selected' => $match['playerB'],
