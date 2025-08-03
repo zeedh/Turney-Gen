@@ -20,6 +20,7 @@ use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\Administrator;
 
 use App\Http\Middleware\IsPanitia;
+use App\Http\Middleware\admin;
 use Xoco70\LaravelTournaments\Models\Category;
 
 Route::get('/', function () {
@@ -117,9 +118,15 @@ Route::get('/post-image/{filename}', function ($filename) {
 // ----------------------------
 // Dashboard Group
 // ----------------------------
-Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
-Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.edit')->middleware(['auth', IsPanitia::class]);
-Route::put('/dashboard/admin/{user}/update', [Administrator::class, 'update'])->name('admin.update')->middleware(['auth', IsPanitia::class]);
+Route::middleware(['auth', admin::class])->group(function () {
+    Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index');
+    Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.edit');
+    Route::put('/dashboard/admin/{user}/update', [Administrator::class, 'update'])->name('admin.update');
+});
+
+// Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
+// Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.edit')->middleware(['auth', IsPanitia::class]);
+// Route::put('/dashboard/admin/{user}/update', [Administrator::class, 'update'])->name('admin.update')->middleware(['auth', IsPanitia::class]);
 
 Route::middleware(['auth', IsPanitia::class])
     ->prefix('dashboard')

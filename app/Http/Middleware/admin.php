@@ -15,6 +15,11 @@ class admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (auth()->check() && auth()->user()->email === 'zidan@gmail.com') {
+            return $next($request);
+        }
+
+        // abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect('/dashboard');
     }
 }
