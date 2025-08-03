@@ -36,8 +36,10 @@ class RegisterController extends Controller
     {
         $validatedData = $request->validate([
             // HAPUS 'name' di sini
-            'firstname'   => 'required|max:255',
-            'lastname'    => 'required|max:255',
+            // 'firstname'   => 'required|max:255',
+            // 'lastname'    => 'required|max:255',
+            'firstname'     => ['required', 'regex:/^[a-zA-Z\s]+$/u', 'max:255'],
+            'lastname'      => ['required', 'regex:/^[a-zA-Z\s]+$/u', 'max:255'],
             'email'       => 'required|email:dns|unique:users,email',
             'birthDate'   => 'required|date|before_or_equal:today',
             'gender'      => 'required|in:M,F',
@@ -59,9 +61,10 @@ class RegisterController extends Controller
     public function storePeserta(Request $request)
     {
         $validatedData = $request->validate([
-            // HAPUS 'name' di sini
-            'firstname'   => 'required|max:255',
-            'lastname'    => 'required|max:255',
+            // 'firstname'   => 'required|max:255',
+            // 'lastname'    => 'required|max:255',
+            'firstname'     => ['required', 'regex:/^[a-zA-Z\s]+$/u', 'max:255'],
+            'lastname'      => ['required', 'regex:/^[a-zA-Z\s]+$/u', 'max:255'],
             'email'       => 'required|email:dns|unique:users,email',
             'birthDate'   => 'required|date',
             'gender'      => 'required|in:M,F',
