@@ -45,6 +45,9 @@
       </form>
 
       <small class="d-block text-center mt-3">
+        <a href="{{ route('password.request') }}">Lupa Password?</a>
+      </small>
+      <small class="d-block text-center mt-3">
         Belum punya akun? <a href="/register">Daftar sekarang!</a>
       </small>
     </main>

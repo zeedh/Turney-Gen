@@ -22,6 +22,13 @@ use App\Http\Controllers\Administrator;
 use App\Http\Middleware\IsPanitia;
 use App\Http\Middleware\admin;
 use Xoco70\LaravelTournaments\Models\Category;
+use App\Http\Controllers\PasswordResetController;
+
+Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 
 Route::get('/', function () {
     return view('home', [
@@ -164,7 +171,8 @@ Route::middleware(['auth', IsPanitia::class])
                 Route::get('/seed', [ChampCompetitorController::class, 'editSeed'])->name('seed.edit');
                 Route::post('/seed', [ChampCompetitorController::class, 'saveSeed'])->name('seed.save');
             });
+        Route::resource('champs/{champ}/setting/{setting}', ChampSettingController::class);
 
         });
-Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class);
+// Route::resource('/dashboard/champs/{champ}/setting/{setting}', ChampSettingController::class);
 
