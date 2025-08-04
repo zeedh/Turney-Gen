@@ -42,7 +42,8 @@ class PasswordResetController extends Controller
 
     public function showResetForm(Request $request, $token)
     {
-        return view('auth.reset-password', ['token' => $token, 'email' => $request->query('email')]);
+        return view('auth.reset-password', ['token' => $token, 'email' => $request->query('email'), 'title' => 'Lupa Password',
+            'active' => 'Login']);
     }
 
     public function reset(Request $request)
