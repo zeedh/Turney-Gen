@@ -78,8 +78,17 @@ class Administrator extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        // Hindari menghapus user admin diri sendiri, kalau perlu
+        if (auth()->id() == $user->id) {
+            return redirect()->back()->with('error', 'Kamu tidak bisa menghapus dirimu sendiri!');
+        }
+
+        $user->delete();
+
+        return redirect('/dashboard/admin')->with('success', 'User berhasil dihapus.');
     }
 }

@@ -129,6 +129,7 @@ Route::middleware(['auth', admin::class])->group(function () {
     Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index');
     Route::get('/dashboard/admin/{user}/edit', [Administrator::class, 'edit'])->name('admin.edit');
     Route::put('/dashboard/admin/{user}/update', [Administrator::class, 'update'])->name('admin.update');
+    Route::delete('/dashboard/admin/{user}', [Administrator::class, 'destroy'])->name('admin.destroy');
 });
 
 // Route::get('/dashboard/admin', [Administrator::class, 'index'])->name('admin.index')->middleware(['auth', IsPanitia::class]);
